@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Off-Plan Developments — Bloom Beyond</title>
+  <meta name="description" content="Secure your place in tomorrow's most iconic residences. Bloom Beyond presents the world's most prestigious off-plan developments by visionary architects." />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ── Off-Plan specific styles ───────────────────────────── */
+    .dev-hero-full {
+      position: relative;
+      height: 100vh;
+      min-height: 700px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+    }
+    .dev-hero-full .hero-media img {
+      animation: heroReveal 2s var(--ease-out) forwards;
+    }
+
+    .progress-bar-wrap {
+      margin: 12px 0;
+    }
+    .progress-bar-track {
+      height: 2px;
+      background: rgba(201,169,110,0.2);
+      position: relative;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--gold-dark), var(--gold));
+      transition: width 1s var(--ease-out);
+    }
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 6px;
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+    }
+
+    .dev-full-card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border: 1px solid rgba(201,169,110,0.12);
+      margin-bottom: 40px;
+      overflow: hidden;
+    }
+    .dev-full-card.reverse { direction: rtl; }
+    .dev-full-card.reverse > * { direction: ltr; }
+    .dev-full-img { aspect-ratio: 4/3; position: relative; overflow: hidden; }
+    .dev-full-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 1s var(--ease);
+    }
+    .dev-full-card:hover .dev-full-img img { transform: scale(1.04); }
+    .dev-full-info {
+      background: var(--charcoal-2);
+      padding: clamp(32px, 5vw, 72px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .amenity-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 24px 0;
+    }
+    .amenity-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      color: var(--muted-light);
+    }
+    .amenity-dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--gold);
+      flex-shrink: 0;
+    }
+
+    .invest-section {
+      background: var(--charcoal-1);
+    }
+
+    .invest-card {
+      background: var(--charcoal-2);
+      border: 1px solid rgba(201,169,110,0.12);
+      padding: 40px;
+      text-align: center;
+      transition: border-color var(--t-mid), transform var(--t-mid);
+    }
+    .invest-card:hover {
+      border-color: rgba(201,169,110,0.4);
+      transform: translateY(-4px);
+    }
+    .invest-icon {
+      font-family: var(--serif);
+      font-size: 48px;
+      color: rgba(201,169,110,0.3);
+      margin-bottom: 16px;
+      line-height: 1;
+    }
+    .invest-title {
+      font-family: var(--serif);
+      font-size: 20px;
+      color: var(--off-white);
+      margin-bottom: 10px;
+    }
+
+    @media (max-width: 900px) {
+      .dev-full-card { grid-template-columns: 1fr; }
+      .dev-full-card.reverse { direction: ltr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ NAVIGATION ══════════════════════════════════════════════ -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">Bloom <span>Beyond</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="nav-link">Home</a></li>
+      <li><a href="listings.html" class="nav-link">Exclusive Listings</a></li>
+      <li><a href="off-plan.html" class="nav-link active">Off-Plan</a></li>
+      <li><a href="agency.html" class="nav-link">The Agency</a></li>
+    </ul>
+    <a href="agency.html#contact" class="btn btn-solid nav-cta"><span>Register Interest</span></a>
+    <div class="nav-hamburger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="nav-mobile">
+  <a href="index.html" class="nav-link">Home</a>
+  <a href="listings.html" class="nav-link">Exclusive Listings</a>
+  <a href="off-plan.html" class="nav-link">Off-Plan</a>
+  <a href="agency.html" class="nav-link">The Agency</a>
+</div>
+
+<!-- ══ DEV HERO ═════════════════════════════════════════════════ -->
+<section class="dev-hero-full">
+  <div class="hero-media">
+    <img src="images/offplan_tower.jpg" alt="Elysian Tower off-plan development" />
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <div class="hero-eyebrow-line"></div>
+      <span class="label">Off-Plan Developments — 2025–2028</span>
+    </div>
+    <h1 class="display-xl hero-title">
+      The Future<br>
+      of <em class="italic">Luxury</em><br>
+      <span class="text-gold">Begins Here</span>
+    </h1>
+    <p class="body-md hero-sub">
+      Secure your stake in tomorrow's most iconic residences — before the world knows they exist. Early investors access the finest floors at first-release prices.
+    </p>
+    <div class="hero-actions">
+      <a href="#developments" class="btn btn-solid"><span>View Developments</span></a>
+      <a href="agency.html#contact" class="btn btn-ghost"><span>Register Interest</span></a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span class="label" style="writing-mode: vertical-rl; font-size: 9px; letter-spacing: 0.3em;">Scroll</span>
+    <div class="hero-scroll-line"></div>
+  </div>
+</section>
+
+<!-- ══ OVERVIEW CARDS ═══════════════════════════════════════════ -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item reveal">
+      <div class="stat-number" data-count="12">0</div>
+      <div class="stat-label">Active Developments</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-1">
+      <div class="stat-number" data-count="4">0</div>
+      <div class="stat-label">Continents</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-2">
+      <div class="stat-number" data-count="92" data-suffix="%">0</div>
+      <div class="stat-label">Sold Before Completion</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-3">
+      <div class="stat-number" data-count="18" data-suffix="%">0</div>
+      <div class="stat-label">Avg. Capital Appreciation</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ DEV FILTER ═══════════════════════════════════════════════ -->
+<div class="filter-bar">
+  <div class="filter-inner">
+    <button class="filter-pill active" data-filter="all">All Projects</button>
+    <button class="filter-pill" data-filter="tower">Sky Towers</button>
+    <button class="filter-pill" data-filter="resort">Resort Residences</button>
+    <button class="filter-pill" data-filter="villa">Villa Enclaves</button>
+    <button class="filter-pill" data-filter="upcoming">Launching Soon</button>
+  </div>
+</div>
+
+<!-- ══ FEATURED DEVELOPMENTS ════════════════════════════════════ -->
+<section id="developments" style="padding: 80px var(--gutter) var(--section-v);">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="gold-rule-left"></div>
+      <p class="label">Flagship Projects</p>
+      <h2 class="display-md">Landmark<br><em class="italic text-gold">Developments</em></h2>
+    </div>
+
+    <!-- Development 1 -->
+    <div class="dev-full-card reveal" data-category="tower">
+      <div class="dev-full-img">
+        <img src="images/offplan_tower.jpg" alt="Elysian Spire Dubai" />
+        <div style="position: absolute; top: 28px; left: 28px;">
+          <div class="dev-card-status">Selling Now</div>
+        </div>
+      </div>
+      <div class="dev-full-info">
+        <p class="label" style="margin-bottom: 12px;">Dubai, UAE · Sky Tower</p>
+        <h2 class="display-md" style="margin-bottom: 12px;">Elysian Spire</h2>
+        <p class="body-md" style="margin-bottom: 24px;">
+          An architectural icon rising 85 floors above Dubai Marina. Elysian Spire redefines what it means to live above the clouds — designed by Zaha Hadid Architects and delivered with signature Bloom Beyond excellence.
+        </p>
+        <div class="progress-bar-wrap">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+            <span class="label" style="color: var(--muted);">Sales Progress</span>
+            <span class="label">74% Sold</span>
+          </div>
+          <div class="progress-bar-track">
+            <div class="progress-bar-fill" style="width: 74%;"></div>
+          </div>
+          <div class="progress-label"><span>0 units</span><span>340 units</span></div>
+        </div>
+        <div class="amenity-list">
+          <div class="amenity-item"><div class="amenity-dot"></div>Sky Infinity Pool</div>
+          <div class="amenity-item"><div class="amenity-dot"></div>Private Helipad</div>
+          <div class="amenity-item"><div class="amenity-dot"></div>Butler Service</div>
+          <div class="amenity-item"><div class="amenity-dot"></div>Private Cinema</div>
+          <div class="amenity-item"><div class="amenity-dot"></div>Wine Cellar Lounge</div>
+          <div class="amenity-item"><div class="amenity-dot"></div>Spa & Wellness</div>
+        </div>
+        <div style="display: flex; gap: 32px; padding: 20px 0; border-top: 1px solid rgba(201,169,110,0.15); border-bottom: 1px solid rgba(201,169,110,0.15); margin-bottom: 28px;">
+          <div>
+            <div style="font-family: var(--serif); font-size: 22px; color: var(--gold);">AED 8.5M</div>
+            <div class="label" style="color: var(--muted);">Starting From</div>
+          </div>
+          <div>
+            <div style="font-family: var(--serif); font-size: 22px; color: var(--gold);">Q4 2027</div>
+            <div class="label" style="color: var(--muted);">Completion</div>
+          </div>
+          <div>
+            <div style="font-family: var(--serif); font-size: 22px; color: var(--gold);">85</div>
+            <div class="label" style="color: var(--muted);">Floors</div>
+          </div>
+        </div>
+        <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+          <a href="agency.html#contact" class="btn btn-solid"><span>Register Interest</span></a>
+          <a href="#" class="btn"><span>Download Brochure</span></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Development 2 -->
+    <div class="dev-full-card reverse reveal" data-category="resort">
+      <div class="dev-full-img">
+        <img src="images/offplan_resort.jpg" alt="Bloom Cove Maldives" />
+        <div style="position: absolute; top: 28px; left: 28px;">
+          <div class="dev-card-status">Launching Q1 2027</div>
+        </div>
+      </div>
+      <div class="dev-full-info">
+        <p class="label" style="margin-bottom: 12px;">Maldives · Private Island Resort</p>
+        <h2 class="display-md" style="margin-bottom: 12px;">Bloom Cove</h2>
+        <p class="body-md" style="margin-bottom: 24px;">
+          A private island sanctuary reserved for the world's most discerning few. Bloom Cove comprises just 28 ultra-luxury beachfront residences on a pristine private atoll — never before offered to the market.
+        </p>
+        <div class="progress-bar-wrap">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+            <span class="label" style="color: var(--muted);">Pre-Launch Interest</span>
+            <span class="label">Pre-Registration Open</span>
+          </div>
+          <div class="progress-bar-track">
+            <div class="progress-bar-fill" style="width: 35%;"></div>
+          </div>
+          <div class="progress-label"><span>Pre-Reg</span><span>28 units only</span></div>
+        </div>
+        <div class="amenity-list">
+          <div class="amenity-item"><div class="amenity-dot"></div>Private Beach</div>
+          <div class="amenity-item"><div class="amenity-dot"></div>Over-Water Bungalows</div>
+          <div class="amenity-item"><div class="amenity-dot"></div>5-Star Hotel Services</div>
+          <div class="amenity-item"><div class="amenity-dot"></div>Private Jetty & Boat</div>
+          <div class="amenity-item"><div class="amenity-dot"></div>Dive Center</div>
+          <div class="amenity-item"><div class="amenity-dot"></div>Michelin Chef</div>
+        </div>
+        <div style="display: flex; gap: 32px; padding: 20px 0; border-top: 1px solid rgba(201,169,110,0.15); border-bottom: 1px solid rgba(201,169,110,0.15); margin-bottom: 28px;">
+          <div>
+            <div style="font-family: var(--serif); font-size: 22px; color: var(--gold);">$8.9M</div>
+            <div class="label" style="color: var(--muted);">Starting From</div>
+          </div>
+          <div>
+            <div style="font-family: var(--serif); font-size: 22px; color: var(--gold);">Q2 2028</div>
+            <div class="label" style="color: var(--muted);">Completion</div>
+          </div>
+          <div>
+            <div style="font-family: var(--serif); font-size: 22px; color: var(--gold);">28</div>
+            <div class="label" style="color: var(--muted);">Residences Only</div>
+          </div>
+        </div>
+        <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+          <a href="agency.html#contact" class="btn btn-solid"><span>Pre-Register</span></a>
+          <a href="#" class="btn"><span>View Masterplan</span></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Development 3 -->
+    <div class="dev-full-card reveal" data-category="villa">
+      <div class="dev-full-img">
+        <img src="images/listing_villa.jpg" alt="Cerulean Hills Estate" />
+        <div style="position: absolute; top: 28px; left: 28px;">
+          <div class="dev-card-status">Limited Units</div>
+        </div>
+      </div>
+      <div class="dev-full-info">
+        <p class="label" style="margin-bottom: 12px;">Cap Ferrat, France · Villa Enclave</p>
+        <h2 class="display-md" style="margin-bottom: 12px;">Cerulean Domaine</h2>
+        <p class="body-md" style="margin-bottom: 24px;">
+          Nestled between the blue of the Mediterranean and the lush Provençal hillside, Cerulean Domaine offers 14 individually designed villas — each with its own private pool, private garden, and irreplaceable sea views.
+        </p>
+        <div class="progress-bar-wrap">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+            <span class="label" style="color: var(--muted);">Sales Progress</span>
+            <span class="label">57% Sold</span>
+          </div>
+          <div class="progress-bar-track">
+            <div class="progress-bar-fill" style="width: 57%;"></div>
+          </div>
+          <div class="progress-label"><span>8 units available</span><span>14 units total</span></div>
+        </div>
+        <div class="amenity-list">
+          <div class="amenity-item"><div class="amenity-dot"></div>Private Infinity Pool</div>
+          <div class="amenity-item"><div class="amenity-dot"></div>Wine Cave</div>
+          <div class="amenity-item"><div class="amenity-dot"></div>Panoramic Sea Views</div>
+          <div class="amenity-item"><div class="amenity-dot"></div>Smart Home</div>
+          <div class="amenity-item"><div class="amenity-dot"></div>Private Garden</div>
+          <div class="amenity-item"><div class="amenity-dot"></div>Concierge</div>
+        </div>
+        <div style="display: flex; gap: 32px; padding: 20px 0; border-top: 1px solid rgba(201,169,110,0.15); border-bottom: 1px solid rgba(201,169,110,0.15); margin-bottom: 28px;">
+          <div>
+            <div style="font-family: var(--serif); font-size: 22px; color: var(--gold);">€ 12.5M</div>
+            <div class="label" style="color: var(--muted);">Starting From</div>
+          </div>
+          <div>
+            <div style="font-family: var(--serif); font-size: 22px; color: var(--gold);">Q2 2026</div>
+            <div class="label" style="color: var(--muted);">Completion</div>
+          </div>
+          <div>
+            <div style="font-family: var(--serif); font-size: 22px; color: var(--gold);">6</div>
+            <div class="label" style="color: var(--muted);">Units Remaining</div>
+          </div>
+        </div>
+        <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+          <a href="agency.html#contact" class="btn btn-solid"><span>Enquire Now</span></a>
+          <a href="#" class="btn"><span>Download Brochure</span></a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ INVESTMENT CASE ═══════════════════════════════════════════ -->
+<section class="invest-section section-pad">
+  <div class="container">
+    <div class="section-header centered reveal">
+      <div class="gold-rule"></div>
+      <p class="label" style="margin-top: 24px;">Why Off-Plan</p>
+      <h2 class="display-md" style="margin-top: 16px;">The Case for <em class="italic text-gold">Early Investment</em></h2>
+    </div>
+    <div class="grid-3">
+      <div class="invest-card reveal">
+        <div class="invest-icon">△</div>
+        <div class="invest-title">Capital Appreciation</div>
+        <p class="body-sm">Our off-plan clients have averaged 18–26% capital growth between purchase and completion, driven by ultra-prime locations and limited supply.</p>
+      </div>
+      <div class="invest-card reveal reveal-delay-1">
+        <div class="invest-icon">◇</div>
+        <div class="invest-title">First-Release Pricing</div>
+        <p class="body-sm">Early investors access the finest floors and most desirable units at launch pricing — before subsequent price increases as construction progresses.</p>
+      </div>
+      <div class="invest-card reveal reveal-delay-2">
+        <div class="invest-icon">○</div>
+        <div class="invest-title">Flexible Payment Plans</div>
+        <p class="body-sm">Bespoke payment structures allow capital-efficient investing. Many of our developments offer 30/70 or 40/60 payment plans with no interest charges.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CTA ══════════════════════════════════════════════════════ -->
+<section class="cta-section">
+  <div class="reveal">
+    <div class="gold-rule" style="margin-bottom: 32px;"></div>
+    <p class="label" style="margin-bottom: 16px;">Exclusive Access</p>
+    <h2 class="display-md" style="margin-bottom: 24px;">
+      Be First.<br>
+      <em class="italic text-gold">Invest Before the World Knows.</em>
+    </h2>
+    <p class="body-md" style="max-width: 520px; margin: 0 auto 40px;">
+      Register your interest today and receive priority access to launch allocations, exclusive floor plans, and first-look pricing on our upcoming developments.
+    </p>
+    <a href="agency.html#contact" class="btn btn-solid"><span>Register Priority Access</span></a>
+  </div>
+</section>
+
+<!-- ══ FOOTER ═══════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">Bloom <span>Beyond</span></div>
+        <p class="footer-tagline">Curating the world's most extraordinary properties for those who demand nothing less than perfection.</p>
+        <div class="footer-social">
+          <a href="#" class="social-link" aria-label="Instagram">IG</a>
+          <a href="#" class="social-link" aria-label="LinkedIn">LI</a>
+          <a href="#" class="social-link" aria-label="WhatsApp">WA</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Properties</h4>
+        <ul>
+          <li><a href="listings.html">Exclusive Listings</a></li>
+          <li><a href="off-plan.html">Off-Plan Developments</a></li>
+          <li><a href="listings.html">Off-Market</a></li>
+          <li><a href="listings.html">Rentals</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>The Agency</h4>
+        <ul>
+          <li><a href="agency.html">About Us</a></li>
+          <li><a href="agency.html#team">Our Team</a></li>
+          <li><a href="agency.html#contact">Contact</a></li>
+          <li><a href="agency.html">Press</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Developments</h4>
+        <ul>
+          <li><a href="#">Elysian Spire, Dubai</a></li>
+          <li><a href="#">Bloom Cove, Maldives</a></li>
+          <li><a href="#">Cerulean Domaine, France</a></li>
+          <li><a href="#">Coming Soon</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 Bloom Beyond. All rights reserved. Private & Confidential.</p>
+      <p class="footer-copy">Privacy Policy · Terms of Service</p>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+
+<!-- ══ MOBILE BOTTOM NAV ═══════════════════════════════════════ -->
+<nav class="bottom-nav">
+  <a href="index.html" class="bottom-nav-item">
+    <svg class="bottom-nav-icon" viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+      <polyline points="9 22 9 12 15 12 15 22"></polyline>
+    </svg>
+    <div class="bottom-nav-dot"></div>
+  </a>
+  <a href="listings.html" class="bottom-nav-item">
+    <svg class="bottom-nav-icon" viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="11" cy="11" r="8"></circle>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+    </svg>
+    <div class="bottom-nav-dot"></div>
+  </a>
+  <a href="off-plan.html" class="bottom-nav-item">
+    <svg class="bottom-nav-icon" viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="3" width="7" height="7"></rect>
+      <rect x="14" y="3" width="7" height="7"></rect>
+      <rect x="14" y="14" width="7" height="7"></rect>
+      <rect x="3" y="14" width="7" height="7"></rect>
+    </svg>
+    <div class="bottom-nav-dot"></div>
+  </a>
+  <a href="#" class="bottom-nav-item" id="mobileClientAccess">
+    <svg class="bottom-nav-icon" viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path>
+    </svg>
+    <div class="bottom-nav-dot"></div>
+  </a>
+</nav>
+</body>
+</html>

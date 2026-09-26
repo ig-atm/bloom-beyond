@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Property Detail — Bloom Beyond</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ── Property Detail Specific Styles ─────────────────────── */
+    .prop-hero {
+      width: 100%;
+      height: 80vh;
+      position: relative;
+      overflow: hidden;
+    }
+    .prop-hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scale(1.05); /* Will be parallaxed by script.js */
+      will-change: transform;
+    }
+    .prop-hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(4,4,4,0.4) 0%, transparent 30%, transparent 80%, var(--charcoal-1) 100%);
+      pointer-events: none;
+    }
+    .prop-content {
+      padding: 80px var(--gutter) 160px;
+      max-width: var(--max-w);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 440px;
+      gap: 80px;
+      align-items: start;
+    }
+    @media (max-width: 1100px) {
+      .prop-content { grid-template-columns: 1fr 380px; gap: 40px; }
+    }
+    @media (max-width: 900px) {
+      .prop-content { grid-template-columns: 1fr; }
+    }
+    
+    .prop-narrative h1 {
+      margin-bottom: 16px;
+      font-size: clamp(40px, 6vw, 72px);
+      line-height: 1;
+    }
+    .prop-location {
+      color: var(--gold);
+      margin-bottom: 40px;
+      font-family: var(--sans);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    .prop-specs-list {
+      display: flex;
+      gap: 48px;
+      margin: 48px 0;
+      padding: 32px 0;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .prop-spec-item {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .prop-spec-val {
+      font-family: var(--serif);
+      font-size: 32px;
+      color: var(--white);
+    }
+    .prop-spec-label {
+      font-family: var(--sans);
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+    
+    .prop-sidebar {
+      position: sticky;
+      top: 120px; /* Accounts for floating nav */
+      background: rgba(12, 12, 12, 0.6);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(201, 169, 110, 0.3);
+      border-radius: 16px;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+    .prop-price {
+      font-family: var(--serif);
+      font-size: 40px;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ NAVIGATION ══════════════════════════════════════════════ -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">Bloom <span>Beyond</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="nav-link">Home</a></li>
+      <li><a href="listings.html" class="nav-link active">Exclusive Listings</a></li>
+      <li><a href="off-plan.html" class="nav-link">Off-Plan</a></li>
+      <li><a href="agency.html" class="nav-link">The Agency</a></li>
+      <li><a href="#" class="nav-link" id="navClientAccess">Client Access</a></li>
+    </ul>
+    <a href="listings.html" class="btn btn-solid nav-cta"><span>View Properties</span></a>
+    <div class="nav-hamburger" id="hamburger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="nav-mobile" id="mobileMenu">
+  <a href="index.html" class="nav-link">Home</a>
+  <a href="listings.html" class="nav-link">Exclusive Listings</a>
+  <a href="off-plan.html" class="nav-link">Off-Plan</a>
+  <a href="agency.html" class="nav-link">The Agency</a>
+</div>
+
+<!-- ══ HERO ════════════════════════════════════════════════════ -->
+<section class="prop-hero">
+  <img src="images/listing_penthouse.jpg" alt="Mayfair Penthouse" />
+</section>
+
+<!-- ══ CONTENT ═════════════════════════════════════════════════ -->
+<section class="prop-content">
+  
+  <div class="prop-narrative reveal">
+    <h1 class="display-md text-white">The Mayfair Penthouse</h1>
+    <div class="prop-location">Grosvenor Square, London</div>
+    
+    <p class="body-lg" style="margin-bottom: 24px; color: var(--off-white);">
+      An unprecedented opportunity to acquire a palatial lateral penthouse in London’s most distinguished square. 
+    </p>
+    <p class="body-md">
+      Spanning over 6,500 square feet of meticulously curated living space, this residence represents the pinnacle of urban luxury. Featuring bespoke joinery, rare marbles sourced globally, and smart home technology completely integrated into the heritage architecture.
+    </p>
+
+    <div class="prop-specs-list">
+      <div class="prop-spec-item">
+        <span class="prop-spec-val">5</span>
+        <span class="prop-spec-label">Bedrooms</span>
+      </div>
+      <div class="prop-spec-item">
+        <span class="prop-spec-val">6.5</span>
+        <span class="prop-spec-label">Bathrooms</span>
+      </div>
+      <div class="prop-spec-item">
+        <span class="prop-spec-val">6,520</span>
+        <span class="prop-spec-label">Sq Ft</span>
+      </div>
+    </div>
+
+    <p class="body-md" style="margin-bottom: 32px;">
+      The expansive roof terrace offers panoramic views over Mayfair and Hyde Park, creating an unparalleled setting for entertaining. A private elevator, dedicated security team, and secure underground parking for three vehicles complete this extraordinary offering. Natural light cascades through floor-to-ceiling fenestration, illuminating the masterful interior design by an internationally acclaimed studio.
+    </p>
+  </div>
+
+  <!-- ── STICKY SIDEBAR ── -->
+  <div class="prop-sidebar reveal reveal-delay-1">
+    <div>
+      <div class="label" style="margin-bottom: 12px; color: var(--muted-light);">Asking Price</div>
+      <div class="prop-price">£ 35,000,000</div>
+      <div style="font-size: 12px; color: var(--muted); font-family: var(--sans);">Leasehold (999 years)</div>
+    </div>
+
+    <a href="#" class="btn" style="text-align: center; justify-content: center; width: 100%;">
+      <span>Download Floorplan</span>
+    </a>
+
+    <div style="height: 1px; background: rgba(255,255,255,0.1); margin: 8px 0;"></div>
+
+    <div>
+      <h3 class="display-sm" style="font-size: 24px; margin-bottom: 12px;">Private Viewing</h3>
+      <p class="body-md" style="font-size: 13px; margin-bottom: 28px;">Strictly by appointment for pre-qualified individuals.</p>
+      
+      <form class="login-form" onsubmit="event.preventDefault();">
+        <div class="input-group">
+          <label class="label">Full Name</label>
+          <input type="text" class="minimal-input" placeholder="Your Name" required>
+        </div>
+        <div class="input-group">
+          <label class="label">Email Address</label>
+          <input type="email" class="minimal-input" placeholder="you@example.com" required>
+        </div>
+        <div class="input-group">
+          <label class="label">Preferred Date</label>
+          <input type="date" class="minimal-input" required style="color-scheme: dark;">
+        </div>
+        <button type="submit" class="btn btn-solid" style="width: 100%; margin-top: 16px; justify-content: center;">
+          <span>Request Schedule</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+</section>
+
+<!-- ══ FOOTER ═══════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">Bloom <span>Beyond</span></div>
+        <p class="footer-tagline">Curating the world's most extraordinary properties for those who demand nothing less than perfection.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Properties</h4>
+        <ul>
+          <li><a href="listings.html">Exclusive Listings</a></li>
+          <li><a href="off-plan.html">Off-Plan Developments</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>The Agency</h4>
+        <ul>
+          <li><a href="agency.html">About Us</a></li>
+          <li><a href="agency.html#contact">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 Bloom Beyond. All rights reserved. Private & Confidential.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ══ CLIENT LOGIN MODAL ════════════════════════════════════════ -->
+<div id="clientLoginModal" class="login-modal-overlay">
+  <div class="login-modal">
+    <button id="closeLoginModal" class="login-modal-close" aria-label="Close modal">✕</button>
+    <div class="login-modal-header">
+      <h2 class="display-sm">Private Portal</h2>
+      <p class="body-md">Secure access for high-net-worth investors.</p>
+    </div>
+    <form class="login-form" onsubmit="event.preventDefault();">
+      <div class="input-group">
+        <label for="clientEmail" class="label">Email Address</label>
+        <input type="email" id="clientEmail" class="minimal-input" placeholder="investor@example.com" required>
+      </div>
+      <div class="input-group">
+        <label for="clientPasskey" class="label">Passkey</label>
+        <div class="passkey-wrapper">
+          <input type="password" id="clientPasskey" class="minimal-input" placeholder="••••••••" required>
+          <svg class="passkey-icon" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path>
+          </svg>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-solid" style="width: 100%; margin-top: 16px; justify-content: center;"><span>Authenticate</span></button>
+    </form>
+  </div>
+</div>
+
+<script src="script.js"></script>
+
+<!-- ══ MOBILE BOTTOM NAV ═══════════════════════════════════════ -->
+<nav class="bottom-nav">
+  <a href="index.html" class="bottom-nav-item">
+    <svg class="bottom-nav-icon" viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+      <polyline points="9 22 9 12 15 12 15 22"></polyline>
+    </svg>
+    <div class="bottom-nav-dot"></div>
+  </a>
+  <a href="listings.html" class="bottom-nav-item">
+    <svg class="bottom-nav-icon" viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="11" cy="11" r="8"></circle>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+    </svg>
+    <div class="bottom-nav-dot"></div>
+  </a>
+  <a href="off-plan.html" class="bottom-nav-item">
+    <svg class="bottom-nav-icon" viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="3" width="7" height="7"></rect>
+      <rect x="14" y="3" width="7" height="7"></rect>
+      <rect x="14" y="14" width="7" height="7"></rect>
+      <rect x="3" y="14" width="7" height="7"></rect>
+    </svg>
+    <div class="bottom-nav-dot"></div>
+  </a>
+  <a href="#" class="bottom-nav-item" id="mobileClientAccess">
+    <svg class="bottom-nav-icon" viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path>
+    </svg>
+    <div class="bottom-nav-dot"></div>
+  </a>
+</nav>
+</body>
+</html>

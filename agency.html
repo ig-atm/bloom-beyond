@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Agency — Bloom Beyond</title>
+  <meta name="description" content="Bloom Beyond: The ultra-luxury real estate agency trusted by the world's most discerning buyers and sellers. Meet our team and our story." />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ── Agency — global page styles ───────────────────────────── */
+
+    /* ── Founder Split Screen ──────────────────────────────── */
+    .founder-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* Left pane — full-bleed B&W portrait */
+    .founder-portrait-pane {
+      position: relative;
+      overflow: hidden;
+      background: #000;
+    }
+    .founder-portrait-pane img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      /* Enforce true black-and-white regardless of source image */
+      filter: grayscale(100%) contrast(1.12) brightness(0.92);
+      transition: filter 2s ease;
+      display: block;
+    }
+    /* Subtle inward shadow on the right edge to blend panels */
+    .founder-portrait-pane::after {
+      content: '';
+      position: absolute;
+      top: 0; right: 0; bottom: 0;
+      width: 120px;
+      background: linear-gradient(to right, transparent, rgba(8,8,8,0.55));
+      pointer-events: none;
+      z-index: 1;
+    }
+    /* Small credit label pinned bottom-left */
+    .founder-portrait-credit {
+      position: absolute;
+      bottom: 28px;
+      left: 28px;
+      z-index: 2;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      transform: rotate(180deg);
+      font-family: var(--sans);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+    }
+
+    /* Right pane — philosophy typography */
+    .founder-philosophy-pane {
+      background: var(--black);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: clamp(48px, 7vw, 110px) clamp(40px, 6vw, 96px);
+      position: relative;
+      overflow: hidden;
+    }
+    /* Enormous ghost letter in background */
+    .founder-philosophy-pane::before {
+      content: '“';
+      position: absolute;
+      top: -0.15em;
+      right: -0.08em;
+      font-family: var(--serif);
+      font-size: clamp(240px, 28vw, 400px);
+      line-height: 1;
+      color: rgba(201,169,110,0.045);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .founder-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: clamp(36px, 5vw, 60px);
+    }
+    .founder-eyebrow-rule {
+      width: 40px;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    /* Manifesto headline — very large, airy */
+    .founder-headline {
+      font-family: var(--serif);
+      font-size: clamp(32px, 3.8vw, 58px);
+      font-weight: 400;
+      line-height: 1.12;
+      letter-spacing: -0.025em;
+      color: var(--white);
+      margin-bottom: clamp(32px, 4vw, 52px);
+    }
+    .founder-headline em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    /* Philosophy paragraphs — heavily tracked, generous leading */
+    .founder-para {
+      font-family: var(--sans);
+      font-size: clamp(12px, 1.1vw, 15px);
+      font-weight: 300;
+      line-height: 2.0;
+      letter-spacing: 0.04em;
+      color: rgba(176,176,176,0.75);
+      margin-bottom: clamp(20px, 2.5vw, 32px);
+      max-width: 520px;
+    }
+    .founder-para + .founder-para {
+      padding-top: clamp(20px, 2.5vw, 32px);
+      border-top: 1px solid rgba(201,169,110,0.1);
+    }
+
+    /* Pull-quote styled differently */
+    .founder-pullquote {
+      font-family: var(--serif);
+      font-size: clamp(15px, 1.4vw, 20px);
+      font-style: italic;
+      font-weight: 400;
+      line-height: 1.65;
+      color: var(--champagne);
+      border-left: 2px solid var(--gold);
+      padding-left: 24px;
+      margin: clamp(28px, 3.5vw, 48px) 0;
+      max-width: 480px;
+    }
+
+    /* Signature block */
+    .founder-signature {
+      margin-top: clamp(36px, 5vw, 60px);
+      padding-top: 28px;
+      border-top: 1px solid rgba(201,169,110,0.2);
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .founder-sig-thumb {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 1px solid rgba(201,169,110,0.35);
+      flex-shrink: 0;
+    }
+    .founder-sig-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+      filter: grayscale(100%);
+    }
+    .founder-sig-name {
+      font-family: var(--serif);
+      font-size: 16px;
+      color: var(--off-white);
+      margin-bottom: 3px;
+    }
+    .founder-sig-title {
+      font-family: var(--sans);
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .founder-cta-row {
+      margin-top: clamp(28px, 4vw, 48px);
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    /* ── Values section ── */
+    .value-item {
+      padding: 40px;
+      border: 1px solid rgba(201,169,110,0.1);
+      transition: all var(--t-mid);
+      position: relative;
+      overflow: hidden;
+    }
+    .value-item::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold-dark), var(--gold));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform var(--t-mid) var(--ease);
+    }
+    .value-item:hover::after { transform: scaleX(1); }
+    .value-item:hover { background: rgba(201,169,110,0.04); }
+    .value-num { font-family: var(--serif); font-size: 48px; color: rgba(201,169,110,0.2); font-weight: 900; margin-bottom: 12px; }
+    .value-title { font-family: var(--serif); font-size: 22px; color: var(--off-white); margin-bottom: 10px; }
+
+    /* ── Team Grid — B&W → colour on hover ────────────────────── */
+    .team-section {
+      padding: var(--section-v) var(--gutter);
+      background: var(--black);
+    }
+    .team-section-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+
+    .team-editorial-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 4px;
+      margin-top: 0;
+    }
+
+    .tmc {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      /* Fix height to a tall portrait ratio */
+      aspect-ratio: 3 / 4;
+      background: #0a0a0a;
+    }
+
+    /* The portrait photo */
+    .tmc__photo {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      /* Start fully desaturated */
+      filter: grayscale(100%) brightness(0.85) contrast(1.08);
+      transition:
+        filter    0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+        transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      will-change: filter, transform;
+    }
+    /* On hover: full colour, subtle zoom */
+    .tmc:hover .tmc__photo {
+      filter: grayscale(0%) brightness(0.92) contrast(1.02);
+      transform: scale(1.04);
+    }
+
+    /* Permanent bottom gradient */
+    .tmc__gradient {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(4,4,4,0.92)  0%,
+        rgba(4,4,4,0.35)  45%,
+        transparent       72%
+      );
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* Thin gold top accent line that expands on hover */
+    .tmc__accent {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 2;
+    }
+    .tmc:hover .tmc__accent { transform: scaleX(1); }
+
+    /* Info pinned to bottom */
+    .tmc__info {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      z-index: 2;
+      padding: 24px 24px 28px;
+      transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .tmc:hover .tmc__info { transform: translateY(-4px); }
+
+    .tmc__role {
+      font-family: var(--sans);
+      font-size: 8px;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 6px;
+      /* Hidden initially, slides in */
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.4s ease 0.1s, transform 0.4s ease 0.1s;
+    }
+    .tmc:hover .tmc__role { opacity: 1; transform: translateY(0); }
+
+    .tmc__name {
+      font-family: var(--serif);
+      font-size: clamp(16px, 1.6vw, 22px);
+      font-weight: 400;
+      color: var(--white);
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+      margin-bottom: 12px;
+    }
+
+    .tmc__divider {
+      width: 0;
+      height: 1px;
+      background: rgba(201,169,110,0.4);
+      transition: width 0.5s cubic-bezier(0.16,1,0.3,1) 0.05s;
+      margin-bottom: 12px;
+    }
+    .tmc:hover .tmc__divider { width: 32px; }
+
+    .tmc__bio {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 300;
+      line-height: 1.7;
+      color: rgba(176,176,176,0.65);
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.55s cubic-bezier(0.16,1,0.3,1) 0.05s,
+                  opacity    0.45s ease 0.08s;
+      opacity: 0;
+    }
+    .tmc:hover .tmc__bio { max-height: 80px; opacity: 1; }
+
+    /* ── Other existing styles ── */
+    .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; }
+    .team-member-card { position: relative; overflow: hidden; cursor: pointer; }
+    .team-member-img { aspect-ratio: 3/4; overflow: hidden; position: relative; }
+    .team-member-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s var(--ease); }
+    .team-member-card:hover .team-member-img img { transform: scale(1.05); }
+    .team-member-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(8,8,8,0.9) 0%, transparent 60%); }
+    .team-member-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 28px; }
+    .team-member-name { font-family: var(--serif); font-size: 20px; color: var(--white); margin-bottom: 4px; }
+    .team-member-role { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); }
+
+    .reach-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .reach-item { background: var(--charcoal-2); border: 1px solid rgba(201,169,110,0.1); padding: 32px; transition: border-color var(--t-mid); }
+    .reach-item:hover { border-color: rgba(201,169,110,0.3); }
+    .reach-city { font-family: var(--serif); font-size: 22px; color: var(--off-white); margin-bottom: 4px; }
+    .reach-country { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+    .contact-info-item { padding: 28px 0; border-bottom: 1px solid rgba(201,169,110,0.1); }
+    .contact-info-label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+    .contact-info-value { font-family: var(--serif); font-size: 18px; color: var(--off-white); }
+    .awards-strip { padding: 60px var(--gutter); background: var(--charcoal-2); border-top: 1px solid rgba(201,169,110,0.1); border-bottom: 1px solid rgba(201,169,110,0.1); }
+    .awards-inner { max-width: var(--max-w); margin: 0 auto; display: flex; gap: 60px; align-items: center; justify-content: center; flex-wrap: wrap; }
+    .award-item { text-align: center; opacity: 0.5; transition: opacity var(--t-mid); }
+    .award-item:hover { opacity: 1; }
+    .award-name { font-family: var(--serif); font-size: 16px; color: var(--champagne); margin-bottom: 4px; }
+    .award-year { font-size: 10px; letter-spacing: 0.15em; color: var(--gold); }
+
+    /* ── Responsive ── */
+    @media (max-width: 1100px) {
+      .team-editorial-grid { grid-template-columns: 1fr 1fr; }
+      .reach-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      .founder-split { grid-template-columns: 1fr; min-height: auto; }
+      .founder-portrait-pane { height: 60vw; min-height: 300px; }
+      .founder-portrait-pane::after { display: none; }
+      .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+    }
+    @media (max-width: 580px) {
+      .team-editorial-grid { grid-template-columns: 1fr 1fr; gap: 3px; }
+      .reach-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ NAVIGATION ══════════════════════════════════════════════ -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">Bloom <span>Beyond</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="nav-link">Home</a></li>
+      <li><a href="listings.html" class="nav-link">Exclusive Listings</a></li>
+      <li><a href="off-plan.html" class="nav-link">Off-Plan</a></li>
+      <li><a href="agency.html" class="nav-link active">The Agency</a></li>
+    </ul>
+    <a href="#contact" class="btn btn-solid nav-cta"><span>Contact Us</span></a>
+    <div class="nav-hamburger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="nav-mobile">
+  <a href="index.html" class="nav-link">Home</a>
+  <a href="listings.html" class="nav-link">Exclusive Listings</a>
+  <a href="off-plan.html" class="nav-link">Off-Plan</a>
+  <a href="agency.html" class="nav-link">The Agency</a>
+</div>
+
+<!-- ══ PAGE HERO ════════════════════════════════════════════════ -->
+<section class="page-hero" style="padding-bottom: 120px; min-height: 70vh; display: flex; align-items: flex-end;">
+  <div class="page-hero-bg">
+    <img src="images/agency_hero.jpg" alt="Bloom Beyond Agency" />
+  </div>
+  <div class="page-hero-gradient"></div>
+  <div class="page-hero-content" style="width: 100%;">
+    <p class="label" style="margin-bottom: 16px; animation: fadeUp 0.8s var(--ease-out) 0.2s both;">Est. 2012 — London · Dubai · New York</p>
+    <h1 class="display-lg" style="animation: fadeUp 1s var(--ease-out) 0.4s both; max-width: 700px;">
+      The Agency<br>That Defines<br>
+      <em class="italic text-gold">Luxury</em>
+    </h1>
+    <p class="body-md" style="max-width: 520px; margin-top: 24px; animation: fadeUp 1s var(--ease-out) 0.6s both;">
+      For over a decade, Bloom Beyond has represented the pinnacle of the global luxury real estate market — discreetly, professionally, and with an unwavering commitment to excellence.
+    </p>
+  </div>
+</section>
+
+<!-- ══ AWARDS ═══════════════════════════════════════════════════ -->
+<div class="awards-strip">
+  <div class="awards-inner">
+    <div class="award-item">
+      <div class="award-name">Best Luxury Agency</div>
+      <div class="award-year">International Property Awards · 2024</div>
+    </div>
+    <div style="width: 1px; height: 40px; background: rgba(201,169,110,0.2);"></div>
+    <div class="award-item">
+      <div class="award-name">#1 Ultra-Prime Agency</div>
+      <div class="award-year">The Wealth Report · 2023</div>
+    </div>
+    <div style="width: 1px; height: 40px; background: rgba(201,169,110,0.2);"></div>
+    <div class="award-item">
+      <div class="award-name">Agency of the Decade</div>
+      <div class="award-year">Luxury Portfolio · 2022</div>
+    </div>
+    <div style="width: 1px; height: 40px; background: rgba(201,169,110,0.2);"></div>
+    <div class="award-item">
+      <div class="award-name">Most Trusted Advisor</div>
+      <div class="award-year">Forbes · 2024</div>
+    </div>
+    <div style="width: 1px; height: 40px; background: rgba(201,169,110,0.2);"></div>
+    <div class="award-item">
+      <div class="award-name">Platinum Service Award</div>
+      <div class="award-year">Sotheby's Affiliate · 2023</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MANIFESTO ════════════════════════════════════════════════ -->
+<section class="founder-split">
+
+  <!-- LEFT: full-bleed B&W portrait -->
+  <div class="founder-portrait-pane reveal">
+    <img
+      src="images/founder_portrait.jpg"
+      alt="Alexandra Bloom, Founder &amp; CEO of Bloom Beyond"
+      loading="eager"
+    />
+    <div class="founder-portrait-credit">Alexandra Bloom &mdash; Founder &amp; CEO</div>
+  </div>
+
+  <!-- RIGHT: philosophy typography -->
+  <div class="founder-philosophy-pane reveal reveal-delay-2">
+
+    <div class="founder-eyebrow">
+      <div class="founder-eyebrow-rule"></div>
+      <span class="label">Founder&rsquo;s Philosophy</span>
+    </div>
+
+    <h2 class="founder-headline">
+      Not Every Client<br>
+      Deserves Our Attention.<br>
+      <em>Only The Right Ones Do.</em>
+    </h2>
+
+    <p class="founder-para">
+      Bloom Beyond was never built to serve everyone. From the day I founded this agency in 2012, the mandate was absolute: represent only the extraordinary. Not the merely expensive &mdash; the truly irreplaceable.
+    </p>
+
+    <blockquote class="founder-pullquote">
+      &ldquo;A home is not a transaction. It is the physical
+      expression of a life lived at the highest level. Our
+      role is to honour that with every decision we make.&rdquo;
+    </blockquote>
+
+    <p class="founder-para">
+      We operate on a referral basis exclusively. We do not advertise. We do not cold-call. We do not compete on commission. We compete on consequence &mdash; on the singular, irreversible impact we make on the lives of a carefully chosen few.
+    </p>
+
+    <p class="founder-para">
+      Our clients include heads of state, generational dynasty families, and the architects of global industry &mdash; individuals for whom privacy, precision, and the absolute certainty of outcome are the only acceptable standard.
+    </p>
+
+    <div class="founder-signature">
+      <div class="founder-sig-thumb">
+        <img src="images/founder_portrait.jpg" alt="Alexandra Bloom" />
+      </div>
+      <div>
+        <div class="founder-sig-name">Alexandra Bloom</div>
+        <div class="founder-sig-title">Founder &amp; Chief Executive Officer</div>
+      </div>
+    </div>
+
+    <div class="founder-cta-row">
+      <a href="#contact" class="btn btn-solid"><span>Request an Introduction</span></a>
+      <a href="#team" class="btn"><span>Meet the Team</span></a>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ══ OUR VALUES ═══════════════════════════════════════════════ -->
+<section style="padding: var(--section-v) var(--gutter); background: var(--charcoal-1);">
+  <div class="container">
+    <div class="section-header centered reveal">
+      <div class="gold-rule"></div>
+      <p class="label" style="margin-top: 24px;">Our Values</p>
+      <h2 class="display-md" style="margin-top: 16px;">What We <em class="italic text-gold">Stand For</em></h2>
+    </div>
+    <div class="grid-2">
+      <div class="value-item reveal">
+        <div class="value-num">01</div>
+        <div class="value-title">Absolute Discretion</div>
+        <p class="body-sm">The identities of our clients, the details of their searches, and the transactions we complete remain strictly confidential — now, and always. Trust is our foundation.</p>
+      </div>
+      <div class="value-item reveal reveal-delay-1">
+        <div class="value-num">02</div>
+        <div class="value-title">Uncompromising Quality</div>
+        <p class="body-sm">We represent only the finest 1% of properties. Our internal vetting process is more rigorous than most competitors' entire business models. Excellence is non-negotiable.</p>
+      </div>
+      <div class="value-item reveal">
+        <div class="value-num">03</div>
+        <div class="value-title">Global Perspective</div>
+        <p class="body-sm">Our advisors hold dual-market expertise across all major ultra-prime locations. We don't just know properties — we know the cities, the cultures, and the communities behind them.</p>
+      </div>
+      <div class="value-item reveal reveal-delay-1">
+        <div class="value-num">04</div>
+        <div class="value-title">Lifetime Partnership</div>
+        <p class="body-sm">A transaction is just the beginning of our relationship. We remain a trusted advisor through every stage of your real estate journey — for life.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ TEAM ══════════════════════════════════════════════════════ -->
+<section id="team" class="team-section">
+  <div class="team-section-inner">
+
+    <div class="section-header reveal" style="margin-bottom: 48px;">
+      <div class="gold-rule-left"></div>
+      <p class="label">Leadership</p>
+      <h2 class="display-md">The Minds<br><em class="italic text-gold">Behind the Brand</em></h2>
+      <p class="body-md" style="max-width: 500px; margin-top: 16px;">
+        Our senior advisors bring decades of combined expertise across the world's most demanding ultra-prime markets. Hover to meet them.
+      </p>
+    </div>
+
+    <div class="team-editorial-grid">
+
+      <div class="tmc reveal">
+        <img class="tmc__photo" src="images/founder_portrait.jpg" alt="Alexandra Bloom" loading="lazy" />
+        <div class="tmc__accent"></div>
+        <div class="tmc__gradient"></div>
+        <div class="tmc__info">
+          <div class="tmc__role">Founder &amp; CEO</div>
+          <div class="tmc__name">Alexandra<br>Bloom</div>
+          <div class="tmc__divider"></div>
+          <div class="tmc__bio">Founded Bloom Beyond in 2012. Former Head of Ultra-Prime at Knight Frank London. Oxford Economics, INSEAD MBA.</div>
+        </div>
+      </div>
+
+      <div class="tmc reveal reveal-delay-1">
+        <img class="tmc__photo" src="images/agency_hero.jpg" alt="Oliver Harrington" loading="lazy" />
+        <div class="tmc__accent"></div>
+        <div class="tmc__gradient"></div>
+        <div class="tmc__info">
+          <div class="tmc__role">Managing Director &middot; London</div>
+          <div class="tmc__name">Oliver<br>Harrington</div>
+          <div class="tmc__divider"></div>
+          <div class="tmc__bio">20 years advising UHNW clients in Mayfair, Belgravia, and Chelsea. $780M+ in personally transacted volume.</div>
+        </div>
+      </div>
+
+      <div class="tmc reveal reveal-delay-2">
+        <img class="tmc__photo" src="images/team_isabella.jpg" alt="Isabella Chen" loading="lazy" />
+        <div class="tmc__accent"></div>
+        <div class="tmc__gradient"></div>
+        <div class="tmc__info">
+          <div class="tmc__role">Head of Asia Pacific</div>
+          <div class="tmc__name">Isabella<br>Chen</div>
+          <div class="tmc__divider"></div>
+          <div class="tmc__bio">Covers Singapore, Hong Kong, and Tokyo ultra-prime. Mandarin and Cantonese speaker. NUS Real Estate, Harvard GSD.</div>
+        </div>
+      </div>
+
+      <div class="tmc reveal reveal-delay-3">
+        <img class="tmc__photo" src="images/agent_portrait_1.jpg" alt="Rashid Al-Mansoori" loading="lazy" />
+        <div class="tmc__accent"></div>
+        <div class="tmc__gradient"></div>
+        <div class="tmc__info">
+          <div class="tmc__role">Director &middot; MENA Markets</div>
+          <div class="tmc__name">Rashid<br>Al-Mansoori</div>
+          <div class="tmc__divider"></div>
+          <div class="tmc__bio">Dubai-based since 2008. Specialist in Palm Jumeirah, DIFC, and Abu Dhabi ultra-prime. Arabic and English speaker.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <p style="margin-top: 40px; text-align: center; font-size: 11px; letter-spacing: 0.12em; color: rgba(138,138,138,0.5); text-transform: uppercase;">
+      All senior advisors operate under a strict non-disclosure agreement &mdash; your enquiry remains entirely private.
+    </p>
+
+  </div>
+</section>
+
+<!-- ══ GLOBAL REACH ══════════════════════════════════════════════ -->
+<section style="padding: var(--section-v) var(--gutter); background: var(--charcoal-1);">
+  <div class="container">
+    <div class="section-header centered reveal">
+      <div class="gold-rule"></div>
+      <p class="label" style="margin-top: 24px;">Our Presence</p>
+      <h2 class="display-md" style="margin-top: 16px;">Present in the<br><em class="italic text-gold">World's Finest Cities</em></h2>
+    </div>
+    <div class="reach-grid">
+      <div class="reach-item reveal">
+        <div class="reach-city">London</div>
+        <div class="reach-country">United Kingdom</div>
+        <p class="body-sm">43 Carlos Place, Mayfair · W1K 2DB<br>+44 (0) 20 7123 4567</p>
+      </div>
+      <div class="reach-item reveal reveal-delay-1">
+        <div class="reach-city">Dubai</div>
+        <div class="reach-country">United Arab Emirates</div>
+        <p class="body-sm">DIFC, Gate Avenue · South Zone<br>+971 4 321 6789</p>
+      </div>
+      <div class="reach-item reveal reveal-delay-2">
+        <div class="reach-city">New York</div>
+        <div class="reach-country">United States</div>
+        <p class="body-sm">970 Park Avenue, Suite 1800 · NY 10028<br>+1 (212) 555 0147</p>
+      </div>
+      <div class="reach-item reveal">
+        <div class="reach-city">Monaco</div>
+        <div class="reach-country">Principality of Monaco</div>
+        <p class="body-sm">Le Sporting d'Hiver · MC 98000<br>+377 9 334 5678</p>
+      </div>
+      <div class="reach-item reveal reveal-delay-1">
+        <div class="reach-city">Paris</div>
+        <div class="reach-country">France</div>
+        <p class="body-sm">28 Avenue Montaigne · 75008 Paris<br>+33 1 42 56 78 90</p>
+      </div>
+      <div class="reach-item reveal reveal-delay-2">
+        <div class="reach-city">Singapore</div>
+        <div class="reach-country">Singapore</div>
+        <p class="body-sm">Marina Bay Financial Centre · 018981<br>+65 6688 9012</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ HISTORY TIMELINE ══════════════════════════════════════════ -->
+<section style="padding: var(--section-v) var(--gutter);">
+  <div class="container">
+    <div class="grid-2" style="gap: 80px; align-items: start;">
+      <div>
+        <div class="section-header reveal">
+          <div class="gold-rule-left"></div>
+          <p class="label">Our Journey</p>
+          <h2 class="display-md">Milestones of<br><em class="italic text-gold">Excellence</em></h2>
+        </div>
+      </div>
+      <div class="timeline reveal reveal-delay-1">
+        <div class="timeline-item">
+          <div class="timeline-year">2012</div>
+          <div class="timeline-title">The Beginning</div>
+          <p class="timeline-desc">Alexandra Bloom opens the agency's first boutique office in Mayfair, London, with a team of five and a vision to transform ultra-luxury real estate.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2015</div>
+          <div class="timeline-title">Dubai Expansion</div>
+          <p class="timeline-desc">Bloom Beyond opens in the Dubai International Financial Centre, quickly becoming the most sought-after agency in the MENA ultra-prime market.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2018</div>
+          <div class="timeline-title">$500M Sales Milestone</div>
+          <p class="timeline-desc">The agency surpasses $500 million in total sales, cementing its position as a global leader in the ultra-luxury property market.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2021</div>
+          <div class="timeline-title">New York & Monaco</div>
+          <p class="timeline-desc">Strategic expansion into two of the world's most competitive markets, with flagship offices on Park Avenue and in Monte Carlo's sporting district.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2024</div>
+          <div class="timeline-title">$2.4 Billion & Beyond</div>
+          <p class="timeline-desc">Bloom Beyond surpasses $2.4 billion in lifetime sales volume, recognised as Agency of the Year by four independent bodies globally.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CONTACT ═══════════════════════════════════════════════════ -->
+<section id="contact" class="section-pad" style="background: var(--charcoal-1);">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="reveal">
+        <div class="gold-rule-left"></div>
+        <p class="label" style="margin-bottom: 20px;">Get In Touch</p>
+        <h2 class="display-md" style="margin-bottom: 24px;">
+          Begin Your<br>
+          <em class="italic text-gold">Conversation</em>
+        </h2>
+        <p class="body-md" style="margin-bottom: 48px;">
+          Whether you are seeking to acquire the world's most extraordinary property, or entrust us with the sale of yours, we welcome your enquiry. Every conversation is treated with absolute discretion.
+        </p>
+        <div class="contact-info-item">
+          <div class="contact-info-label">London Headquarters</div>
+          <div class="contact-info-value">+44 (0) 20 7123 4567</div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-info-label">Dubai Office</div>
+          <div class="contact-info-value">+971 4 321 6789</div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-info-label">Email</div>
+          <div class="contact-info-value">enquiries@bloombeyond.com</div>
+        </div>
+        <div class="contact-info-item" style="border-bottom: none;">
+          <div class="contact-info-label">WhatsApp (Priority)</div>
+          <div class="contact-info-value">+44 7700 123 456</div>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-1">
+        <form id="contactForm" style="background: var(--charcoal-2); border: 1px solid rgba(201,169,110,0.12); padding: 48px;" onsubmit="handleSubmit(event)">
+          <p class="label" style="margin-bottom: 32px;">Private Enquiry Form</p>
+          <div class="grid-2" style="gap: 0 28px;">
+            <div class="form-group">
+              <label class="form-label" for="firstName">First Name</label>
+              <input type="text" id="firstName" class="form-input" placeholder="Alexandra" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="lastName">Last Name</label>
+              <input type="text" id="lastName" class="form-input" placeholder="Bloom" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="email">Email Address</label>
+            <input type="email" id="email" class="form-input" placeholder="your@email.com" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="phone">Phone / WhatsApp</label>
+            <input type="tel" id="phone" class="form-input" placeholder="+44 7700 000 000" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="enquiryType">Enquiry Type</label>
+            <select id="enquiryType" class="form-input">
+              <option value="">Select Type</option>
+              <option>I wish to purchase</option>
+              <option>I wish to sell</option>
+              <option>Off-plan investment interest</option>
+              <option>Portfolio advisory</option>
+              <option>General enquiry</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="budget">Budget Range</label>
+            <select id="budget" class="form-input">
+              <option value="">Select Budget</option>
+              <option>$5M – $15M</option>
+              <option>$15M – $30M</option>
+              <option>$30M – $75M</option>
+              <option>$75M – $150M</option>
+              <option>$150M+</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="message">Your Message</label>
+            <textarea id="message" class="form-input" placeholder="Please share any specific requirements, preferred locations, or questions you may have..." rows="4"></textarea>
+          </div>
+          <p class="body-sm" style="margin-bottom: 24px; font-size: 11px;">
+            All enquiries are treated with absolute discretion. Your information will never be shared with third parties.
+          </p>
+          <button type="submit" class="btn btn-solid" style="width: 100%; justify-content: center;">
+            <span id="submitText">Submit Private Enquiry</span>
+          </button>
+          <div id="formSuccess" style="display: none; margin-top: 20px; padding: 16px; border: 1px solid var(--gold); text-align: center;">
+            <p class="label" style="color: var(--gold);">Enquiry Received</p>
+            <p class="body-sm" style="margin-top: 8px; font-size: 12px;">A senior advisor will contact you within 4 business hours.</p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ═══════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">Bloom <span>Beyond</span></div>
+        <p class="footer-tagline">Curating the world's most extraordinary properties for those who demand nothing less than perfection.</p>
+        <div class="footer-social">
+          <a href="#" class="social-link" aria-label="Instagram">IG</a>
+          <a href="#" class="social-link" aria-label="LinkedIn">LI</a>
+          <a href="#" class="social-link" aria-label="WhatsApp">WA</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Properties</h4>
+        <ul>
+          <li><a href="listings.html">Exclusive Listings</a></li>
+          <li><a href="off-plan.html">Off-Plan Developments</a></li>
+          <li><a href="listings.html">Off-Market</a></li>
+          <li><a href="listings.html">Rentals</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>The Agency</h4>
+        <ul>
+          <li><a href="agency.html">About Us</a></li>
+          <li><a href="agency.html#team">Our Team</a></li>
+          <li><a href="agency.html#contact">Contact</a></li>
+          <li><a href="agency.html">Press</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Markets</h4>
+        <ul>
+          <li><a href="#">London</a></li>
+          <li><a href="#">Dubai</a></li>
+          <li><a href="#">New York</a></li>
+          <li><a href="#">Monaco</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 Bloom Beyond. All rights reserved. Private & Confidential.</p>
+      <p class="footer-copy">Privacy Policy · Terms of Service</p>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+<script>
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submitText');
+    const success = document.getElementById('formSuccess');
+    btn.textContent = 'Sending...';
+    setTimeout(() => {
+      document.getElementById('contactForm').querySelectorAll('input, select, textarea').forEach(f => f.value = '');
+      btn.textContent = 'Submit Private Enquiry';
+      success.style.display = 'block';
+      success.style.animation = 'fadeUp 0.5s var(--ease-out) forwards';
+    }, 1400);
+  }
+</script>
+
+<!-- ══ MOBILE BOTTOM NAV ═══════════════════════════════════════ -->
+<nav class="bottom-nav">
+  <a href="index.html" class="bottom-nav-item">
+    <svg class="bottom-nav-icon" viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+      <polyline points="9 22 9 12 15 12 15 22"></polyline>
+    </svg>
+    <div class="bottom-nav-dot"></div>
+  </a>
+  <a href="listings.html" class="bottom-nav-item">
+    <svg class="bottom-nav-icon" viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="11" cy="11" r="8"></circle>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+    </svg>
+    <div class="bottom-nav-dot"></div>
+  </a>
+  <a href="off-plan.html" class="bottom-nav-item">
+    <svg class="bottom-nav-icon" viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="3" width="7" height="7"></rect>
+      <rect x="14" y="3" width="7" height="7"></rect>
+      <rect x="14" y="14" width="7" height="7"></rect>
+      <rect x="3" y="14" width="7" height="7"></rect>
+    </svg>
+    <div class="bottom-nav-dot"></div>
+  </a>
+  <a href="#" class="bottom-nav-item" id="mobileClientAccess">
+    <svg class="bottom-nav-icon" viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path>
+    </svg>
+    <div class="bottom-nav-dot"></div>
+  </a>
+</nav>
+</body>
+</html>

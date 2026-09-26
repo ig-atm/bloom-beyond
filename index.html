@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bloom Beyond — Ultra-Luxury Real Estate</title>
+  <meta name="description" content="Bloom Beyond presents the world's most extraordinary properties. Ultra-luxury real estate, exclusive listings, and bespoke off-plan developments across the globe's most coveted addresses." />
+  <meta property="og:title" content="Bloom Beyond — Ultra-Luxury Real Estate" />
+  <meta property="og:description" content="The world's most extraordinary properties." />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ── Home-specific styles ───────────────────────────────── */
+    .marquee-home { margin-top: 0; }
+
+    /* ── Cinematic Hero ─────────────────────────────────────── */
+    .hero-cinematic {
+      position: relative;
+      height: 100vh;
+      min-height: 700px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Video layer */
+    .hero-video-wrap {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+    .hero-video-wrap video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    /* Fallback poster / Ken Burns effect when no video src */
+    .hero-video-wrap .hero-poster {
+      position: absolute;
+      inset: 0;
+      background: url('images/listing_skyhouse.jpg') center / cover no-repeat;
+      animation: kenBurns 20s ease-in-out infinite alternate;
+    }
+    @keyframes kenBurns {
+      0%   { transform: scale(1.0)  translate(0%, 0%); }
+      33%  { transform: scale(1.08) translate(-1.5%, 0.5%); }
+      66%  { transform: scale(1.06) translate(1%, -1%); }
+      100% { transform: scale(1.12) translate(-0.5%, 1%); }
+    }
+
+    /* Cinematic gradient — heavier at top and bottom, clear in the centre */
+    .hero-cinematic-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background:
+        linear-gradient(to bottom,
+          rgba(8,8,8,0.72) 0%,
+          rgba(8,8,8,0.10) 30%,
+          rgba(8,8,8,0.10) 65%,
+          rgba(8,8,8,0.82) 100%);
+    }
+
+    /* Centered content wrapper */
+    .hero-cinematic-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 0 clamp(20px, 5vw, 80px);
+      width: 100%;
+      max-width: 1100px;
+    }
+
+    /* Eyebrow label */
+    .hero-cin-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 36px;
+      opacity: 0;
+      animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) 0.3s forwards;
+    }
+    .hero-cin-eyebrow-line {
+      width: 36px;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    /* Main display headline */
+    .hero-cin-title {
+      font-family: var(--serif);
+      font-size: clamp(52px, 8.5vw, 130px);
+      font-weight: 400;
+      line-height: 0.93;
+      letter-spacing: -0.03em;
+      color: var(--white);
+      opacity: 0;
+      animation: fadeUp 1.1s cubic-bezier(0.16,1,0.3,1) 0.55s forwards;
+    }
+    .hero-cin-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    /* Thin divider below title */
+    .hero-cin-divider {
+      width: 1px;
+      height: 48px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      margin: 40px auto;
+      opacity: 0;
+      animation: fadeIn 1s cubic-bezier(0.16,1,0.3,1) 1.1s forwards;
+    }
+
+    /* ── Search Bar ─────────────────────────────────────────── */
+    .hero-search {
+      width: 100%;
+      max-width: 740px;
+      opacity: 0;
+      animation: fadeUp 1s cubic-bezier(0.16,1,0.3,1) 1.3s forwards;
+    }
+    .hero-search-bar {
+      display: flex;
+      align-items: stretch;
+      background: rgba(12, 12, 12, 0.55);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(201, 169, 110, 0.30);
+      overflow: hidden;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .hero-search-bar:focus-within {
+      border-color: rgba(201, 169, 110, 0.65);
+      box-shadow: 0 8px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(201,169,110,0.15) inset;
+    }
+    .hero-search-field {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      padding: 22px 28px;
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 300;
+      letter-spacing: 0.06em;
+      color: var(--white);
+      caret-color: var(--gold);
+    }
+    .hero-search-field::placeholder {
+      color: rgba(176, 176, 176, 0.55);
+      font-weight: 300;
+      letter-spacing: 0.08em;
+    }
+    .hero-search-divider {
+      width: 1px;
+      background: rgba(201, 169, 110, 0.2);
+      margin: 14px 0;
+    }
+    .hero-search-select {
+      background: transparent;
+      border: none;
+      outline: none;
+      padding: 22px 36px 22px 24px;
+      font-family: var(--sans);
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(176, 176, 176, 0.75);
+      appearance: none;
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23c9a96e' stroke-width='1' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+    }
+    .hero-search-select option { background: #141414; color: var(--off-white); }
+    .hero-search-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 32px;
+      background: var(--gold);
+      border: none;
+      color: var(--black);
+      font-family: var(--sans);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.25s ease, transform 0.2s ease;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .hero-search-btn:hover {
+      background: var(--champagne);
+    }
+    .hero-search-btn:active { transform: scale(0.98); }
+    .hero-search-btn svg {
+      width: 14px;
+      height: 14px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+      flex-shrink: 0;
+    }
+    .hero-search-hint {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      margin-top: 16px;
+    }
+    .hero-search-hint span {
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(176, 176, 176, 0.45);
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .hero-search-hint span:hover { color: var(--gold); }
+
+    /* Scroll indicator */
+    .hero-cin-scroll {
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      animation: fadeIn 1s ease 2.2s forwards;
+    }
+    .hero-cin-scroll-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--gold);
+      animation: scrollBounce 1.8s ease-in-out infinite;
+    }
+    .hero-cin-scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, rgba(201,169,110,0.6), transparent);
+    }
+    @keyframes scrollBounce {
+      0%, 100% { transform: translateY(0); opacity: 1; }
+      50%       { transform: translateY(6px); opacity: 0.4; }
+    }
+
+    @media (max-width: 640px) {
+      .hero-search-bar { flex-direction: column; }
+      .hero-search-divider { width: auto; height: 1px; margin: 0 14px; }
+      .hero-search-select { padding: 14px 24px; }
+      .hero-search-btn { padding: 20px; justify-content: center; }
+      .hero-cin-divider { height: 32px; margin: 28px auto; }
+    }
+
+    /* ── Editorial Gallery ── */
+    .gallery-section {
+      padding: var(--section-v) var(--gutter);
+    }
+    .gallery-section-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+    .gallery-section .section-header { margin-bottom: 56px; }
+
+    /* Asymmetric 2-col grid: tall hero left (row-span 2) + two landscape tiles stacked right */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 6px;
+      /* Fixed total height so proportions are locked */
+      height: clamp(560px, 70vw, 920px);
+    }
+
+    /* ── Gallery Card (edge-to-edge overlay) ── */
+    .gc {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      display: block;
+      text-decoration: none;
+    }
+    /* Hero tile spans both rows on the left */
+    .gc--hero { grid-row: span 2; }
+
+    /* Raw image fills the entire tile */
+    .gc__img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  filter  0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      will-change: transform;
+    }
+    .gc:hover .gc__img {
+      transform: scale(1.07);
+      filter: brightness(0.88);
+    }
+
+    /* Permanent bottom-to-top gradient for legibility */
+    .gc__gradient {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(4, 4, 4, 0.88)  0%,
+        rgba(4, 4, 4, 0.40)  38%,
+        rgba(4, 4, 4, 0.08)  62%,
+        transparent          100%
+      );
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* Extra top vignette so the badge stays readable */
+    .gc__top-vignette {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 120px;
+      background: linear-gradient(to bottom, rgba(4,4,4,0.55), transparent);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* Status badge — top-left */
+    .gc__badge {
+      position: absolute;
+      top: 22px;
+      left: 22px;
+      z-index: 3;
+      background: var(--gold);
+      color: var(--black);
+      font-family: var(--sans);
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      pointer-events: none;
+    }
+
+    /* Info block — pinned to the bottom */
+    .gc__info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 2;
+      padding: 28px 28px 30px;
+      /* Slides up slightly on hover */
+      transform: translateY(0);
+      transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .gc:hover .gc__info { transform: translateY(-6px); }
+
+    .gc__location {
+      font-family: var(--sans);
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 7px;
+    }
+    .gc__title {
+      font-family: var(--serif);
+      color: var(--white);
+      font-weight: 400;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 10px;
+    }
+    /* Scale title to the card size */
+    .gc--hero   .gc__title { font-size: clamp(26px, 3.2vw, 42px); }
+    .gc--side   .gc__title { font-size: clamp(18px, 2vw, 26px); }
+
+    .gc__meta {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 16px;
+    }
+    .gc__price {
+      font-family: var(--serif);
+      font-size: clamp(15px, 1.6vw, 22px);
+      font-weight: 500;
+      color: var(--champagne);
+    }
+    .gc__specs {
+      display: flex;
+      gap: 14px;
+    }
+    .gc__spec {
+      font-size: 10px;
+      color: rgba(255,255,255,0.55);
+      letter-spacing: 0.06em;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .gc__spec strong {
+      color: rgba(255,255,255,0.85);
+      font-weight: 500;
+      font-size: 11px;
+    }
+    .gc__spec-dot {
+      width: 2px;
+      height: 2px;
+      border-radius: 50%;
+      background: rgba(201,169,110,0.5);
+    }
+
+    /* Arrow CTA — hidden by default, slides in on hover */
+    .gc__cta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--sans);
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      opacity: 0;
+      transform: translateX(-8px);
+      transition: opacity 0.4s ease 0.05s, transform 0.4s ease 0.05s;
+      pointer-events: none;
+    }
+    .gc:hover .gc__cta { opacity: 1; transform: translateX(0); }
+    .gc__cta-line {
+      width: 28px;
+      height: 1px;
+      background: var(--gold);
+      transition: width 0.35s ease;
+    }
+    .gc:hover .gc__cta-line { width: 40px; }
+
+    /* ── 4th card: full-width cinematic strip ── */
+    .gallery-strip {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      display: block;
+      text-decoration: none;
+      height: clamp(220px, 28vw, 380px);
+      margin-top: 6px;
+    }
+    .gallery-strip .gc__img   { position: absolute; }
+    .gallery-strip .gc__gradient {
+      background: linear-gradient(
+        to right,
+        rgba(4,4,4,0.90)  0%,
+        rgba(4,4,4,0.50)  35%,
+        rgba(4,4,4,0.10)  65%,
+        transparent       100%
+      );
+    }
+    .gallery-strip .gc__info {
+      top: 0; bottom: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 100%;
+      padding: 40px 56px;
+    }
+    .gallery-strip:hover .gc__info { transform: translateX(10px); }
+    .gallery-strip .gc__cta {
+      transform: translateX(-8px);
+    }
+    .gallery-strip:hover .gc__cta {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Utility */
+    .home-split { background: var(--charcoal-2); }
+
+    .philosophy-section { padding: var(--section-v) var(--gutter); }
+    .philosophy-inner { max-width: var(--max-w); margin: 0 auto; }
+    .philosophy-quote {
+      font-family: var(--serif);
+      font-size: clamp(28px, 4vw, 54px);
+      font-weight: 400;
+      font-style: italic;
+      line-height: 1.2;
+      color: var(--off-white);
+      letter-spacing: -0.02em;
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .philosophy-quote span { color: var(--gold); }
+    .process-section { padding: var(--section-v) var(--gutter); max-width: var(--max-w); margin: 0 auto; }
+    .testimonial-section { padding: var(--section-v) var(--gutter); background: var(--charcoal-1); }
+    .testimonial-inner { max-width: var(--max-w); margin: 0 auto; }
+    .testimonial-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .gallery-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: 380px 260px 260px;
+        height: auto;
+      }
+      .gc--hero { grid-row: span 1; }
+      .gc--hero .gc__title { font-size: clamp(24px, 5vw, 36px); }
+      .gallery-strip .gc__info { padding: 32px; }
+    }
+    @media (max-width: 600px) {
+      .gallery-grid { grid-template-rows: 300px 220px 220px; }
+      .gc__specs { display: none; }
+      .testimonial-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ NAVIGATION ══════════════════════════════════════════════ -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">Bloom <span>Beyond</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="nav-link active">Home</a></li>
+      <li><a href="listings.html" class="nav-link">Exclusive Listings</a></li>
+      <li><a href="off-plan.html" class="nav-link">Off-Plan</a></li>
+      <li><a href="agency.html" class="nav-link">The Agency</a></li>
+      <li><a href="#" class="nav-link" id="navClientAccess">Client Access</a></li>
+    </ul>
+    <a href="listings.html" class="btn btn-solid nav-cta"><span>View Properties</span></a>
+    <div class="nav-hamburger" id="hamburger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="nav-mobile" id="mobileMenu">
+  <a href="index.html" class="nav-link">Home</a>
+  <a href="listings.html" class="nav-link">Exclusive Listings</a>
+  <a href="off-plan.html" class="nav-link">Off-Plan</a>
+  <a href="agency.html" class="nav-link">The Agency</a>
+</div>
+
+<!-- ══ HERO — Cinematic Full-Screen ══════════════════════════ -->
+<section class="hero-cinematic" aria-label="Hero">
+
+  <!-- Video background (loops silently). Falls back to Ken Burns poster. -->
+  <div class="hero-video-wrap">
+    <video
+      id="heroBgVideo"
+      autoplay muted loop playsinline
+      poster="images/listing_skyhouse.jpg"
+      aria-hidden="true">
+      <!-- Drop a .mp4 or .webm here when a real video is available -->
+      <!-- <source src="video/penthouse_loop.mp4" type="video/mp4" /> -->
+    </video>
+    <!-- CSS Ken Burns fallback (active when no <source> is present) -->
+    <div class="hero-poster" id="heroPoster"></div>
+  </div>
+
+  <!-- Multi-stop cinematic gradient overlay -->
+  <div class="hero-cinematic-overlay" aria-hidden="true"></div>
+
+  <!-- ── Centered content ── -->
+  <div class="hero-cinematic-content">
+
+    <!-- Eyebrow -->
+    <div class="hero-cin-eyebrow">
+      <div class="hero-cin-eyebrow-line"></div>
+      <span class="label">Bloom Beyond &mdash; Luxury Real Estate</span>
+      <div class="hero-cin-eyebrow-line"></div>
+    </div>
+
+    <!-- Headline -->
+    <h1 class="hero-cin-title">
+      Transcend<br>
+      <em>Ordinary</em> Living.
+    </h1>
+
+    <!-- Vertical divider / breath -->
+    <div class="hero-cin-divider" aria-hidden="true"></div>
+
+    <!-- ── Single-line Property Search ── -->
+    <div class="hero-search" role="search">
+      <div class="hero-search-bar">
+        <input
+          id="heroSearch"
+          type="text"
+          class="hero-search-field"
+          placeholder="City, neighbourhood, or address&hellip;"
+          autocomplete="off"
+          aria-label="Search property location"
+        />
+        <div class="hero-search-divider" aria-hidden="true"></div>
+        <select class="hero-search-select" aria-label="Property type">
+          <option value="">Any Type</option>
+          <option>Penthouse</option>
+          <option>Villa</option>
+          <option>Estate</option>
+          <option>Mansion</option>
+        </select>
+        <div class="hero-search-divider" aria-hidden="true"></div>
+        <button
+          class="hero-search-btn"
+          aria-label="Search properties"
+          onclick="window.location='listings.html'">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"/>
+            <line x1="16.5" y1="16.5" x2="22" y2="22"/>
+          </svg>
+          Search
+        </button>
+      </div>
+      <!-- Quick-links beneath the bar -->
+      <div class="hero-search-hint" aria-label="Quick searches">
+        <span onclick="window.location='listings.html'">Penthouse</span>
+        <span onclick="window.location='listings.html'">Dubai Marina</span>
+        <span onclick="window.location='listings.html'">Mayfair</span>
+        <span onclick="window.location='off-plan.html'">Off-Plan</span>
+      </div>
+    </div>
+
+  </div><!-- /hero-cinematic-content -->
+
+  <!-- Scroll indicator -->
+  <div class="hero-cin-scroll" aria-hidden="true">
+    <div class="hero-cin-scroll-dot"></div>
+    <div class="hero-cin-scroll-line"></div>
+  </div>
+
+</section>
+
+<script>
+  // Hide poster once the video has real sources and can play
+  (function () {
+    var v = document.getElementById('heroBgVideo');
+    var p = document.getElementById('heroPoster');
+    if (v && v.querySelector('source')) {
+      v.addEventListener('canplay', function () {
+        if (p) p.style.opacity = '0';
+      });
+    }
+  }());
+</script>
+
+<!-- ══ STATS BAR ═══════════════════════════════════════════════ -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item reveal">
+      <div class="stat-number" data-count="2.4" data-suffix="B+" data-prefix="$">$0</div>
+      <div class="stat-label">In Sales Volume</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-1">
+      <div class="stat-number" data-count="340" data-suffix="+">0</div>
+      <div class="stat-label">Properties Sold</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-2">
+      <div class="stat-number" data-count="28" data-suffix="">0</div>
+      <div class="stat-label">Global Markets</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-3">
+      <div class="stat-number" data-count="14" data-suffix=" yrs">0</div>
+      <div class="stat-label">Of Excellence</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MARQUEE ═════════════════════════════════════════════════ -->
+<div class="marquee-wrap marquee-home">
+  <div class="marquee-track">
+    <span class="marquee-item">Dubai Marina</span>
+    <span class="marquee-item">Monaco Waterfront</span>
+    <span class="marquee-item">Malibu Estates</span>
+    <span class="marquee-item">Mayfair Residences</span>
+    <span class="marquee-item">Palm Jumeirah</span>
+    <span class="marquee-item">Côte d'Azur</span>
+    <span class="marquee-item">Hamptons</span>
+    <span class="marquee-item">Bel-Air</span>
+    <span class="marquee-item">St. Tropez</span>
+    <span class="marquee-item">Santorini</span>
+    <!-- Duplicate for seamless loop -->
+    <span class="marquee-item">Dubai Marina</span>
+    <span class="marquee-item">Monaco Waterfront</span>
+    <span class="marquee-item">Malibu Estates</span>
+    <span class="marquee-item">Mayfair Residences</span>
+    <span class="marquee-item">Palm Jumeirah</span>
+    <span class="marquee-item">Côte d'Azur</span>
+    <span class="marquee-item">Hamptons</span>
+    <span class="marquee-item">Bel-Air</span>
+    <span class="marquee-item">St. Tropez</span>
+    <span class="marquee-item">Santorini</span>
+  </div>
+</div>
+
+<!-- ══ FEATURED LISTINGS — Editorial Gallery ══════════════════ -->
+<section class="gallery-section">
+  <div class="gallery-section-inner">
+
+    <!-- Section header -->
+    <div class="section-header reveal">
+      <div class="gold-rule-left"></div>
+      <p class="label">Featured Properties</p>
+      <h2 class="display-md">Carefully Chosen,<br><em class="italic text-gold">Exclusively Yours</em></h2>
+    </div>
+
+    <!-- ── Asymmetric 2-col masonry ── -->
+    <div class="gallery-grid reveal">
+
+      <!-- HERO tile: tall left column, spans 2 rows -->
+      <a href="listings.html" class="gc gc--hero">
+        <img class="gc__img" src="images/listing_skyhouse.jpg" alt="The Sky Mansion, Mayfair" loading="lazy" />
+        <div class="gc__top-vignette"></div>
+        <div class="gc__gradient"></div>
+        <div class="gc__badge">Featured</div>
+        <div class="gc__info">
+          <div class="gc__location">Mayfair &middot; London</div>
+          <h3 class="gc__title">The Sky Mansion</h3>
+          <div class="gc__meta">
+            <div class="gc__price">£ 28,500,000</div>
+            <div class="gc__specs">
+              <div class="gc__spec"><strong>7</strong>&thinsp;Bed</div>
+              <div class="gc__spec-dot"></div>
+              <div class="gc__spec"><strong>12,400</strong>&thinsp;sq ft</div>
+              <div class="gc__spec-dot"></div>
+              <div class="gc__spec">Rooftop Pool</div>
+            </div>
+          </div>
+          <div class="gc__cta">
+            <div class="gc__cta-line"></div>
+            View Property
+          </div>
+        </div>
+      </a>
+
+      <!-- RIGHT TOP tile -->
+      <a href="listings.html" class="gc gc--side" style="grid-column: 2; grid-row: 1;">
+        <img class="gc__img" src="images/listing_penthouse.jpg" alt="The Obsidian Penthouse, NYC" loading="lazy" />
+        <div class="gc__top-vignette"></div>
+        <div class="gc__gradient"></div>
+        <div class="gc__badge">New</div>
+        <div class="gc__info">
+          <div class="gc__location">Tribeca &middot; New York</div>
+          <h3 class="gc__title">The Obsidian Penthouse</h3>
+          <div class="gc__meta">
+            <div class="gc__price">$18,900,000</div>
+            <div class="gc__specs">
+              <div class="gc__spec"><strong>5</strong>&thinsp;Bed</div>
+              <div class="gc__spec-dot"></div>
+              <div class="gc__spec"><strong>7,200</strong>&thinsp;sq ft</div>
+            </div>
+          </div>
+          <div class="gc__cta">
+            <div class="gc__cta-line"></div>
+            View Property
+          </div>
+        </div>
+      </a>
+
+      <!-- RIGHT BOTTOM tile -->
+      <a href="listings.html" class="gc gc--side" style="grid-column: 2; grid-row: 2;">
+        <img class="gc__img" src="images/listing_villa.jpg" alt="Noir Estate, Bel-Air" loading="lazy" />
+        <div class="gc__top-vignette"></div>
+        <div class="gc__gradient"></div>
+        <div class="gc__badge">Exclusive</div>
+        <div class="gc__info">
+          <div class="gc__location">Bel-Air &middot; Los Angeles</div>
+          <h3 class="gc__title">Noir Estate</h3>
+          <div class="gc__meta">
+            <div class="gc__price">$34,000,000</div>
+            <div class="gc__specs">
+              <div class="gc__spec"><strong>8</strong>&thinsp;Bed</div>
+              <div class="gc__spec-dot"></div>
+              <div class="gc__spec"><strong>18,500</strong>&thinsp;sq ft</div>
+            </div>
+          </div>
+          <div class="gc__cta">
+            <div class="gc__cta-line"></div>
+            View Property
+          </div>
+        </div>
+      </a>
+
+    </div><!-- /gallery-grid -->
+
+    <!-- ── 4th card: Full-width cinematic strip ── -->
+    <a href="agency.html#contact" class="gallery-strip reveal" style="transition-delay: 0.15s;">
+      <img class="gc__img" src="images/hero_home.jpg" alt="Private off-market enquiry" loading="lazy" />
+      <div class="gc__gradient"></div>
+      <div class="gc__info">
+        <p class="gc__location" style="margin-bottom: 12px;">Off-Market Access</p>
+        <h3 class="gc__title" style="font-size: clamp(22px, 3vw, 38px); max-width: 540px; margin-bottom: 16px;">
+          The Finest Homes Are<br>
+          <em style="color: var(--gold); font-style: italic;">Never Listed Publicly.</em>
+        </h3>
+        <p style="font-size: 12px; color: rgba(255,255,255,0.5); letter-spacing: 0.06em; max-width: 380px; margin-bottom: 22px; line-height: 1.7;">
+          Speak with a senior advisor to access our confidential portfolio of unpublished properties.
+        </p>
+        <div class="gc__cta" style="opacity: 1; transform: none;">
+          <div class="gc__cta-line"></div>
+          Request Private Access
+        </div>
+      </div>
+    </a>
+
+    <!-- CTA -->
+    <div style="text-align: center; margin-top: 56px;" class="reveal">
+      <a href="listings.html" class="btn"><span>View All Properties</span></a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ PHILOSOPHY ══════════════════════════════════════════════ -->
+<section class="philosophy-section" style="background: var(--charcoal-1);">
+  <div class="philosophy-inner">
+    <div class="gold-rule reveal" style="margin-bottom: 48px;"></div>
+    <p class="philosophy-quote reveal">
+      "We do not simply sell homes —<br>
+      we architect <span>destinies</span> and<br>
+      curate the backdrop of<br>
+      <span>extraordinary lives.</span>"
+    </p>
+    <div class="gold-rule reveal" style="margin-top: 48px;"></div>
+    <div style="text-align: center; margin-top: 40px;" class="reveal">
+      <p class="label">— Alexandra Bloom, Founder</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SPLIT: OFF-PLAN ══════════════════════════════════════════ -->
+<div class="split home-split">
+  <div class="split-image reveal">
+    <img src="images/offplan_tower.jpg" alt="Elysian Tower off-plan development" />
+  </div>
+  <div class="split-content reveal reveal-delay-1">
+    <div class="gold-rule-left"></div>
+    <p class="label" style="margin-bottom: 16px;">Off-Plan Developments</p>
+    <h2 class="display-md" style="margin-bottom: 24px;">
+      Invest in<br>
+      <em class="italic text-gold">Tomorrow's</em><br>
+      Icons
+    </h2>
+    <p class="body-md" style="margin-bottom: 36px;">
+      Secure your position in the world's most coveted upcoming developments — designed by Pritzker laureates and delivered with uncompromising precision.
+    </p>
+    <div style="display: flex; gap: 40px; margin-bottom: 40px;">
+      <div>
+        <div style="font-family: var(--serif); font-size: 32px; color: var(--gold);">12</div>
+        <div class="label" style="color: var(--muted); margin-top: 4px;">Live Projects</div>
+      </div>
+      <div>
+        <div style="font-family: var(--serif); font-size: 32px; color: var(--gold);">4</div>
+        <div class="label" style="color: var(--muted); margin-top: 4px;">Continents</div>
+      </div>
+      <div>
+        <div style="font-family: var(--serif); font-size: 32px; color: var(--gold);">92%</div>
+        <div class="label" style="color: var(--muted); margin-top: 4px;">Sold Before Launch</div>
+      </div>
+    </div>
+    <a href="off-plan.html" class="btn"><span>Explore Developments</span></a>
+  </div>
+</div>
+
+<!-- ══ GLOBAL PORTFOLIO ═════════════════════════════════════════ -->
+<section class="global-portfolio">
+  <div class="section-header centered reveal" style="position: absolute; top: 64px; left: 0; right: 0; z-index: 10; pointer-events: none;">
+    <div class="gold-rule" style="margin: 0 auto;"></div>
+    <p class="label" style="margin-top: 24px;">Global Presence</p>
+    <h2 class="display-md" style="margin-top: 16px;">Our <em class="italic text-gold">Portfolio</em></h2>
+  </div>
+  <div id="globeContainer" class="globe-container"></div>
+  
+  <!-- Slide-in info card -->
+  <div id="globeSidePanel" class="globe-panel">
+    <button id="closeGlobePanel" class="globe-panel-close" aria-label="Close panel">✕</button>
+    <div class="globe-panel-content">
+      <p class="label" id="gpLocation" style="margin-bottom: 12px;"></p>
+      <h3 class="display-sm" id="gpTitle" style="margin-bottom: 24px;"></h3>
+      <p class="body-md" id="gpDesc" style="margin-bottom: 32px; color: var(--muted-light);"></p>
+      <div style="display: flex; justify-content: space-between; border-top: 1px solid rgba(201,169,110,0.2); padding-top: 16px; margin-bottom: 32px;">
+        <div>
+          <div class="label" style="color: var(--muted); margin-bottom: 4px;">Price From</div>
+          <div style="font-family: var(--serif); font-size: 20px; color: var(--gold);" id="gpPrice"></div>
+        </div>
+        <div style="text-align: right;">
+          <div class="label" style="color: var(--muted); margin-bottom: 4px;">Status</div>
+          <div style="font-family: var(--sans); font-size: 12px; letter-spacing: 0.1em; color: var(--white); text-transform: uppercase;" id="gpStatus"></div>
+        </div>
+      </div>
+      <a href="listings.html" class="btn"><span>View Property</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ HOW WE WORK ══════════════════════════════════════════════ -->
+<section class="process-section">
+  <div class="section-header centered reveal">
+    <div class="gold-rule"></div>
+    <p class="label" style="margin-top: 24px;">Our Process</p>
+    <h2 class="display-md" style="margin-top: 16px;">The <em class="italic text-gold">Bloom Beyond</em><br>Experience</h2>
+  </div>
+
+  <div class="feature-strip">
+    <div class="feature-item reveal">
+      <div class="feature-number">01</div>
+      <div class="feature-title">Private Consultation</div>
+      <p class="feature-desc">We begin with a confidential discovery session to understand your vision, lifestyle, and investment philosophy — no details are too small, no ambition too grand.</p>
+    </div>
+    <div class="feature-item reveal reveal-delay-1">
+      <div class="feature-number">02</div>
+      <div class="feature-title">Curated Selection</div>
+      <p class="feature-desc">Our advisors hand-select a bespoke portfolio of properties matched precisely to your criteria, including off-market and unpublished opportunities.</p>
+    </div>
+    <div class="feature-item reveal reveal-delay-2">
+      <div class="feature-number">03</div>
+      <div class="feature-title">White-Glove Acquisition</div>
+      <p class="feature-desc">From private viewings to negotiations and legal completion, we orchestrate every detail with absolute discretion and an uncompromising attention to excellence.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ TESTIMONIALS ═════════════════════════════════════════════ -->
+<section class="testimonial-section">
+  <div class="testimonial-inner">
+    <div class="section-header centered reveal">
+      <div class="gold-rule"></div>
+      <p class="label" style="margin-top: 24px;">Client Voices</p>
+      <h2 class="display-sm" style="margin-top: 16px;">Spoken By Those<br><em class="italic text-gold">Who Know</em></h2>
+    </div>
+    <div class="testimonial-grid">
+      <div class="testimonial reveal">
+        <p class="testimonial-text">"Bloom Beyond didn't just find us a home — they found us a life. The discretion and sophistication of their team is unparalleled."</p>
+        <div class="testimonial-author">Sophia Castellan — Monaco</div>
+      </div>
+      <div class="testimonial reveal reveal-delay-1">
+        <p class="testimonial-text">"Every interaction felt bespoke, every property shown was a masterpiece. They truly understand what ultra-luxury means."</p>
+        <div class="testimonial-author">James & Priya Harlow — Dubai</div>
+      </div>
+      <div class="testimonial reveal reveal-delay-2">
+        <p class="testimonial-text">"When discretion is paramount and excellence is non-negotiable, there is only one agency. Bloom Beyond exceeded every expectation."</p>
+        <div class="testimonial-author">Mr. & Mrs. Al-Rashid — London</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CTA ══════════════════════════════════════════════════════ -->
+<section class="cta-section">
+  <div class="reveal">
+    <div class="gold-rule" style="margin-bottom: 32px;"></div>
+    <p class="label" style="margin-bottom: 16px;">Begin Your Journey</p>
+    <h2 class="display-md" style="margin-bottom: 24px;">
+      Your Dream Property<br>
+      <em class="italic text-gold">Awaits Discovery</em>
+    </h2>
+    <p class="body-md" style="max-width: 500px; margin: 0 auto 40px;">
+      Schedule a private consultation with one of our senior advisors. Absolute discretion guaranteed.
+    </p>
+    <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+      <a href="agency.html#contact" class="btn btn-solid"><span>Request Consultation</span></a>
+      <a href="listings.html" class="btn"><span>Browse Listings</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ═══════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">Bloom <span>Beyond</span></div>
+        <p class="footer-tagline">Curating the world's most extraordinary properties for those who demand nothing less than perfection.</p>
+        <div class="footer-social">
+          <a href="#" class="social-link" aria-label="Instagram">IG</a>
+          <a href="#" class="social-link" aria-label="LinkedIn">LI</a>
+          <a href="#" class="social-link" aria-label="WhatsApp">WA</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Properties</h4>
+        <ul>
+          <li><a href="listings.html">Exclusive Listings</a></li>
+          <li><a href="off-plan.html">Off-Plan Developments</a></li>
+          <li><a href="listings.html">Off-Market</a></li>
+          <li><a href="listings.html">Rentals</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>The Agency</h4>
+        <ul>
+          <li><a href="agency.html">About Us</a></li>
+          <li><a href="agency.html#team">Our Team</a></li>
+          <li><a href="agency.html#contact">Contact</a></li>
+          <li><a href="agency.html">Press</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Markets</h4>
+        <ul>
+          <li><a href="#">London</a></li>
+          <li><a href="#">Dubai</a></li>
+          <li><a href="#">New York</a></li>
+          <li><a href="#">Monaco</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 Bloom Beyond. All rights reserved. Private & Confidential.</p>
+      <p class="footer-copy">Privacy Policy · Terms of Service</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ══ CLIENT LOGIN MODAL ════════════════════════════════════════ -->
+<div id="clientLoginModal" class="login-modal-overlay">
+  <div class="login-modal">
+    <button id="closeLoginModal" class="login-modal-close" aria-label="Close modal">✕</button>
+    <div class="login-modal-header">
+      <h2 class="display-sm">Private Portal</h2>
+      <p class="body-md">Secure access for high-net-worth investors.</p>
+    </div>
+    <form class="login-form" onsubmit="event.preventDefault();">
+      <div class="input-group">
+        <label for="clientEmail" class="label">Email Address</label>
+        <input type="email" id="clientEmail" class="minimal-input" placeholder="investor@example.com" required>
+      </div>
+      <div class="input-group">
+        <label for="clientPasskey" class="label">Passkey</label>
+        <div class="passkey-wrapper">
+          <input type="password" id="clientPasskey" class="minimal-input" placeholder="••••••••" required>
+          <svg class="passkey-icon" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path>
+          </svg>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-solid" style="width: 100%; margin-top: 16px; justify-content: center;"><span>Authenticate</span></button>
+    </form>
+  </div>
+</div>
+
+<script src="https://unpkg.com/three"></script>
+<script src="https://unpkg.com/globe.gl"></script>
+<script src="script.js"></script>
+
+<!-- ══ MOBILE BOTTOM NAV ═══════════════════════════════════════ -->
+<nav class="bottom-nav">
+  <a href="index.html" class="bottom-nav-item">
+    <svg class="bottom-nav-icon" viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+      <polyline points="9 22 9 12 15 12 15 22"></polyline>
+    </svg>
+    <div class="bottom-nav-dot"></div>
+  </a>
+  <a href="listings.html" class="bottom-nav-item">
+    <svg class="bottom-nav-icon" viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="11" cy="11" r="8"></circle>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+    </svg>
+    <div class="bottom-nav-dot"></div>
+  </a>
+  <a href="off-plan.html" class="bottom-nav-item">
+    <svg class="bottom-nav-icon" viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="3" width="7" height="7"></rect>
+      <rect x="14" y="3" width="7" height="7"></rect>
+      <rect x="14" y="14" width="7" height="7"></rect>
+      <rect x="3" y="14" width="7" height="7"></rect>
+    </svg>
+    <div class="bottom-nav-dot"></div>
+  </a>
+  <a href="#" class="bottom-nav-item" id="mobileClientAccess">
+    <svg class="bottom-nav-icon" viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path>
+    </svg>
+    <div class="bottom-nav-dot"></div>
+  </a>
+</nav>
+</body>
+</html>
