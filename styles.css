@@ -430,16 +430,36 @@ h5 {
 }
 
 .nav-logo {
-  font-family: var(--serif);
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  color: var(--white);
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  flex-shrink: 0;
+  height: 100%;           /* fills nav-inner height */
+  overflow: visible;
+}
+
+.nav-logo-img {
+  height: 36px;           /* stays well inside 80px navbar */
+  width: auto;
+  display: block;
+  object-fit: contain;
+  filter: drop-shadow(0 0 5px rgba(201,169,110,0.2));
+  transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+.nav-logo:hover .nav-logo-img {
+  filter: drop-shadow(0 0 10px rgba(201,169,110,0.5));
+  transform: scale(1.06);
+}
+
+#navbar.scrolled .nav-logo-img {
+  height: 30px;
 }
 
 .nav-logo span {
   color: var(--gold);
 }
+
 
 .nav-links {
   display: flex;

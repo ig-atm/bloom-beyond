@@ -7,6 +7,51 @@
   <meta name="description" content="Secure your place in tomorrow's most iconic residences. Bloom Beyond presents the world's most prestigious off-plan developments by visionary architects." />
   <link rel="stylesheet" href="styles.css" />
   <style>
+    .developer-logos-band {
+      background: var(--charcoal-2);
+      padding: 50px var(--gutter);
+      border-bottom: 1px solid rgba(201,169,110,0.1);
+      display: flex;
+      justify-content: center;
+    }
+    .developer-logos-inner {
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+    }
+    .dev-logo-item {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: rgba(255,255,255,0.5);
+      transition: color 0.4s ease;
+      flex: 1;
+    }
+    .dev-logo-item:hover {
+      color: var(--gold);
+    }
+    .dev-svg-logo {
+      height: 35px;
+      max-width: 100%;
+    }
+    .dev-logo-divider {
+      width: 1px;
+      height: 35px;
+      background: rgba(255,255,255,0.1);
+    }
+    @media (max-width: 768px) {
+      .developer-logos-inner {
+        flex-direction: column;
+        gap: 40px;
+      }
+      .dev-logo-divider {
+        width: 40px;
+        height: 1px;
+      }
+    }
     /* ── Off-Plan specific styles ───────────────────────────── */
     .dev-hero-full {
       position: relative;
@@ -130,7 +175,7 @@
 <!-- ══ NAVIGATION ══════════════════════════════════════════════ -->
 <nav id="navbar">
   <div class="nav-inner">
-    <a href="index.html" class="nav-logo">Bloom <span>Beyond</span></a>
+    <a href="index.html" class="nav-logo"><img src="images/logo_crest.png?v=2" alt="Beyond Bloom Real Estate" class="nav-logo-img" style="height:34px;width:auto;display:block;" /></a>
     <ul class="nav-links">
       <li><a href="index.html" class="nav-link">Home</a></li>
       <li><a href="listings.html" class="nav-link">Exclusive Listings</a></li>
@@ -182,27 +227,192 @@
   </div>
 </section>
 
-<!-- ══ OVERVIEW CARDS ═══════════════════════════════════════════ -->
-<div class="stats-bar">
-  <div class="stats-inner">
-    <div class="stat-item reveal">
-      <div class="stat-number" data-count="12">0</div>
-      <div class="stat-label">Active Developments</div>
+<!-- ══ DEVELOPER LOGOS ════════════════════════════════════════════════ -->
+<section class="developer-logos-band" aria-label="Trusted Developers">
+  <div class="developer-logos-inner">
+    <div class="dev-logo-item">
+      <!-- Emaar styled text logo -->
+      <svg viewBox="0 0 120 40" class="dev-svg-logo">
+        <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Arial, sans-serif" font-weight="300" font-size="22" letter-spacing="5" fill="currentColor">EMAAR</text>
+      </svg>
     </div>
-    <div class="stat-item reveal reveal-delay-1">
-      <div class="stat-number" data-count="4">0</div>
-      <div class="stat-label">Continents</div>
+    <div class="dev-logo-divider"></div>
+    <div class="dev-logo-item">
+      <!-- Damac styled text logo -->
+      <svg viewBox="0 0 120 40" class="dev-svg-logo">
+        <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="'Times New Roman', serif" font-weight="bold" font-size="20" letter-spacing="3" fill="currentColor">DAMAC</text>
+      </svg>
     </div>
-    <div class="stat-item reveal reveal-delay-2">
-      <div class="stat-number" data-count="92" data-suffix="%">0</div>
-      <div class="stat-label">Sold Before Completion</div>
-    </div>
-    <div class="stat-item reveal reveal-delay-3">
-      <div class="stat-number" data-count="18" data-suffix="%">0</div>
-      <div class="stat-label">Avg. Capital Appreciation</div>
+    <div class="dev-logo-divider"></div>
+    <div class="dev-logo-item">
+      <!-- Sobha styled text logo -->
+      <svg viewBox="0 0 120 40" class="dev-svg-logo">
+        <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Arial, sans-serif" font-weight="400" font-size="20" letter-spacing="4" fill="currentColor">SOBHA</text>
+      </svg>
     </div>
   </div>
-</div>
+</section>
+
+
+<!-- ══ DEVELOPER LOGOS ════════════════════════════════════════════════ -->
+<section class="developer-logos-band" aria-label="Trusted Developers">
+  <div class="developer-logos-inner">
+    <div class="dev-logo-item">
+      <!-- Emaar styled text logo -->
+      <svg viewBox="0 0 120 40" class="dev-svg-logo">
+        <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Arial, sans-serif" font-weight="300" font-size="22" letter-spacing="5" fill="currentColor">EMAAR</text>
+      </svg>
+    </div>
+    <div class="dev-logo-divider"></div>
+    <div class="dev-logo-item">
+      <!-- Damac styled text logo -->
+      <svg viewBox="0 0 120 40" class="dev-svg-logo">
+        <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="'Times New Roman', serif" font-weight="bold" font-size="20" letter-spacing="3" fill="currentColor">DAMAC</text>
+      </svg>
+    </div>
+    <div class="dev-logo-divider"></div>
+    <div class="dev-logo-item">
+      <!-- Sobha styled text logo -->
+      <svg viewBox="0 0 120 40" class="dev-svg-logo">
+        <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Arial, sans-serif" font-weight="400" font-size="20" letter-spacing="4" fill="currentColor">SOBHA</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ══ OVERVIEW INTRO ══════════════════════════════════════════ -->
+<section class="op-overview-section">
+  <div class="op-overview-inner">
+
+    <!-- Col 1+2: Description Text -->
+    <div class="op-overview-text reveal">
+      <div class="gold-rule-left" style="margin-bottom: 28px;"></div>
+      <p class="op-overview-para">
+        Secure your place in Dubai's most sought-after developments — where visionary architecture, prime locations, and exceptional craftsmanship come together.
+      </p>
+    </div>
+
+    <!-- Col 3: Two Data Points -->
+    <div class="op-overview-stats reveal reveal-delay-1">
+
+      <!-- Stat 1: 50+ Live Projects -->
+      <div class="op-stat">
+        <div class="op-stat-number" data-count="50" data-suffix="+">0</div>
+        <div class="op-stat-label">Live Projects</div>
+      </div>
+
+      <div class="op-stat-divider"></div>
+
+      <!-- Stat 2: 80% Sold Before Launch — with gold ring accent -->
+      <div class="op-stat op-stat--highlighted">
+        <div class="op-stat-ring" aria-hidden="true"></div>
+        <div class="op-stat-number op-stat-number--ring" data-count="80" data-suffix="%">0</div>
+        <div class="op-stat-label">Sold Before Launch</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .op-overview-section {
+    background: var(--charcoal-2);
+    border-top: 1px solid rgba(201,169,110,0.12);
+    border-bottom: 1px solid rgba(201,169,110,0.12);
+    padding: 72px var(--gutter);
+  }
+  .op-overview-inner {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .op-overview-para {
+    font-family: var(--serif);
+    font-size: clamp(18px, 2vw, 26px);
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--off-white);
+    letter-spacing: -0.01em;
+    max-width: 620px;
+  }
+  /* Stats column */
+  .op-overview-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    border-left: 1px solid rgba(201,169,110,0.15);
+    padding-left: 48px;
+  }
+  .op-stat { position: relative; }
+  .op-stat-number {
+    font-family: var(--serif);
+    font-size: clamp(38px, 5vw, 64px);
+    font-weight: 400;
+    color: var(--champagne);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .op-stat-label {
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    margin-top: 8px;
+  }
+  .op-stat-divider {
+    width: 32px;
+    height: 1px;
+    background: rgba(201,169,110,0.25);
+  }
+  /* Circular ring accent around 80% */
+  .op-stat--highlighted { padding: 14px 0 14px 0; }
+  .op-stat-ring {
+    position: absolute;
+    top: 50%;
+    left: -18px;
+    transform: translateY(-50%);
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(201,169,110,0.5);
+    box-shadow: 0 0 18px rgba(201,169,110,0.12);
+    pointer-events: none;
+    animation: ringPulse 3s ease-in-out infinite;
+  }
+  @keyframes ringPulse {
+    0%, 100% { opacity: 0.5; transform: translateY(-50%) scale(1); }
+    50%       { opacity: 1;   transform: translateY(-50%) scale(1.06); }
+  }
+  .op-stat-number--ring {
+    color: var(--gold);
+    position: relative;
+    z-index: 1;
+  }
+  @media (max-width: 800px) {
+    .op-overview-inner {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .op-overview-stats {
+      border-left: none;
+      border-top: 1px solid rgba(201,169,110,0.15);
+      padding-left: 0;
+      padding-top: 36px;
+      flex-direction: row;
+      align-items: center;
+      gap: 40px;
+    }
+    .op-stat-divider { width: 1px; height: 48px; }
+    .op-stat-ring { left: -10px; width: 70px; height: 70px; }
+  }
+</style>
+
+
 
 <!-- ══ DEV FILTER ═══════════════════════════════════════════════ -->
 <div class="filter-bar">
