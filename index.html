@@ -18,11 +18,13 @@
     .hero-cinematic {
       position: relative;
       height: 100vh;
-      min-height: 720px;
+      min-height: 760px;
       overflow: hidden;
       display: flex;
-      align-items: flex-end;
-      padding-bottom: clamp(60px, 9vh, 120px);
+      flex-direction: column;
+      justify-content: flex-end;
+      padding-top: clamp(80px, 12vh, 130px); /* nav clearance — content can never bleed above this */
+      padding-bottom: clamp(56px, 8vh, 110px);
     }
 
     /* Background image with Ken Burns */
@@ -73,9 +75,9 @@
       margin: 0 auto;
       padding: 0 var(--gutter);
       display: grid;
-      grid-template-columns: 1fr auto;
+      grid-template-columns: minmax(0, 1fr) auto;
       align-items: flex-end;
-      gap: 48px;
+      gap: clamp(24px, 4vw, 64px);
     }
 
     /* Left block */
@@ -90,7 +92,7 @@
       display: flex;
       align-items: center;
       gap: 14px;
-      margin-bottom: 28px;
+      margin-bottom: 20px;
       opacity: 0;
       animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) 0.3s forwards;
     }
@@ -131,7 +133,7 @@
       color: var(--white);
       opacity: 0;
       animation: fadeUp 1.1s cubic-bezier(0.16,1,0.3,1) 0.5s forwards;
-      margin-bottom: 36px;
+      margin-bottom: 28px;
     }
     .hero-title em {
       font-style: italic;
@@ -390,8 +392,15 @@
     .hero-search-hint span::before { content: '↗ '; font-size: 8px; }
     .hero-search-hint span:hover { color: var(--gold); }
 
+    @media (max-width: 1100px) {
+      .hero-right {
+        padding-right: 20px;
+        min-width: 120px;
+      }
+      .hero-stat-num { font-size: clamp(22px, 2.5vw, 34px); }
+    }
     @media (max-width: 900px) {
-      .hero-content { grid-template-columns: 1fr; }
+      .hero-content { grid-template-columns: 1fr; gap: 32px; }
       .hero-right {
         flex-direction: row;
         border-right: none;
@@ -408,7 +417,7 @@
       .hero-search-bar { flex-direction: column; }
       .hero-search-divider { width: auto; height: 1px; margin: 0 12px; }
       .hero-search-btn { padding: 18px; justify-content: center; }
-      .hero-title { font-size: clamp(44px, 14vw, 72px); }
+      .hero-title { font-size: clamp(40px, 13vw, 68px); }
       .hero-right { display: none; }
     }
 
@@ -709,21 +718,21 @@
       display: block;
       text-decoration: none;
     }
-    /* Desaturated image — lifts to full colour + slight zoom on hover */
+    /* Full colour image — slight zoom + brightness dip on hover */
     .gc__img {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      filter: saturate(0.15) brightness(0.82);
+      filter: brightness(0.88);
       transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94),
                   filter  0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
       will-change: transform, filter;
     }
     .gc:hover .gc__img {
       transform: scale(1.06);
-      filter: saturate(0.55) brightness(0.75);
+      filter: brightness(0.78);
     }
     /* Champagne gold left-edge accent line — slides in on hover */
     .gc::before {
@@ -889,6 +898,52 @@
     .testimonial-inner { max-width: var(--max-w); margin: 0 auto; }
     .testimonial-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 
+    /* ── Our Approach Section ── */
+    .approach-section {
+      background-color: #040404; /* Matches hero bottom gradient */
+      padding: 8rem 2rem; /* Massive vertical padding (py-32 equivalent) */
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .approach-quote {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      color: var(--off-white);
+      max-width: 900px;
+      margin: 0 auto 2.5rem auto;
+      line-height: 1.3;
+      font-weight: 400;
+    }
+    .approach-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-family: var(--sans);
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--champagne);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .approach-link:hover {
+      color: var(--gold);
+    }
+    .approach-arrow {
+      width: 14px;
+      height: 14px;
+      stroke: currentColor;
+      stroke-width: 1.2;
+      fill: none;
+      transition: transform 0.3s ease;
+    }
+    .approach-link:hover .approach-arrow {
+      transform: translateX(4px);
+    }
+
     /* ── Responsive ── */
     @media (max-width: 900px) {
       .gallery-grid {
@@ -1034,7 +1089,7 @@
         <div class="hero-stat-label">Properties Sold</div>
       </div>
       <div class="hero-stat">
-        <div class="hero-stat-num">17 yrs</div>
+        <div class="hero-stat-num">17 years</div>
         <div class="hero-stat-label">Of Excellence</div>
       </div>
     </div>
@@ -1047,6 +1102,20 @@
     <div class="hero-scroll-line"></div>
   </div>
 
+</section>
+
+<!-- ══ OUR APPROACH ════════════════════════════════════════════ -->
+<section class="approach-section" aria-label="Our Approach">
+  <blockquote class="approach-quote">
+    "We take on fewer homes than we could, so every one of them gets looked after."
+  </blockquote>
+  <a href="agency.html" class="approach-link">
+    Our Philosophy
+    <svg class="approach-arrow" viewBox="0 0 24 24" aria-hidden="true">
+      <line x1="5" y1="12" x2="19" y2="12"/>
+      <polyline points="12 5 19 12 12 19"/>
+    </svg>
+  </a>
 </section>
 
 <!-- ══ STATS BAR ═══════════════════════════════════════════════ -->
@@ -1294,12 +1363,12 @@
     </div>
     <div class="portfolio-data-divider"></div>
     <div class="portfolio-data-item">
-      <span class="portfolio-data-number">Dubai · London · NY</span>
+      <span class="portfolio-data-number">Dubai</span>
       <span class="portfolio-data-label">Key Markets</span>
     </div>
     <div class="portfolio-data-divider"></div>
     <div class="portfolio-data-item">
-      <span class="portfolio-data-number">17 yrs</span>
+      <span class="portfolio-data-number">17 years</span>
       <span class="portfolio-data-label">Of Excellence</span>
     </div>
   </div>
@@ -1321,7 +1390,7 @@
       height: 100%;
       object-fit: cover;
       object-position: center 30%;
-      filter: saturate(0.85) brightness(0.7);
+      filter: brightness(0.82);
       transition: transform 12s ease;
     }
     .global-portfolio:hover .portfolio-img-wrap img {
