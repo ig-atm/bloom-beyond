@@ -11,15 +11,15 @@ const getHtmlRoutes = () => {
 };
 
 // Ensure the output directory exists so vite-plugin-sitemap doesn't crash
-if (!fs.existsSync('public/dist')) {
-  fs.mkdirSync('public/dist', { recursive: true });
+if (!fs.existsSync('dist')) {
+  fs.mkdirSync('dist', { recursive: true });
 }
 
 export default defineConfig({
   plugins: [
     Sitemap({
       hostname: 'https://beyondbloomre.com',
-      outDir: 'public/dist',
+      outDir: 'dist',
       dynamicRoutes: getHtmlRoutes(),
       generateRobotsTxt: true
     })
