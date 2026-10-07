@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sell Your Property — Bloom Beyond</title>
+  <meta name="description" content="Sell your luxury property with Bloom Beyond. Our expert advisors deliver discreet, strategic, and results-driven sales for ultra-high-net-worth clients worldwide." />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .sellers-hero-content { max-width: 680px; }
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-top: 60px;
+    }
+    .process-step {
+      background: var(--charcoal-2);
+      border: 1px solid rgba(201,169,110,0.1);
+      padding: 48px 36px;
+      position: relative;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .process-step:hover {
+      border-color: rgba(201,169,110,0.35);
+      background: var(--charcoal-3);
+    }
+    .process-num {
+      font-family: var(--serif);
+      font-size: 72px;
+      font-weight: 400;
+      color: rgba(201,169,110,0.12);
+      line-height: 1;
+      margin-bottom: 24px;
+      letter-spacing: -0.04em;
+    }
+    .stats-band {
+      background: var(--charcoal-2);
+      border-top: 1px solid rgba(201,169,110,0.12);
+      border-bottom: 1px solid rgba(201,169,110,0.12);
+      padding: 64px var(--gutter);
+    }
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+    .stat-item {
+      text-align: center;
+      padding: 40px 24px;
+      border-right: 1px solid rgba(201,169,110,0.1);
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-num {
+      font-family: var(--serif);
+      font-size: clamp(36px, 4vw, 60px);
+      font-weight: 400;
+      color: var(--champagne);
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+    .stat-label {
+      font-family: var(--sans);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+      margin-top: 48px;
+    }
+    .service-card {
+      background: var(--charcoal-2);
+      border: 1px solid rgba(201,169,110,0.08);
+      padding: 44px 40px;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .service-card:hover {
+      border-color: rgba(201,169,110,0.3);
+      transform: translateY(-4px);
+    }
+    .service-icon {
+      width: 48px;
+      height: 48px;
+      border: 1px solid rgba(201,169,110,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 60px;
+    }
+    .testimonial-card {
+      background: var(--charcoal-2);
+      border: 1px solid rgba(201,169,110,0.1);
+      padding: 36px;
+      position: relative;
+    }
+    .testimonial-card::before {
+      content: '"';
+      font-family: var(--serif);
+      font-size: 80px;
+      color: rgba(201,169,110,0.15);
+      position: absolute;
+      top: 16px;
+      left: 28px;
+      line-height: 1;
+    }
+    .testimonial-text {
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 24px;
+      margin-top: 40px;
+    }
+    .testimonial-author {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .valuation-form {
+      background: var(--charcoal-2);
+      border: 1px solid rgba(201,169,110,0.15);
+      padding: 60px;
+      max-width: 780px;
+      margin: 60px auto 0;
+    }
+    .form-two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    @media (max-width: 900px) {
+      .process-grid { grid-template-columns: 1fr; }
+      .stats-row { grid-template-columns: repeat(2, 1fr); }
+      .stat-item { border-right: none; border-bottom: 1px solid rgba(201,169,110,0.1); }
+      .services-grid { grid-template-columns: 1fr; }
+      .testimonial-grid { grid-template-columns: 1fr; }
+      .form-two-col { grid-template-columns: 1fr; }
+      .valuation-form { padding: 36px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav id="navbar" class="scrolled">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><img src="images/logo_crest.png?v=2" alt="Beyond Bloom Real Estate" class="nav-logo-img" style="height:34px;width:auto;display:block;" /></a>
+    <ul class="nav-links">
+      <li><a href="listings.html" class="nav-link">Residential</a></li>
+      <li><a href="commercial.html" class="nav-link">Commercial</a></li>
+      <li><a href="sellers.html" class="nav-link active">Sellers</a></li>
+      <li><a href="agency.html" class="nav-link">About us</a></li>
+      <li><a href="agency.html#contact" class="nav-link">Contact Us</a></li>
+    </ul>
+    <div class="nav-right"><a href="#valuation" class="btn btn-solid nav-cta"><span>Get Valuation</span></a><div class="nav-hamburger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </div></div>
+  </div>
+</nav>
+
+<div class="nav-mobile">
+  <a href="listings.html" class="nav-link">Residential</a>
+  <a href="commercial.html" class="nav-link">Commercial</a>
+  <a href="sellers.html" class="nav-link active">Sellers</a>
+  <a href="agency.html" class="nav-link">About us</a>
+  <a href="agency.html#contact" class="nav-link">Contact Us</a>
+</div>
+
+<section class="page-hero">
+  <div class="page-hero-bg">
+    <img src="images/listing_villa.jpg" alt="Sell Your Property" />
+  </div>
+  <div class="page-hero-gradient"></div>
+  <div class="page-hero-content sellers-hero-content">
+    <p class="label" style="margin-bottom: 16px; animation: fadeUp 0.8s var(--ease-out) forwards;">Sell With Bloom Beyond</p>
+    <h1 class="display-lg" style="animation: fadeUp 1s var(--ease-out) 0.2s both;">
+      Maximum Value,<br>
+      <em class="italic text-gold">Absolute Discretion</em>
+    </h1>
+    <p class="body-md" style="max-width: 520px; margin-top: 20px; animation: fadeUp 1s var(--ease-out) 0.4s both;">
+      We deliver results that exceed expectations. Our strategic approach, global network, and unrivalled market intelligence ensure your property achieves its true potential.
+    </p>
+    <div style="margin-top: 40px; display: flex; gap: 16px; flex-wrap: wrap; animation: fadeUp 1s var(--ease-out) 0.6s both;">
+      <a href="#valuation" class="btn btn-solid"><span>Request Free Valuation</span></a>
+      <a href="agency.html#contact" class="btn"><span>Speak To An Advisor</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- Stats Band -->
+<div class="stats-band">
+  <div class="stats-row">
+    <div class="stat-item reveal">
+      <div class="stat-num">$4.2B+</div>
+      <div class="stat-label">Total Sales Volume</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-1">
+      <div class="stat-num">98%</div>
+      <div class="stat-label">Asking Price Achieved</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-2">
+      <div class="stat-num">42</div>
+      <div class="stat-label">Days Average Time to Sell</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-3">
+      <div class="stat-num">600+</div>
+      <div class="stat-label">Ultra-HNW Buyers on File</div>
+    </div>
+  </div>
+</div>
+
+<!-- Our Process -->
+<section style="padding: var(--section-v) var(--gutter);">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="label">How We Work</p>
+      <h2 class="display-md">Our <em class="italic text-gold">Proven Process</em></h2>
+      <p class="body-md" style="max-width: 520px; margin-top: 16px;">A meticulously crafted journey from valuation to completion, designed to maximise your return and protect your interests at every step.</p>
+    </div>
+
+    <div class="process-grid">
+      <div class="process-step reveal">
+        <div class="process-num">01</div>
+        <div class="gold-rule" style="margin-bottom: 24px;"></div>
+        <h3 class="heading-sm" style="margin-bottom: 16px;">Discreet Valuation</h3>
+        <p class="body-sm">Our senior advisors conduct a comprehensive market appraisal, leveraging proprietary data on recent comparable sales — many of which never entered the public market.</p>
+      </div>
+      <div class="process-step reveal reveal-delay-1">
+        <div class="process-num">02</div>
+        <div class="gold-rule" style="margin-bottom: 24px;"></div>
+        <h3 class="heading-sm" style="margin-bottom: 16px;">Bespoke Marketing</h3>
+        <p class="body-sm">We craft an editorial-grade marketing campaign — cinematic photography, architectural videography, and targeted placement across our curated buyer network and premium media channels.</p>
+      </div>
+      <div class="process-step reveal reveal-delay-2">
+        <div class="process-num">03</div>
+        <div class="gold-rule" style="margin-bottom: 24px;"></div>
+        <h3 class="heading-sm" style="margin-bottom: 16px;">Qualified Buyer Access</h3>
+        <p class="body-sm">Every viewing is pre-qualified. We present your property exclusively to financially verified ultra-high-net-worth buyers from our global network of over 600 active purchasers.</p>
+      </div>
+      <div class="process-step reveal">
+        <div class="process-num">04</div>
+        <div class="gold-rule" style="margin-bottom: 24px;"></div>
+        <h3 class="heading-sm" style="margin-bottom: 16px;">Expert Negotiation</h3>
+        <p class="body-sm">Our advisors are among the most skilled negotiators in the industry. We work relentlessly to secure the optimal price and terms, with your interests always paramount.</p>
+      </div>
+      <div class="process-step reveal reveal-delay-1">
+        <div class="process-num">05</div>
+        <div class="gold-rule" style="margin-bottom: 24px;"></div>
+        <h3 class="heading-sm" style="margin-bottom: 16px;">Seamless Completion</h3>
+        <p class="body-sm">From offer acceptance to legal completion, we coordinate every detail — working alongside your legal team to ensure a swift, smooth, and stress-free transaction.</p>
+      </div>
+      <div class="process-step reveal reveal-delay-2">
+        <div class="process-num">06</div>
+        <div class="gold-rule" style="margin-bottom: 24px;"></div>
+        <h3 class="heading-sm" style="margin-bottom: 16px;">After-Sale Support</h3>
+        <p class="body-sm">Our relationship doesn't end at completion. We provide post-sale advisory services, including relocation assistance, portfolio reinvestment guidance, and concierge introductions.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Our Services -->
+<section style="padding: 0 var(--gutter) var(--section-v); background: var(--charcoal-1);">
+  <div class="container">
+    <div class="section-header reveal" style="padding-top: var(--section-v);">
+      <p class="label">Our Services</p>
+      <h2 class="display-md">Everything You <em class="italic text-gold">Need to Sell</em></h2>
+    </div>
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" width="22" height="22" stroke="var(--gold)" stroke-width="1.5" fill="none"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+        </div>
+        <h3 class="heading-sm" style="margin-bottom: 12px;">Residential Sales</h3>
+        <p class="body-sm">Penthouses, villas, estates, and private residences sold discreetly and at maximum value to our curated buyer network.</p>
+      </div>
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" width="22" height="22" stroke="var(--gold)" stroke-width="1.5" fill="none"><rect x="2" y="7" width="20" height="14" rx="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+        </div>
+        <h3 class="heading-sm" style="margin-bottom: 12px;">Commercial Disposals</h3>
+        <p class="body-sm">Trophy office buildings, retail flagships, hotels, and development sites sold to institutional investors and sovereign wealth funds globally.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" width="22" height="22" stroke="var(--gold)" stroke-width="1.5" fill="none"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+        </div>
+        <h3 class="heading-sm" style="margin-bottom: 12px;">Off-Market Introductions</h3>
+        <p class="body-sm">For clients who require absolute confidentiality, we facilitate completely private transactions with no public marketing whatsoever.</p>
+      </div>
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" width="22" height="22" stroke="var(--gold)" stroke-width="1.5" fill="none"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+        </div>
+        <h3 class="heading-sm" style="margin-bottom: 12px;">Portfolio Optimisation</h3>
+        <p class="body-sm">Strategic advice for clients looking to rationalise, restructure, or reinvest a multi-property portfolio for maximum capital efficiency.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section style="padding: var(--section-v) var(--gutter); background: var(--charcoal-2);">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="label">Client Voices</p>
+      <h2 class="display-md">What Our <em class="italic text-gold">Sellers Say</em></h2>
+    </div>
+    <div class="testimonial-grid">
+      <div class="testimonial-card reveal">
+        <p class="testimonial-text">Bloom Beyond achieved 6% above our guide price in just 18 days. Their access to off-market buyers was extraordinary — we had a qualified offer before the first public viewing.</p>
+        <div class="testimonial-author">Private Client — Mayfair, London</div>
+      </div>
+      <div class="testimonial-card reveal reveal-delay-1">
+        <p class="testimonial-text">The discretion, professionalism, and global reach of the Bloom Beyond team is unmatched. They sold our Palm Jumeirah villa to a buyer in Singapore — entirely off-market.</p>
+        <div class="testimonial-author">Anonymous Seller — Dubai, UAE</div>
+      </div>
+      <div class="testimonial-card reveal reveal-delay-2">
+        <p class="testimonial-text">We'd been trying to sell our Cap Ferrat estate for 18 months with another agency. Bloom Beyond sold it in 5 weeks at full asking price. Truly exceptional team.</p>
+        <div class="testimonial-author">Family Office — Cote d'Azur, France</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Valuation Form -->
+<section id="valuation" style="padding: var(--section-v) var(--gutter);">
+  <div class="container">
+    <div class="section-header reveal" style="text-align: center; align-items: center;">
+      <p class="label">No Obligation</p>
+      <h2 class="display-md">Request Your <em class="italic text-gold">Free Valuation</em></h2>
+      <p class="body-md" style="max-width: 520px; margin-top: 16px;">Complete the form below and a senior advisor will contact you within 24 hours to arrange a confidential consultation at your convenience.</p>
+    </div>
+
+    <div class="valuation-form reveal">
+      <div class="form-two-col">
+        <div class="form-group">
+          <label class="form-label">First Name</label>
+          <input type="text" class="form-input" placeholder="Your first name" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Last Name</label>
+          <input type="text" class="form-input" placeholder="Your last name" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input type="email" class="form-input" placeholder="your@email.com" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone Number</label>
+          <input type="tel" class="form-input" placeholder="+44 000 0000 000" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Property Address</label>
+        <input type="text" class="form-input" placeholder="Full property address" />
+      </div>
+      <div class="form-two-col">
+        <div class="form-group">
+          <label class="form-label">Property Type</label>
+          <select class="form-input">
+            <option value="">Select type</option>
+            <option>Penthouse</option>
+            <option>Villa</option>
+            <option>Estate</option>
+            <option>Mansion</option>
+            <option>Office Building</option>
+            <option>Retail Property</option>
+            <option>Hotel</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Estimated Value</label>
+          <select class="form-input">
+            <option value="">Select range</option>
+            <option>$1M - $5M</option>
+            <option>$5M - $15M</option>
+            <option>$15M - $30M</option>
+            <option>$30M - $75M</option>
+            <option>$75M - $150M</option>
+            <option>$150M+</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Additional Notes</label>
+        <textarea class="form-input" style="height: 120px; resize: vertical;" placeholder="Tell us more about your property and your timeline..."></textarea>
+      </div>
+      <button class="btn btn-solid" style="width: 100%; margin-top: 8px;"><span>Request Confidential Valuation</span></button>
+      <p class="body-sm" style="margin-top: 16px; text-align: center; opacity: 0.5;">Your information is handled with absolute confidentiality and will never be shared with third parties.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">Bloom <span>Beyond</span></div>
+        <p class="footer-tagline">Curating the world's most extraordinary properties for those who demand nothing less than perfection.</p>
+        <div class="footer-social">
+          <a href="#" class="social-link" aria-label="Instagram">IG</a>
+          <a href="#" class="social-link" aria-label="LinkedIn">LI</a>
+          <a href="#" class="social-link" aria-label="WhatsApp">WA</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Properties</h4>
+        <ul>
+          <li><a href="listings.html">Residential</a></li>
+          <li><a href="commercial.html">Commercial</a></li>
+          <li><a href="off-plan.html">Off-Plan Developments</a></li>
+          <li><a href="listings.html">Off-Market</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>The Agency</h4>
+        <ul>
+          <li><a href="agency.html">About Us</a></li>
+          <li><a href="agency.html#team">Our Team</a></li>
+          <li><a href="agency.html#contact">Contact</a></li>
+          <li><a href="sellers.html">Sell With Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Markets</h4>
+        <ul>
+          <li><a href="#">Dubai</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">2026 Bloom Beyond. All rights reserved. Private and Confidential.</p>
+      <p class="footer-copy">Privacy Policy - Terms of Service</p>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+
+<nav class="bottom-nav">
+  <a href="index.html" class="bottom-nav-item">
+    <svg class="bottom-nav-icon" viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.5" fill="none"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+    <div class="bottom-nav-dot"></div>
+  </a>
+  <a href="listings.html" class="bottom-nav-item">
+    <svg class="bottom-nav-icon" viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.5" fill="none"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+    <div class="bottom-nav-dot"></div>
+  </a>
+  <a href="sellers.html" class="bottom-nav-item">
+    <svg class="bottom-nav-icon" viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.5" fill="none"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+    <div class="bottom-nav-dot"></div>
+  </a>
+  <a href="agency.html#contact" class="bottom-nav-item">
+    <svg class="bottom-nav-icon" viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.5" fill="none"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path></svg>
+    <div class="bottom-nav-dot"></div>
+  </a>
+</nav>
+</body>
+</html>

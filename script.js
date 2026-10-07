@@ -6,15 +6,46 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ── Navbar Scroll Effect ─────────────────────────────────────
   const navbar = document.getElementById('navbar');
-  const onScroll = () => {
-    if (window.scrollY > 60) {
+  let lastScrollY = window.scrollY;
+  let ticking = false;
+
+  const handleNavScroll = () => {
+    const currentScrollY = window.scrollY;
+    const scrollDelta = currentScrollY - lastScrollY;
+
+    // Add .scrolled glass effect once past 60px
+    if (currentScrollY > 60) {
       navbar?.classList.add('scrolled');
     } else {
       navbar?.classList.remove('scrolled');
     }
+
+    // Hide on scroll down (past 120px from top), show on scroll up
+    if (currentScrollY > 120) {
+      if (scrollDelta > 4) {
+        // Scrolling DOWN — collapse
+        navbar?.classList.add('nav-hidden');
+      } else if (scrollDelta < -4) {
+        // Scrolling UP — reveal
+        navbar?.classList.remove('nav-hidden');
+      }
+    } else {
+      // Near the top — always show
+      navbar?.classList.remove('nav-hidden');
+    }
+
+    lastScrollY = currentScrollY;
+    ticking = false;
   };
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(handleNavScroll);
+      ticking = true;
+    }
+  }, { passive: true });
+
+  handleNavScroll();
 
   // ── Mobile Menu ──────────────────────────────────────────────
   const hamburger = document.querySelector('.nav-hamburger');
@@ -206,11 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const globeContainer = document.getElementById('globeContainer');
   if (globeContainer && window.Globe) {
     const locations = [
-      { lat: 25.2048, lng: 55.2708, city: 'Dubai, UAE', title: 'The Elysian Tower', desc: 'A 92-story architectural marvel offering unrestricted views of the Persian Gulf. Features private infinity pools and helipad access.', price: '$12,500,000', status: 'Off-Plan' },
-      { lat: 51.5074, lng: -0.1278, city: 'London, UK', title: 'Mayfair Penthouse', desc: 'An ultra-rare, lateral penthouse in the heart of London’s most exclusive district. Bespoke interiors by royal warrant holders.', price: '$28,000,000', status: 'Available' },
-      { lat: 40.7128, lng: -74.0060, city: 'New York, USA', title: 'Central Park Skyhouse', desc: 'Occupying the entire 84th floor with 360-degree views of Manhattan. Triple-height ceilings and a private art gallery.', price: '$45,000,000', status: 'Available' },
-      { lat: 43.7384, lng: 7.4246, city: 'Monaco', title: 'La Mer Villa', desc: 'A cliffside modern masterpiece with private yacht mooring, a subterranean supercar vault, and direct Mediterranean access.', price: '$65,000,000', status: 'Off-Market' },
-      { lat: 25.7617, lng: -80.1918, city: 'Miami, USA', title: 'Biscayne Bay Estate', desc: 'A sprawling waterfront estate designed by renowned architects, featuring a private beach and a 100ft dock.', price: '$18,500,000', status: 'Available' }
+      { lat: 25.2048, lng: 55.2708, city: 'Dubai, UAE', title: 'The Elysian Tower', desc: 'A 92-story architectural marvel offering unrestricted views of the Persian Gulf. Features private infinity pools and helipad access.', price: '$12,500,000', status: 'Off-Plan' }
     ];
 
     const globe = Globe()

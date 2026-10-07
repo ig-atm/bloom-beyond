@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Commercial Properties — Bloom Beyond</title>
+  <meta name="description" content="Explore Bloom Beyond's exclusive portfolio of ultra-luxury commercial properties — premier office towers, flagship retail spaces, and trophy assets across the world's financial capitals." />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .listings-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+    .listing-card-large { grid-column: span 2; }
+    .listing-card-large .card-image { aspect-ratio: 16/9; }
+    .search-bar-wrap {
+      background: var(--charcoal-2);
+      border: 1px solid rgba(201,169,110,0.15);
+      padding: 32px 40px;
+      margin-bottom: 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr auto;
+      gap: 28px;
+      align-items: end;
+    }
+    .map-cta {
+      background: var(--charcoal-3);
+      border: 1px solid rgba(201,169,110,0.12);
+      padding: 48px;
+      text-align: center;
+      margin-top: 60px;
+      position: relative;
+      overflow: hidden;
+    }
+    .map-cta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('images/listing_penthouse.jpg') center/cover;
+      opacity: 0.08;
+    }
+    .map-cta > * { position: relative; z-index: 1; }
+    .commercial-badge {
+      display: inline-block;
+      background: rgba(201,169,110,0.12);
+      border: 1px solid rgba(201,169,110,0.3);
+      color: var(--gold);
+      font-family: var(--sans);
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      margin-bottom: 12px;
+    }
+    @media (max-width: 1000px) {
+      .listings-grid { grid-template-columns: 1fr 1fr; }
+      .listing-card-large { grid-column: span 2; }
+      .search-bar-wrap { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      .listings-grid { grid-template-columns: 1fr; }
+      .listing-card-large { grid-column: span 1; }
+      .search-bar-wrap { grid-template-columns: 1fr; padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav id="navbar" class="scrolled">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><img src="images/logo_crest.png?v=2" alt="Beyond Bloom Real Estate" class="nav-logo-img" style="height:34px;width:auto;display:block;" /></a>
+    <ul class="nav-links">
+      <li><a href="listings.html" class="nav-link">Residential</a></li>
+      <li><a href="commercial.html" class="nav-link active">Commercial</a></li>
+      <li><a href="sellers.html" class="nav-link">Sellers</a></li>
+      <li><a href="agency.html" class="nav-link">About us</a></li>
+      <li><a href="agency.html#contact" class="nav-link">Contact Us</a></li>
+    </ul>
+    <div class="nav-right"><a href="agency.html#contact" class="btn btn-solid nav-cta"><span>Private Enquiry</span></a><div class="nav-hamburger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </div></div>
+  </div>
+</nav>
+
+<div class="nav-mobile">
+  <a href="listings.html" class="nav-link">Residential</a>
+  <a href="commercial.html" class="nav-link active">Commercial</a>
+  <a href="sellers.html" class="nav-link">Sellers</a>
+  <a href="agency.html" class="nav-link">About us</a>
+  <a href="agency.html#contact" class="nav-link">Contact Us</a>
+</div>
+
+<section class="page-hero">
+  <div class="page-hero-bg">
+    <img src="images/listing_skyhouse.jpg" alt="Commercial Properties" />
+  </div>
+  <div class="page-hero-gradient"></div>
+  <div class="page-hero-content">
+    <p class="label" style="margin-bottom: 16px; animation: fadeUp 0.8s var(--ease-out) forwards;">Trophy Assets</p>
+    <h1 class="display-lg" style="animation: fadeUp 1s var(--ease-out) 0.2s both;">
+      Landmark<br>
+      <em class="italic text-gold">Commercial</em>
+    </h1>
+    <p class="body-md" style="max-width: 500px; margin-top: 20px; animation: fadeUp 1s var(--ease-out) 0.4s both;">
+      Curated trophy assets, premier office towers, and flagship retail spaces across the world's most dynamic financial capitals.
+    </p>
+  </div>
+</section>
+
+<div class="filter-bar">
+  <div class="filter-inner">
+    <span class="label" style="color: var(--muted); margin-right: 8px;">Filter:</span>
+    <button class="filter-pill active" data-filter="all">All Assets</button>
+    <button class="filter-pill" data-filter="office">Office</button>
+    <button class="filter-pill" data-filter="retail">Retail</button>
+    <button class="filter-pill" data-filter="hotel">Hospitality</button>
+    <button class="filter-pill" data-filter="mixed">Mixed-Use</button>
+    <div style="margin-left: auto; display: flex; gap: 16px;">
+      <select class="filter-pill" style="padding: 8px 30px 8px 16px; min-width: 140px;">
+        <option>Price: High to Low</option>
+        <option>Price: Low to High</option>
+        <option>Newest First</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<section style="padding: 48px var(--gutter) 0;">
+  <div class="container">
+    <div class="search-bar-wrap reveal">
+      <div class="form-group" style="margin: 0;">
+        <label class="form-label">Location</label>
+        <select class="form-input">
+          <option value="">Any Location</option>
+          <option>London, UK</option>
+          <option>Dubai, UAE</option>
+          <option>New York, USA</option>
+          <option>Singapore</option>
+          <option>Hong Kong</option>
+          <option>Paris, France</option>
+        </select>
+      </div>
+      <div class="form-group" style="margin: 0;">
+        <label class="form-label">Asset Type</label>
+        <select class="form-input">
+          <option value="">All Types</option>
+          <option>Office Tower</option>
+          <option>Retail Flagship</option>
+          <option>Hotel & Hospitality</option>
+          <option>Mixed-Use Development</option>
+        </select>
+      </div>
+      <div class="form-group" style="margin: 0;">
+        <label class="form-label">Investment Range</label>
+        <select class="form-input">
+          <option>$10M - $50M</option>
+          <option>$50M - $150M</option>
+          <option>$150M - $500M</option>
+          <option>$500M+</option>
+        </select>
+      </div>
+      <button class="btn btn-solid"><span>Search</span></button>
+    </div>
+  </div>
+</section>
+
+<section style="padding: 48px var(--gutter) var(--section-v);">
+  <div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;" class="reveal">
+      <p class="label">Showing <span class="text-gold">6</span> Commercial Assets</p>
+    </div>
+
+    <div class="listings-grid">
+
+      <div class="card listing-card-large reveal" data-category="office">
+        <div class="card-image">
+          <div class="card-badge">Trophy Asset</div>
+          <div class="card-carousel">
+            <img src="images/listing_skyhouse.jpg" alt="One Meridian Tower" />
+            <img src="images/listing_penthouse.jpg" alt="Interior View" />
+            <img src="images/listing_villa.jpg" alt="Exterior View" />
+          </div>
+          <button class="carousel-btn prev" aria-label="Previous image"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+          <button class="carousel-btn next" aria-label="Next image"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+          <div class="carousel-dots">
+            <div class="carousel-dot active"></div><div class="carousel-dot"></div><div class="carousel-dot"></div>
+          </div>
+        </div>
+        <div class="card-body" style="padding: 36px;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; margin-bottom: 16px;">
+            <div>
+              <div class="commercial-badge">Grade A Office</div>
+              <div class="card-price">£ 420,000,000</div>
+              <div class="card-title">One Meridian Tower</div>
+              <div class="card-location">Canary Wharf, London</div>
+            </div>
+            <a href="#" class="btn btn-arrow" style="color: var(--gold); align-self: flex-end;"><span>Request Viewing</span><div class="arrow"></div></a>
+          </div>
+          <p class="body-sm" style="margin-bottom: 20px; max-width: 700px;">A landmark 42-storey Grade A office tower commanding Canary Wharf's skyline. Fully leased to blue-chip financial institutions with a WALE of 11.2 years. BREEAM Outstanding rated.</p>
+          <div class="card-specs">
+            <div class="card-spec"><strong>42</strong>Floors</div>
+            <div class="card-spec"><strong>980,000</strong>sq ft GIA</div>
+            <div class="card-spec"><strong>4.8%</strong>Net Yield</div>
+            <div class="card-spec"><strong>2019</strong>Built</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card reveal reveal-delay-1" data-category="retail">
+        <div class="card-image">
+          <div class="card-badge">Flagship Retail</div>
+          <div class="card-carousel">
+            <img src="images/listing_penthouse.jpg" alt="Bond Street Flagship" />
+            <img src="images/listing_skyhouse.jpg" alt="Interior View" />
+          </div>
+          <button class="carousel-btn prev" aria-label="Previous image"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+          <button class="carousel-btn next" aria-label="Next image"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+          <div class="carousel-dots"><div class="carousel-dot active"></div><div class="carousel-dot"></div></div>
+        </div>
+        <div class="card-body">
+          <div class="card-price">£ 95,000,000</div>
+          <div class="card-title">New Bond Street Flagship</div>
+          <div class="card-location">Mayfair, London</div>
+          <div class="card-specs">
+            <div class="card-spec"><strong>6</strong>Floors</div>
+            <div class="card-spec"><strong>18,400</strong>sq ft</div>
+            <div class="card-spec"><strong>5.1%</strong>Yield</div>
+          </div>
+          <a href="#" class="btn btn-arrow" style="margin-top: 20px; color: var(--gold);"><span>View Details</span><div class="arrow"></div></a>
+        </div>
+      </div>
+
+      <div class="card reveal" data-category="hotel">
+        <div class="card-image">
+          <div class="card-carousel">
+            <img src="images/listing_villa.jpg" alt="Dubai Hotel" />
+            <img src="images/listing_skyhouse.jpg" alt="Interior View" />
+          </div>
+          <button class="carousel-btn prev" aria-label="Previous image"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+          <button class="carousel-btn next" aria-label="Next image"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+          <div class="carousel-dots"><div class="carousel-dot active"></div><div class="carousel-dot"></div></div>
+        </div>
+        <div class="card-body">
+          <div class="card-price">AED 680,000,000</div>
+          <div class="card-title">The Amber Palace Hotel</div>
+          <div class="card-location">Downtown Dubai, UAE</div>
+          <div class="card-specs">
+            <div class="card-spec"><strong>312</strong>Keys</div>
+            <div class="card-spec"><strong>5-Star</strong>Rating</div>
+            <div class="card-spec"><strong>6.2%</strong>Yield</div>
+          </div>
+          <a href="#" class="btn btn-arrow" style="margin-top: 20px; color: var(--gold);"><span>View Details</span><div class="arrow"></div></a>
+        </div>
+      </div>
+
+      <div class="card reveal reveal-delay-1" data-category="mixed">
+        <div class="card-image">
+          <div class="card-badge">Mixed-Use</div>
+          <div class="card-carousel">
+            <img src="images/listing_skyhouse.jpg" alt="NYC Mixed Use" />
+            <img src="images/listing_penthouse.jpg" alt="Interior View" />
+          </div>
+          <button class="carousel-btn prev" aria-label="Previous image"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+          <button class="carousel-btn next" aria-label="Next image"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+          <div class="carousel-dots"><div class="carousel-dot active"></div><div class="carousel-dot"></div></div>
+        </div>
+        <div class="card-body">
+          <div class="card-price">$285,000,000</div>
+          <div class="card-title">Hudson Yards Annex</div>
+          <div class="card-location">Midtown, New York</div>
+          <div class="card-specs">
+            <div class="card-spec"><strong>28</strong>Floors</div>
+            <div class="card-spec"><strong>420,000</strong>sq ft</div>
+            <div class="card-spec"><strong>5.5%</strong>Yield</div>
+          </div>
+          <a href="#" class="btn btn-arrow" style="margin-top: 20px; color: var(--gold);"><span>View Details</span><div class="arrow"></div></a>
+        </div>
+      </div>
+
+      <div class="card listing-card-large reveal" data-category="retail">
+        <div class="card-image">
+          <div class="card-badge">Exclusive</div>
+          <div class="card-carousel">
+            <img src="images/listing_villa.jpg" alt="Paris Retail Portfolio" />
+            <img src="images/listing_penthouse.jpg" alt="Interior View" />
+            <img src="images/listing_skyhouse.jpg" alt="Exterior View" />
+          </div>
+          <button class="carousel-btn prev" aria-label="Previous image"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+          <button class="carousel-btn next" aria-label="Next image"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+          <div class="carousel-dots"><div class="carousel-dot active"></div><div class="carousel-dot"></div><div class="carousel-dot"></div></div>
+        </div>
+        <div class="card-body" style="padding: 36px;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; margin-bottom: 16px;">
+            <div>
+              <div class="commercial-badge">Luxury Retail Block</div>
+              <div class="card-price">540,000,000</div>
+              <div class="card-title">Avenue Montaigne Portfolio</div>
+              <div class="card-location">8th Arrondissement, Paris</div>
+            </div>
+            <a href="#" class="btn btn-arrow" style="color: var(--gold); align-self: flex-end;"><span>Request Viewing</span><div class="arrow"></div></a>
+          </div>
+          <p class="body-sm" style="margin-bottom: 20px; max-width: 700px;">A rare portfolio of six contiguous flagship retail units on one of the world's most prestigious luxury shopping streets. Tenanted by global maisons under long-term leases.</p>
+          <div class="card-specs">
+            <div class="card-spec"><strong>6</strong>Units</div>
+            <div class="card-spec"><strong>42,000</strong>sq ft Total</div>
+            <div class="card-spec"><strong>5.2%</strong>Net Yield</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="text-align: center; margin-top: 60px;" class="reveal">
+      <button class="btn"><span>Load More Assets</span></button>
+      <p class="body-sm" style="margin-top: 16px;">Showing 5 of 24 commercial listings</p>
+    </div>
+
+    <div class="map-cta reveal">
+      <div class="gold-rule" style="margin-bottom: 28px;"></div>
+      <p class="label" style="margin-bottom: 12px;">Institutional Access</p>
+      <h3 class="display-sm" style="margin-bottom: 16px;">Off-Market <em class="italic text-gold">Trophy Assets</em></h3>
+      <p class="body-md" style="max-width: 480px; margin: 0 auto 32px;">The most significant commercial transactions never reach the open market. Connect with our capital markets team for access to our confidential off-market pipeline.</p>
+      <a href="agency.html#contact" class="btn btn-solid"><span>Connect With Capital Markets</span></a>
+    </div>
+
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">Bloom <span>Beyond</span></div>
+        <p class="footer-tagline">Curating the world's most extraordinary properties for those who demand nothing less than perfection.</p>
+        <div class="footer-social">
+          <a href="#" class="social-link" aria-label="Instagram">IG</a>
+          <a href="#" class="social-link" aria-label="LinkedIn">LI</a>
+          <a href="#" class="social-link" aria-label="WhatsApp">WA</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Properties</h4>
+        <ul>
+          <li><a href="listings.html">Residential</a></li>
+          <li><a href="commercial.html">Commercial</a></li>
+          <li><a href="off-plan.html">Off-Plan Developments</a></li>
+          <li><a href="listings.html">Off-Market</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>The Agency</h4>
+        <ul>
+          <li><a href="agency.html">About Us</a></li>
+          <li><a href="agency.html#team">Our Team</a></li>
+          <li><a href="agency.html#contact">Contact</a></li>
+          <li><a href="sellers.html">Sell With Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Markets</h4>
+        <ul>
+          <li><a href="#">Dubai</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">2026 Bloom Beyond. All rights reserved. Private and Confidential.</p>
+      <p class="footer-copy">Privacy Policy - Terms of Service</p>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+<script src="property-modal.js"></script>
+
+<nav class="bottom-nav">
+  <a href="index.html" class="bottom-nav-item">
+    <svg class="bottom-nav-icon" viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.5" fill="none"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+    <div class="bottom-nav-dot"></div>
+  </a>
+  <a href="listings.html" class="bottom-nav-item">
+    <svg class="bottom-nav-icon" viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.5" fill="none"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+    <div class="bottom-nav-dot"></div>
+  </a>
+  <a href="commercial.html" class="bottom-nav-item">
+    <svg class="bottom-nav-icon" viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.5" fill="none"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+    <div class="bottom-nav-dot"></div>
+  </a>
+  <a href="agency.html#contact" class="bottom-nav-item">
+    <svg class="bottom-nav-icon" viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.5" fill="none"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path></svg>
+    <div class="bottom-nav-dot"></div>
+  </a>
+</nav>
+</body>
+</html>
