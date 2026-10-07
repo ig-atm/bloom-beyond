@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dubai Hills Estate Properties — Bloom Beyond</title>
+  <meta name="description" content="Discover ultra-luxury villas and mansions for sale in Dubai Hills Estate. Explore exclusive properties, off-plan projects, and luxury homes in Dubai's premier golf course community." />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ── Listings-specific styles ───────────────────────────── */
+    .listings-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+
+    .listing-card-large {
+      grid-column: span 2;
+    }
+    .listing-card-large .card-image { aspect-ratio: 16/9; }
+
+    .search-bar-wrap {
+      background: var(--charcoal-2);
+      border: 1px solid rgba(201,169,110,0.15);
+      padding: 32px 40px;
+      margin-bottom: 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr auto;
+      gap: 28px;
+      align-items: end;
+    }
+
+    .price-range-display {
+      font-family: var(--serif);
+      font-size: 20px;
+      color: var(--gold);
+      margin-top: 8px;
+    }
+
+    .map-cta {
+      background: var(--charcoal-3);
+      border: 1px solid rgba(201,169,110,0.12);
+      padding: 48px;
+      text-align: center;
+      margin-top: 60px;
+      position: relative;
+      overflow: hidden;
+    }
+    .map-cta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('images/hero_home.jpg') center/cover;
+      opacity: 0.08;
+    }
+    .map-cta > * { position: relative; z-index: 1; }
+
+    @media (max-width: 1000px) {
+      .listings-grid { grid-template-columns: 1fr 1fr; }
+      .listing-card-large { grid-column: span 2; }
+      .search-bar-wrap { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      .listings-grid { grid-template-columns: 1fr; }
+      .listing-card-large { grid-column: span 1; }
+      .search-bar-wrap { grid-template-columns: 1fr; padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ NAVIGATION ══════════════════════════════════════════════ -->
+<nav id="navbar" class="scrolled">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><img src="images/logo_crest.png?v=2" alt="Beyond Bloom Real Estate" class="nav-logo-img" style="height:34px;width:auto;display:block;" /></a>
+    <ul class="nav-links">
+      <li><a href="listings.html" class="nav-link active">Residential</a></li>
+      <li><a href="commercial.html" class="nav-link">Commercial</a></li>
+      <li><a href="sellers.html" class="nav-link">Sellers</a></li>
+      <li><a href="agency.html" class="nav-link">About us</a></li>
+      <li><a href="agency.html#contact" class="nav-link">Contact Us</a></li>
+    </ul>
+    <div class="nav-right"><a href="agency.html#contact" class="btn btn-solid nav-cta"><span>Private Enquiry</span></a><div class="nav-hamburger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </div></div>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="nav-mobile">
+  <a href="listings.html" class="nav-link active">Residential</a>
+  <a href="commercial.html" class="nav-link">Commercial</a>
+  <a href="sellers.html" class="nav-link">Sellers</a>
+  <a href="agency.html" class="nav-link">About us</a>
+  <a href="agency.html#contact" class="nav-link">Contact Us</a>
+</div>
+
+<!-- ══ PAGE HERO ════════════════════════════════════════════════ -->
+<section class="page-hero">
+  <div class="page-hero-bg">
+    <img src="images/listing_villa.jpg" alt="Dubai Hills Estate Luxury Villa" />
+  </div>
+  <div class="page-hero-gradient"></div>
+  <div class="page-hero-content">
+    <p class="label" style="margin-bottom: 16px; animation: fadeUp 0.8s var(--ease-out) forwards;">Dubai Hills Estate</p>
+    <h1 class="display-lg" style="animation: fadeUp 1s var(--ease-out) 0.2s both;">
+      The Green Heart<br>
+      <em class="italic text-gold">of Dubai</em>
+    </h1>
+    <p class="body-md" style="max-width: 600px; margin-top: 20px; animation: fadeUp 1s var(--ease-out) 0.4s both;">
+      A prestigious golf-course community offering a seamless blend of luxurious living, lush landscapes, and world-class amenities right in the center of the city.
+    </p>
+  </div>
+</section>
+
+<!-- ══ SEO TEXT BLOCK ═══════════════════════════════════════════ -->
+<section style="padding: 80px var(--gutter) 40px; background: var(--charcoal-1);">
+  <div class="container reveal">
+    <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+      <h2 class="display-sm" style="margin-bottom: 24px;">Luxury Properties for Sale in Dubai Hills Estate</h2>
+      <p class="body-md" style="color: var(--off-white); margin-bottom: 16px;">
+        As one of Dubai's most sought-after addresses, Dubai Hills Estate represents the pinnacle of modern luxury living. From bespoke mansions overlooking the 18-hole championship golf course to contemporary villas and ultra-premium apartments, this master-planned community delivers unparalleled lifestyle experiences.
+      </p>
+      <p class="body-md" style="color: var(--muted);">
+        Whether you are seeking to buy a primary residence or looking for high-yield off-plan investments, our curated selection of Dubai Hills properties guarantees exceptional quality, privacy, and capital appreciation.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FILTER BAR ═══════════════════════════════════════════════ -->
+<div class="filter-bar">
+  <div class="filter-inner">
+    <span class="label" style="color: var(--muted); margin-right: 8px;">Filter:</span>
+    <button class="filter-pill active" data-filter="all">All Properties</button>
+    <button class="filter-pill" data-filter="villa">Villas & Mansions</button>
+    <button class="filter-pill" data-filter="penthouse">Penthouses</button>
+    <div style="margin-left: auto; display: flex; gap: 16px;">
+      <select class="filter-pill" style="padding: 8px 30px 8px 16px; min-width: 140px;">
+        <option>Price: High → Low</option>
+        <option>Price: Low → High</option>
+        <option>Newest First</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- ══ LISTINGS GRID ════════════════════════════════════════════ -->
+<section style="padding: 48px var(--gutter) var(--section-v);">
+  <div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;" class="reveal">
+      <p class="label">Showing <span class="text-gold">12</span> Properties</p>
+    </div>
+
+    <div class="listings-grid">
+
+      <!-- Property 1 — Large Featured -->
+      <div class="card listing-card-large reveal" data-category="villa">
+        <div class="card-image">
+          <div class="card-badge">Featured</div>
+          
+          <div class="card-carousel">
+            <img src="images/listing_villa.jpg" alt="Noir Estate Bel-Air" />
+            <img src="images/listing_penthouse.jpg" alt="Interior View" />
+            <img src="images/listing_skyhouse.jpg" alt="Exterior View" />
+          </div>
+          <button class="carousel-btn prev" aria-label="Previous image">
+            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          </button>
+          <button class="carousel-btn next" aria-label="Next image">
+            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+          <div class="carousel-dots">
+            <div class="carousel-dot active"></div>
+            <div class="carousel-dot"></div>
+            <div class="carousel-dot"></div>
+          </div>
+
+        </div>
+        <div class="card-body" style="padding: 36px;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; margin-bottom: 16px;">
+            <div>
+              <div class="card-price">$34,000,000</div>
+              <div class="card-title">Noir Estate</div>
+              <div class="card-location">Bel-Air, Los Angeles</div>
+            </div>
+            <a href="#" class="btn btn-arrow" style="color: var(--gold); align-self: flex-end;">
+              <span>Request Viewing</span>
+              <div class="arrow"></div>
+            </a>
+          </div>
+          <p class="body-sm" style="margin-bottom: 20px; max-width: 700px;">A statement of absolute prestige. This singular estate commands the Bel-Air hillside, offering 18,500 sq ft of custom-designed living space against a breathtaking 270° panorama of Los Angeles.</p>
+          <div class="card-specs">
+            <div class="card-spec"><strong>8</strong>Bedrooms</div>
+            <div class="card-spec"><strong>11</strong>Bathrooms</div>
+            <div class="card-spec"><strong>18,500</strong>sq ft</div>
+            <div class="card-spec"><strong>2</strong>Pools</div>
+            <div class="card-spec"><strong>12-Car</strong>Garage</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Property 2 -->
+      <div class="card reveal reveal-delay-1" data-category="penthouse">
+        <div class="card-image">
+          <div class="card-badge">Exclusive</div>
+          
+          <div class="card-carousel">
+            <img src="images/listing_skyhouse.jpg" alt="Sky Mansion London" />
+            <img src="images/listing_penthouse.jpg" alt="Interior View" />
+            <img src="images/listing_skyhouse.jpg" alt="Exterior View" />
+          </div>
+          <button class="carousel-btn prev" aria-label="Previous image">
+            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          </button>
+          <button class="carousel-btn next" aria-label="Next image">
+            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+          <div class="carousel-dots">
+            <div class="carousel-dot active"></div>
+            <div class="carousel-dot"></div>
+            <div class="carousel-dot"></div>
+          </div>
+
+        </div>
+        <div class="card-body">
+          <div class="card-price">£ 28,500,000</div>
+          <div class="card-title">The Sky Mansion</div>
+          <div class="card-location">Mayfair, London</div>
+          <div class="card-specs">
+            <div class="card-spec"><strong>7</strong>Bed</div>
+            <div class="card-spec"><strong>9</strong>Bath</div>
+            <div class="card-spec"><strong>12,400</strong>sq ft</div>
+          </div>
+          <a href="#" class="btn btn-arrow" style="margin-top: 20px; color: var(--gold);">
+            <span>View Details</span><div class="arrow"></div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Property 3 -->
+      <div class="card reveal" data-category="penthouse">
+        <div class="card-image">
+          
+          <div class="card-carousel">
+            <img src="images/listing_penthouse.jpg" alt="Obsidian Penthouse NYC" />
+            <img src="images/listing_penthouse.jpg" alt="Interior View" />
+            <img src="images/listing_skyhouse.jpg" alt="Exterior View" />
+          </div>
+          <button class="carousel-btn prev" aria-label="Previous image">
+            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          </button>
+          <button class="carousel-btn next" aria-label="Next image">
+            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+          <div class="carousel-dots">
+            <div class="carousel-dot active"></div>
+            <div class="carousel-dot"></div>
+            <div class="carousel-dot"></div>
+          </div>
+
+        </div>
+        <div class="card-body">
+          <div class="card-price">$18,900,000</div>
+          <div class="card-title">The Obsidian Penthouse</div>
+          <div class="card-location">Tribeca, New York</div>
+          <div class="card-specs">
+            <div class="card-spec"><strong>5</strong>Bed</div>
+            <div class="card-spec"><strong>6</strong>Bath</div>
+            <div class="card-spec"><strong>7,200</strong>sq ft</div>
+          </div>
+          <a href="#" class="btn btn-arrow" style="margin-top: 20px; color: var(--gold);">
+            <span>View Details</span><div class="arrow"></div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Property 4 -->
+      <div class="card reveal reveal-delay-1" data-category="estate">
+        <div class="card-image">
+          <div class="card-badge">Off-Market</div>
+          
+          <div class="card-carousel">
+            <img src="images/listing_villa.jpg" alt="Côte d'Azur Villa" />
+            <img src="images/listing_penthouse.jpg" alt="Interior View" />
+            <img src="images/listing_skyhouse.jpg" alt="Exterior View" />
+          </div>
+          <button class="carousel-btn prev" aria-label="Previous image">
+            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          </button>
+          <button class="carousel-btn next" aria-label="Next image">
+            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+          <div class="carousel-dots">
+            <div class="carousel-dot active"></div>
+            <div class="carousel-dot"></div>
+            <div class="carousel-dot"></div>
+          </div>
+
+        </div>
+        <div class="card-body">
+          <div class="card-price">€ 42,000,000</div>
+          <div class="card-title">Villa Lumière</div>
+          <div class="card-location">Cap Ferrat, Côte d'Azur</div>
+          <div class="card-specs">
+            <div class="card-spec"><strong>9</strong>Bed</div>
+            <div class="card-spec"><strong>12</strong>Bath</div>
+            <div class="card-spec"><strong>21,000</strong>sq ft</div>
+          </div>
+          <a href="#" class="btn btn-arrow" style="margin-top: 20px; color: var(--gold);">
+            <span>View Details</span><div class="arrow"></div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Property 5 -->
+      <div class="card reveal reveal-delay-2" data-category="waterfront">
+        <div class="card-image">
+          
+          <div class="card-carousel">
+            <img src="images/listing_skyhouse.jpg" alt="Dubai Waterfront" />
+            <img src="images/listing_penthouse.jpg" alt="Interior View" />
+            <img src="images/listing_skyhouse.jpg" alt="Exterior View" />
+          </div>
+          <button class="carousel-btn prev" aria-label="Previous image">
+            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          </button>
+          <button class="carousel-btn next" aria-label="Next image">
+            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+          <div class="carousel-dots">
+            <div class="carousel-dot active"></div>
+            <div class="carousel-dot"></div>
+            <div class="carousel-dot"></div>
+          </div>
+
+        </div>
+        <div class="card-body">
+          <div class="card-price">AED 85,000,000</div>
+          <div class="card-title">Palm Crown Residences</div>
+          <div class="card-location">Palm Jumeirah, Dubai</div>
+          <div class="card-specs">
+            <div class="card-spec"><strong>6</strong>Bed</div>
+            <div class="card-spec"><strong>8</strong>Bath</div>
+            <div class="card-spec"><strong>10,800</strong>sq ft</div>
+          </div>
+          <a href="#" class="btn btn-arrow" style="margin-top: 20px; color: var(--gold);">
+            <span>View Details</span><div class="arrow"></div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Property 6 -->
+      <div class="card reveal" data-category="penthouse">
+        <div class="card-image">
+          <div class="card-badge">New</div>
+          
+          <div class="card-carousel">
+            <img src="images/listing_penthouse.jpg" alt="Monaco Sky Penthouse" />
+            <img src="images/listing_penthouse.jpg" alt="Interior View" />
+            <img src="images/listing_skyhouse.jpg" alt="Exterior View" />
+          </div>
+          <button class="carousel-btn prev" aria-label="Previous image">
+            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          </button>
+          <button class="carousel-btn next" aria-label="Next image">
+            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+          <div class="carousel-dots">
+            <div class="carousel-dot active"></div>
+            <div class="carousel-dot"></div>
+            <div class="carousel-dot"></div>
+          </div>
+
+        </div>
+        <div class="card-body">
+          <div class="card-price">€ 22,500,000</div>
+          <div class="card-title">Monaco Sky Penthouse</div>
+          <div class="card-location">Monte Carlo, Monaco</div>
+          <div class="card-specs">
+            <div class="card-spec"><strong>4</strong>Bed</div>
+            <div class="card-spec"><strong>5</strong>Bath</div>
+            <div class="card-spec"><strong>6,400</strong>sq ft</div>
+          </div>
+          <a href="#" class="btn btn-arrow" style="margin-top: 20px; color: var(--gold);">
+            <span>View Details</span><div class="arrow"></div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Property 7 — Large -->
+      <div class="card listing-card-large reveal" data-category="estate">
+        <div class="card-image">
+          <div class="card-badge">Rare</div>
+          
+          <div class="card-carousel">
+            <img src="images/listing_villa.jpg" alt="Hamptons Estate" />
+            <img src="images/listing_penthouse.jpg" alt="Interior View" />
+            <img src="images/listing_skyhouse.jpg" alt="Exterior View" />
+          </div>
+          <button class="carousel-btn prev" aria-label="Previous image">
+            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          </button>
+          <button class="carousel-btn next" aria-label="Next image">
+            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+          <div class="carousel-dots">
+            <div class="carousel-dot active"></div>
+            <div class="carousel-dot"></div>
+            <div class="carousel-dot"></div>
+          </div>
+
+        </div>
+        <div class="card-body" style="padding: 36px;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; margin-bottom: 16px;">
+            <div>
+              <div class="card-price">$67,000,000</div>
+              <div class="card-title">Ocean Manor</div>
+              <div class="card-location">Southampton, The Hamptons</div>
+            </div>
+            <a href="#" class="btn btn-arrow" style="color: var(--gold); align-self: flex-end;">
+              <span>Request Viewing</span><div class="arrow"></div>
+            </a>
+          </div>
+          <p class="body-sm" style="margin-bottom: 20px; max-width: 700px;">Positioned on 4.2 acres of oceanfront, this magnificent estate represents the pinnacle of East Coast luxury. Designed by a celebrated architect, no detail was overlooked in this singular creation.</p>
+          <div class="card-specs">
+            <div class="card-spec"><strong>12</strong>Bedrooms</div>
+            <div class="card-spec"><strong>14</strong>Bathrooms</div>
+            <div class="card-spec"><strong>28,000</strong>sq ft</div>
+            <div class="card-spec"><strong>4.2 acres</strong>Ocean Front</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Property 8 -->
+      <div class="card reveal reveal-delay-1" data-category="villa">
+        <div class="card-image">
+          
+          <div class="card-carousel">
+            <img src="images/listing_villa.jpg" alt="Santorini Villa" />
+            <img src="images/listing_penthouse.jpg" alt="Interior View" />
+            <img src="images/listing_skyhouse.jpg" alt="Exterior View" />
+          </div>
+          <button class="carousel-btn prev" aria-label="Previous image">
+            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          </button>
+          <button class="carousel-btn next" aria-label="Next image">
+            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+          <div class="carousel-dots">
+            <div class="carousel-dot active"></div>
+            <div class="carousel-dot"></div>
+            <div class="carousel-dot"></div>
+          </div>
+
+        </div>
+        <div class="card-body">
+          <div class="card-price">€ 15,800,000</div>
+          <div class="card-title">Aegean Crown Villa</div>
+          <div class="card-location">Oia, Santorini</div>
+          <div class="card-specs">
+            <div class="card-spec"><strong>5</strong>Bed</div>
+            <div class="card-spec"><strong>6</strong>Bath</div>
+            <div class="card-spec"><strong>5,600</strong>sq ft</div>
+          </div>
+          <a href="#" class="btn btn-arrow" style="margin-top: 20px; color: var(--gold);">
+            <span>View Details</span><div class="arrow"></div>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Load More -->
+    <div style="text-align: center; margin-top: 60px;" class="reveal">
+      <button class="btn" id="loadMore"><span>Load More Properties</span></button>
+      <p class="body-sm" style="margin-top: 16px;">Showing 8 of 47 listings</p>
+    </div>
+
+    <!-- Map CTA -->
+    <div class="map-cta reveal">
+      <div class="gold-rule" style="margin-bottom: 28px;"></div>
+      <p class="label" style="margin-bottom: 12px;">Private Access</p>
+      <h3 class="display-sm" style="margin-bottom: 16px;">Access Our <em class="italic text-gold">Off-Market</em> Portfolio</h3>
+      <p class="body-md" style="max-width: 480px; margin: 0 auto 32px;">The most extraordinary properties are never listed publicly. Speak with a senior advisor to access our confidential portfolio.</p>
+      <a href="agency.html#contact" class="btn btn-solid"><span>Request Private Access</span></a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ FOOTER ═══════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">Bloom <span>Beyond</span></div>
+        <p class="footer-tagline">Curating the world's most extraordinary properties for those who demand nothing less than perfection.</p>
+        <div class="footer-social">
+          <a href="#" class="social-link" aria-label="Instagram">IG</a>
+          <a href="#" class="social-link" aria-label="LinkedIn">LI</a>
+          <a href="#" class="social-link" aria-label="WhatsApp">WA</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Properties</h4>
+        <ul>
+          <li><a href="listings.html">Exclusive Listings</a></li>
+          <li><a href="off-plan.html">Off-Plan Developments</a></li>
+          <li><a href="listings.html">Off-Market</a></li>
+          <li><a href="listings.html">Rentals</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>The Agency</h4>
+        <ul>
+          <li><a href="agency.html">About Us</a></li>
+          <li><a href="agency.html#team">Our Team</a></li>
+          <li><a href="agency.html#contact">Contact</a></li>
+          <li><a href="agency.html">Press</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Markets</h4>
+        <ul>
+          <li><a href="#">Dubai</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 Bloom Beyond. All rights reserved. Private & Confidential.</p>
+      <p class="footer-copy">Privacy Policy · Terms of Service</p>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+<script src="property-modal.js"></script>
+
+<!-- ══ MOBILE BOTTOM NAV ═══════════════════════════════════════ -->
+<nav class="bottom-nav">
+  <a href="index.html" class="bottom-nav-item">
+    <svg class="bottom-nav-icon" viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+      <polyline points="9 22 9 12 15 12 15 22"></polyline>
+    </svg>
+    <div class="bottom-nav-dot"></div>
+  </a>
+  <a href="listings.html" class="bottom-nav-item">
+    <svg class="bottom-nav-icon" viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="11" cy="11" r="8"></circle>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+    </svg>
+    <div class="bottom-nav-dot"></div>
+  </a>
+  <a href="off-plan.html" class="bottom-nav-item">
+    <svg class="bottom-nav-icon" viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="3" width="7" height="7"></rect>
+      <rect x="14" y="3" width="7" height="7"></rect>
+      <rect x="14" y="14" width="7" height="7"></rect>
+      <rect x="3" y="14" width="7" height="7"></rect>
+    </svg>
+    <div class="bottom-nav-dot"></div>
+  </a>
+  <a href="#" class="bottom-nav-item" id="mobileClientAccess">
+    <svg class="bottom-nav-icon" viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path>
+    </svg>
+    <div class="bottom-nav-dot"></div>
+  </a>
+</nav>
+</body>
+</html>

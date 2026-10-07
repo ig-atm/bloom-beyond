@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Market Insights — Bloom Beyond</title>
+  <meta name="description" content="Data-driven market insights and transaction analyses for Dubai's ultra-luxury real estate sector." />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ── Insights specific styles ───────────────────────────── */
+    .masonry-grid {
+      column-count: 3;
+      column-gap: 28px;
+    }
+    .masonry-item {
+      break-inside: avoid;
+      margin-bottom: 28px;
+      background: var(--charcoal-2);
+      border: 1px solid rgba(201,169,110,0.1);
+      padding: 36px;
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.4s var(--ease-out);
+    }
+    .masonry-item:hover {
+      border-color: rgba(201,169,110,0.3);
+    }
+    .insight-date {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+    .insight-title {
+      font-family: var(--serif);
+      font-size: 26px;
+      font-weight: 400;
+      color: var(--white);
+      margin-bottom: 20px;
+      line-height: 1.35;
+    }
+    .insight-excerpt {
+      font-size: 14px;
+      color: var(--off-white);
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+    .insight-link {
+      margin-top: auto;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      transition: opacity 0.3s ease;
+    }
+    .insight-link:hover {
+      opacity: 0.7;
+    }
+    .insight-link span {
+      font-size: 18px;
+    }
+
+    @media (max-width: 1000px) {
+      .masonry-grid { column-count: 2; }
+    }
+    @media (max-width: 640px) {
+      .masonry-grid { column-count: 1; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ NAVIGATION ══════════════════════════════════════════════ -->
+<nav id="navbar" class="scrolled">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><img src="images/logo_crest.png?v=2" alt="Beyond Bloom Real Estate" class="nav-logo-img" style="height:34px;width:auto;display:block;" /></a>
+    <ul class="nav-links">
+      <li><a href="listings.html" class="nav-link">Residential</a></li>
+      <li><a href="commercial.html" class="nav-link">Commercial</a></li>
+      <li><a href="sellers.html" class="nav-link">Sellers</a></li>
+      <li><a href="agency.html" class="nav-link">About us</a></li>
+      <li><a href="insights.html" class="nav-link active">Insights</a></li>
+      <li><a href="agency.html#contact" class="nav-link">Contact Us</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="agency.html#contact" class="btn btn-solid nav-cta"><span>Private Enquiry</span></a>
+      <div class="nav-hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="nav-mobile">
+  <a href="listings.html" class="nav-link">Residential</a>
+  <a href="commercial.html" class="nav-link">Commercial</a>
+  <a href="sellers.html" class="nav-link">Sellers</a>
+  <a href="agency.html" class="nav-link">About us</a>
+  <a href="insights.html" class="nav-link active">Insights</a>
+  <a href="agency.html#contact" class="nav-link">Contact Us</a>
+</div>
+
+<!-- ══ PAGE HERO ════════════════════════════════════════════════ -->
+<section class="page-hero">
+  <div class="page-hero-bg">
+    <img src="images/hero_new.jpg" alt="Market Insights" />
+  </div>
+  <div class="page-hero-gradient"></div>
+  <div class="page-hero-content">
+    <p class="label" style="margin-bottom: 16px; animation: fadeUp 0.8s var(--ease-out) forwards;">Data & Analytics</p>
+    <h1 class="display-lg" style="animation: fadeUp 1s var(--ease-out) 0.2s both;">
+      Market<br>
+      <em class="italic text-gold">Insights</em>
+    </h1>
+    <p class="body-md" style="max-width: 500px; margin-top: 20px; animation: fadeUp 1s var(--ease-out) 0.4s both;">
+      Price on the transaction record. Transparent, data-driven analysis of Dubai's ultra-luxury real estate sector.
+    </p>
+  </div>
+</section>
+
+<!-- ══ INSIGHTS GRID ════════════════════════════════════════════ -->
+<section style="padding: 80px var(--gutter) var(--section-v); background: var(--charcoal-1);">
+  <div class="container reveal">
+    <div class="masonry-grid">
+      <!-- Item 1 -->
+      <article class="masonry-item">
+        <div class="insight-date">Q3 2026 Report</div>
+        <h2 class="insight-title">The Resurgence of Prime Villas in Dubai Hills Estate</h2>
+        <p class="insight-excerpt">An in-depth look at recent transactions showing a 15% premium on park-facing properties compared to standard plots.</p>
+        <a href="#" class="insight-link">Read Analysis <span>&rarr;</span></a>
+      </article>
+
+      <!-- Item 2 -->
+      <article class="masonry-item">
+        <div class="insight-date">Transaction Analysis</div>
+        <h2 class="insight-title">Palm Jumeirah Signature Villas: Price per Sq.Ft Breakdown</h2>
+        <p class="insight-excerpt">Dissecting the top 10 most expensive transactions of the quarter to establish the new baseline for beachfront luxury.</p>
+        <a href="#" class="insight-link">Read Analysis <span>&rarr;</span></a>
+      </article>
+
+      <!-- Item 3 -->
+      <article class="masonry-item">
+        <div class="insight-date">Off-Plan Market</div>
+        <h2 class="insight-title">Why Branded Residences Command a 30% Premium</h2>
+        <p class="insight-excerpt">Our latest data reveals how hospitality-backed developments are outpacing traditional luxury towers in capital appreciation.</p>
+        <a href="#" class="insight-link">Read Analysis <span>&rarr;</span></a>
+      </article>
+
+      <!-- Item 4 -->
+      <article class="masonry-item">
+        <div class="insight-date">Q2 2026 Report</div>
+        <h2 class="insight-title">Downtown Dubai vs Business Bay: The Shifting Center</h2>
+        <p class="insight-excerpt">As inventory tightens in Downtown, Business Bay penthouses are seeing unprecedented transaction volumes.</p>
+        <a href="#" class="insight-link">Read Analysis <span>&rarr;</span></a>
+      </article>
+      
+      <!-- Item 5 -->
+      <article class="masonry-item">
+        <div class="insight-date">Market Update</div>
+        <h2 class="insight-title">The Impact of Global Wealth Migration on Dubai's Super-Prime Sector</h2>
+        <p class="insight-excerpt">How ultra-high-net-worth individuals are reshaping the demand for properties above $20M.</p>
+        <a href="#" class="insight-link">Read Analysis <span>&rarr;</span></a>
+      </article>
+      
+      <!-- Item 6 -->
+      <article class="masonry-item">
+        <div class="insight-date">Investment Strategy</div>
+        <h2 class="insight-title">Maximizing Yields in Short-Term Luxury Rentals</h2>
+        <p class="insight-excerpt">Data-driven strategies for outfitting and marketing luxury properties to maximize ROI in the holiday home sector.</p>
+        <a href="#" class="insight-link">Read Analysis <span>&rarr;</span></a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ═══════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">Bloom <span>Beyond</span></div>
+        <p class="footer-tagline">Curating the world's most extraordinary properties for those who demand nothing less than perfection.</p>
+        <div class="footer-social">
+          <a href="#" class="social-link" aria-label="Instagram">IG</a>
+          <a href="#" class="social-link" aria-label="LinkedIn">LI</a>
+          <a href="#" class="social-link" aria-label="WhatsApp">WA</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Properties</h4>
+        <ul>
+          <li><a href="listings.html">Exclusive Listings</a></li>
+          <li><a href="off-plan.html">Off-Plan Developments</a></li>
+          <li><a href="listings.html">Off-Market</a></li>
+          <li><a href="listings.html">Rentals</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>The Agency</h4>
+        <ul>
+          <li><a href="agency.html">About Us</a></li>
+          <li><a href="agency.html#team">Our Team</a></li>
+          <li><a href="agency.html#contact">Contact</a></li>
+          <li><a href="agency.html">Press</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Markets</h4>
+        <ul>
+          <li><a href="#">Dubai</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 Bloom Beyond. All rights reserved. Private & Confidential.</p>
+      <p class="footer-copy">Privacy Policy · Terms of Service</p>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+<script>
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submitText');
+    const success = document.getElementById('formSuccess');
+    if(btn) btn.textContent = 'Sending...';
+    setTimeout(() => {
+      document.getElementById('contactForm')?.querySelectorAll('input, select, textarea').forEach(f => f.value = '');
+      if(btn) btn.textContent = 'Submit Private Enquiry';
+      if(success) {
+        success.style.display = 'block';
+        success.style.animation = 'fadeUp 0.5s var(--ease-out) forwards';
+      }
+    }, 1400);
+  }
+</script>
+
+<!-- ══ MOBILE BOTTOM NAV ═══════════════════════════════════════ -->
+<nav class="bottom-nav">
+  <a href="index.html" class="bottom-nav-item">
+    <svg class="bottom-nav-icon" viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+      <polyline points="9 22 9 12 15 12 15 22"></polyline>
+    </svg>
+    <div class="bottom-nav-dot"></div>
+  </a>
+  <a href="listings.html" class="bottom-nav-item">
+    <svg class="bottom-nav-icon" viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="11" cy="11" r="8"></circle>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+    </svg>
+    <div class="bottom-nav-dot"></div>
+  </a>
+  <a href="off-plan.html" class="bottom-nav-item">
+    <svg class="bottom-nav-icon" viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="3" width="7" height="7"></rect>
+      <rect x="14" y="3" width="7" height="7"></rect>
+      <rect x="14" y="14" width="7" height="7"></rect>
+      <rect x="3" y="14" width="7" height="7"></rect>
+    </svg>
+    <div class="bottom-nav-dot"></div>
+  </a>
+  <a href="#" class="bottom-nav-item" id="mobileClientAccess">
+    <svg class="bottom-nav-icon" viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path>
+    </svg>
+    <div class="bottom-nav-dot"></div>
+  </a>
+</nav>
+</body>
+</html>
