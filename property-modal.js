@@ -1,5 +1,5 @@
 // ================================================================
-//  BLOOM BEYOND — Property Detail Modal
+//  BEYOND BLOOM — Property Detail Modal
 //  Reads data from .card elements and renders a full-screen modal
 // ================================================================
 

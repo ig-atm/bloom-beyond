@@ -1,5 +1,5 @@
 // ================================================================
-//  BLOOM BEYOND — Shared JavaScript
+//  BEYOND BLOOM — Shared JavaScript
 // ================================================================
 
 document.addEventListener('DOMContentLoaded', () => {
