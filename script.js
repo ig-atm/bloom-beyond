@@ -233,57 +233,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // ── WebGL Globe (Global Portfolio) ───────────────────────────
-  const globeContainer = document.getElementById('globeContainer');
-  if (globeContainer && window.Globe) {
-    const locations = [
-      { lat: 25.2048, lng: 55.2708, city: 'Dubai, UAE', title: 'The Elysian Tower', desc: 'A 92-story architectural marvel offering unrestricted views of the Persian Gulf. Features private infinity pools and helipad access.', price: '$12,500,000', status: 'Off-Plan' }
-    ];
-
-    const globe = Globe()
-      .backgroundColor('rgba(0,0,0,0)')
-      .globeImageUrl('//unpkg.com/three-globe/example/img/earth-dark.jpg')
-      .htmlElementsData(locations)
-      .htmlElement(d => {
-        const el = document.createElement('div');
-        el.className = 'globe-marker';
-        const pulse = document.createElement('div');
-        pulse.className = 'globe-marker-pulse';
-        el.appendChild(pulse);
-        
-        el.onclick = () => {
-          const panel = document.getElementById('globeSidePanel');
-          document.getElementById('gpLocation').innerText = d.city;
-          document.getElementById('gpTitle').innerText = d.title;
-          document.getElementById('gpDesc').innerText = d.desc;
-          document.getElementById('gpPrice').innerText = d.price;
-          document.getElementById('gpStatus').innerText = d.status;
-          panel.classList.add('open');
-        };
-        return el;
-      })
-      (globeContainer);
-
-    // Initial rotation and settings
-    globe.controls().autoRotate = true;
-    globe.controls().autoRotateSpeed = 0.5;
-    globe.controls().enableZoom = false;
-    globe.pointOfView({ altitude: 2.2 });
-
-    // Handle resize
-    window.addEventListener('resize', () => {
-      globe.width(globeContainer.clientWidth);
-      globe.height(globeContainer.clientHeight);
-    });
-    
-    // Close panel
-    const closePanel = document.getElementById('closeGlobePanel');
-    if (closePanel) {
-      closePanel.addEventListener('click', () => {
-        document.getElementById('globeSidePanel').classList.remove('open');
-      });
-    }
-  }
 
   // ── Client Login Modal ───────────────────────────────────────
   const navClientAccess = document.getElementById('navClientAccess');

@@ -1348,8 +1348,6 @@
     <div class="portfolio-img-overlay"></div>
   </div>
 
-  <!-- Canvas particle trail layer -->
-  <canvas id="portfolioParticles" class="portfolio-canvas" aria-hidden="true"></canvas>
 
   <!-- Bottom data strip -->
   <div class="portfolio-data-strip">
@@ -1408,15 +1406,6 @@
         rgba(4,4,4,0.30)  100%
       );
     }
-    /* Canvas sits over the image, under the text */
-    .portfolio-canvas {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 2;
-      pointer-events: none;
-    }
     /* Bottom data strip */
     .portfolio-data-strip {
       position: absolute;
@@ -1470,138 +1459,6 @@
   </style>
 </section>
 
-<script>
-(function() {
-  const canvas = document.getElementById('portfolioParticles');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-
-  function resize() {
-    canvas.width  = canvas.offsetWidth;
-    canvas.height = canvas.offsetHeight;
-  }
-  resize();
-  window.addEventListener('resize', resize);
-
-  // Fixed anchor points representing Dubai landmarks (proportional coords)
-  const anchors = [
-    { x: 0.50, y: 0.35 }, // Burj Khalifa
-    { x: 0.35, y: 0.52 }, // Downtown
-    { x: 0.65, y: 0.48 }, // DIFC
-    { x: 0.25, y: 0.44 }, // Marina
-    { x: 0.75, y: 0.55 }, // Business Bay
-    { x: 0.55, y: 0.62 }, // Palm area
-  ];
-
-  // Particles travelling between anchors
-  const particles = [];
-  const GOLD = 'rgba(201,169,110,';
-
-  function createParticle() {
-    const fromIdx = Math.floor(Math.random() * anchors.length);
-    let toIdx = Math.floor(Math.random() * anchors.length);
-    while (toIdx === fromIdx) toIdx = Math.floor(Math.random() * anchors.length);
-    return {
-      from: anchors[fromIdx],
-      to:   anchors[toIdx],
-      t: 0,
-      speed: 0.002 + Math.random() * 0.003,
-      size:  1.2 + Math.random() * 1.8,
-      trail: [],
-      maxTrail: 28 + Math.floor(Math.random() * 20),
-      alpha: 0.6 + Math.random() * 0.4,
-    };
-  }
-
-  for (let i = 0; i < 18; i++) {
-    const p = createParticle();
-    p.t = Math.random(); // stagger start
-    particles.push(p);
-  }
-
-  function lerp(a, b, t) { return a + (b - a) * t; }
-  // Quadratic bezier for curved trails
-  function bezier(p0, p1, p2, t) {
-    return {
-      x: (1-t)*(1-t)*p0.x + 2*(1-t)*t*p1.x + t*t*p2.x,
-      y: (1-t)*(1-t)*p0.y + 2*(1-t)*t*p1.y + t*t*p2.y,
-    };
-  }
-
-  function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    const W = canvas.width, H = canvas.height;
-
-    // Draw soft glow at each anchor
-    anchors.forEach(a => {
-      const x = a.x * W, y = a.y * H;
-      const g = ctx.createRadialGradient(x, y, 0, x, y, 18);
-      g.addColorStop(0, GOLD + '0.55)');
-      g.addColorStop(1, GOLD + '0)');
-      ctx.beginPath();
-      ctx.arc(x, y, 18, 0, Math.PI * 2);
-      ctx.fillStyle = g;
-      ctx.fill();
-      // Small centre dot
-      ctx.beginPath();
-      ctx.arc(x, y, 2.5, 0, Math.PI * 2);
-      ctx.fillStyle = GOLD + '0.8)';
-      ctx.fill();
-    });
-
-    particles.forEach(p => {
-      p.t += p.speed;
-      if (p.t >= 1) {
-        // respawn
-        Object.assign(p, createParticle());
-        p.trail = [];
-        return;
-      }
-
-      // Control point slightly above midpoint for arc
-      const ctrl = {
-        x: lerp(p.from.x, p.to.x, 0.5) + (Math.random() * 0.0004 - 0.0002),
-        y: lerp(p.from.y, p.to.y, 0.5) - 0.12,
-      };
-      const pos = bezier(p.from, ctrl, p.to, p.t);
-      const px = pos.x * W, py = pos.y * H;
-
-      p.trail.push({ x: px, y: py });
-      if (p.trail.length > p.maxTrail) p.trail.shift();
-
-      // Draw trail
-      if (p.trail.length > 1) {
-        for (let i = 1; i < p.trail.length; i++) {
-          const fade = i / p.trail.length;
-          ctx.beginPath();
-          ctx.moveTo(p.trail[i-1].x, p.trail[i-1].y);
-          ctx.lineTo(p.trail[i].x, p.trail[i].y);
-          ctx.strokeStyle = GOLD + (fade * p.alpha * 0.7) + ')';
-          ctx.lineWidth = p.size * fade;
-          ctx.stroke();
-        }
-      }
-
-      // Draw particle head with glow
-      const grd = ctx.createRadialGradient(px, py, 0, px, py, p.size * 3);
-      grd.addColorStop(0, GOLD + p.alpha + ')');
-      grd.addColorStop(1, GOLD + '0)');
-      ctx.beginPath();
-      ctx.arc(px, py, p.size * 3, 0, Math.PI * 2);
-      ctx.fillStyle = grd;
-      ctx.fill();
-    });
-
-    requestAnimationFrame(draw);
-  }
-
-  // Only start when section is visible
-  const obs = new IntersectionObserver(entries => {
-    if (entries[0].isIntersecting) { draw(); obs.disconnect(); }
-  }, { threshold: 0.1 });
-  obs.observe(canvas);
-})();
-</script>
 
 
 <!-- ══ HOW WE WORK ══════════════════════════════════════════════ -->
@@ -1747,7 +1604,6 @@
   </div>
 </div>
 
-<script src="https://unpkg.com/three"></script>
 <script src="script.js"></script>
 <script src="property-modal.js"></script>
 
