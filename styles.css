@@ -390,7 +390,8 @@ h5 {
 
 /* ── Navigation ───────────────────────────────────────────────── */
 #navbar {
-  position: relative;
+  position: fixed;
+  top: 24px;
   left: 50%;
   transform: translateX(-50%);
   width: calc(100% - 48px);
@@ -1348,7 +1349,8 @@ select.form-input option {
   background: var(--charcoal-2);
   border-bottom: 1px solid rgba(201, 169, 110, 0.12);
   padding: 24px var(--gutter);
-  position: relative;
+  position: sticky;
+  top: var(--nav-h);
   z-index: 100;
 }
 
