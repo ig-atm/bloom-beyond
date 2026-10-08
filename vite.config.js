@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import Sitemap from 'vite-plugin-sitemap';
+import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import fs from 'fs';
 import { resolve } from 'path';
 
@@ -26,6 +27,7 @@ if (!fs.existsSync('dist')) {
 
 export default defineConfig({
   plugins: [
+    nodePolyfills(),
     Sitemap({
       hostname: 'https://beyondbloomre.com',
       outDir: 'dist',

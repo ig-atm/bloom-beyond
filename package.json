@@ -23,6 +23,7 @@
   "homepage": "https://github.com/ig-atm/bloom-beyond#readme",
   "devDependencies": {
     "vite": "^8.3.3",
+    "vite-plugin-node-polyfills": "^0.28.0",
     "vite-plugin-sitemap": "^0.8.2"
   }
 }
