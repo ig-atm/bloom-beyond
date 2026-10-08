@@ -24,6 +24,9 @@ export default defineConfig({
       generateRobotsTxt: true
     })
   ],
+  define: {
+    'process.env': {}
+  },
   build: {
     // Optionally output the standard build files to public/dist as well,
     // or just let it build normally while the sitemap goes to public/dist.
