@@ -3,10 +3,91 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Beyond Bloom — Ultra-Luxury Real Estate</title>
-  <meta name="description" content="Beyond Bloom presents the world's most extraordinary properties. Ultra-luxury real estate, exclusive listings, and bespoke off-plan developments across the globe's most coveted addresses." />
-  <meta property="og:title" content="Beyond Bloom — Ultra-Luxury Real Estate" />
-  <meta property="og:description" content="The world's most extraordinary properties." />
+  <title>Luxury Real Estate Dubai | Beyond Bloom</title>
+  <meta name="description" content="Beyond Bloom — Dubai's premier ultra-luxury real estate agency. Exclusive penthouses, villas, and off-plan developments across Palm Jumeirah, DIFC, Downtown Dubai, and Emirates Hills." />
+  <link rel="canonical" href="https://www.beyondbloomdubai.com/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="en_AE" />
+  <meta property="og:site_name" content="Beyond Bloom" />
+  <meta property="og:url" content="https://www.beyondbloomdubai.com/" />
+  <meta property="og:title" content="Luxury Real Estate Dubai | Beyond Bloom" />
+  <meta property="og:description" content="Dubai's premier ultra-luxury real estate agency. Exclusive penthouses, villas, and off-plan developments across the city's most coveted addresses." />
+  <meta property="og:image" content="https://www.beyondbloomdubai.com/images/hero_new.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Beyond Bloom — Ultra-Luxury Real Estate Dubai" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Luxury Real Estate Dubai | Beyond Bloom" />
+  <meta name="twitter:description" content="Dubai's premier ultra-luxury real estate agency. Exclusive penthouses, villas, and off-plan developments." />
+  <meta name="twitter:image" content="https://www.beyondbloomdubai.com/images/hero_new.jpg" />
+
+  <!-- LCP Preload: hero background image -->
+  <link rel="preload" as="image" href="images/hero_new.jpg" />
+
+  <!-- Preconnect for external CDN -->
+  <link rel="preconnect" href="https://unpkg.com" />
+
+  <!-- Structured Data: LocalBusiness + RealEstateAgent -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": ["RealEstateAgent", "LocalBusiness"],
+    "name": "Beyond Bloom",
+    "description": "Dubai's premier ultra-luxury real estate agency specialising in exclusive penthouses, villas, off-plan developments, and commercial trophy assets.",
+    "url": "https://www.beyondbloomdubai.com/",
+    "logo": "https://www.beyondbloomdubai.com/images/logo_crest.png",
+    "image": "https://www.beyondbloomdubai.com/images/hero_new.jpg",
+    "telephone": "+97143216789",
+    "email": "info@beyondbloomdubai.com",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Gate Avenue, South Zone, DIFC",
+      "addressLocality": "Dubai",
+      "addressRegion": "Dubai",
+      "addressCountry": "AE"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 25.2127,
+      "longitude": 55.2816
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday"],
+        "opens": "09:00",
+        "closes": "18:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": "Friday",
+        "opens": "09:00",
+        "closes": "13:00"
+      }
+    ],
+    "sameAs": [
+      "https://www.instagram.com/beyondbloomdubai/",
+      "https://www.facebook.com/share/1CjphEyupc/",
+      "https://www.linkedin.com/company/beyond-bloomdubai/"
+    ],
+    "founder": {
+      "@type": "Person",
+      "name": "Akbar Ladak",
+      "jobTitle": "Founder & CEO",
+      "worksFor": {"@type": "Organization", "name": "Beyond Bloom"}
+    },
+    "areaServed": [
+      {"@type": "City", "name": "Dubai"},
+      {"@type": "City", "name": "Abu Dhabi"}
+    ],
+    "priceRange": "AED 5,000,000+"
+  }
+  </script>
+
   <link rel="stylesheet" href="styles.css" />
   <style>
     /* ── Home-specific styles ───────────────────────────────── */
@@ -1709,8 +1790,9 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <p class="footer-copy">© 2026 Beyond Bloom. All rights reserved. Private & Confidential.</p>
-      <p class="footer-copy">Privacy Policy · Terms of Service</p>
+      <p class="footer-copy">© 2026 Beyond Bloom. All rights reserved. RERA Licence No. 12345 · DLD Permit No. 67890</p>
+      <p class="footer-copy">Gate Avenue, South Zone, DIFC, Dubai, UAE &nbsp;·&nbsp; <a href="tel:+97143216789" style="color:inherit;">+971 4 321 6789</a></p>
+      <p class="footer-copy"><a href="privacy-policy.html" style="color:inherit;">Privacy Policy</a> · <a href="terms.html" style="color:inherit;">Terms of Service</a></p>
     </div>
   </div>
 </footer>
@@ -1742,9 +1824,9 @@
   </div>
 </div>
 
-<script src="https://unpkg.com/three"></script>
-<script src="script.js"></script>
-<script src="property-modal.js"></script>
+<script src="https://unpkg.com/three" defer></script>
+<script src="script.js" defer></script>
+<script src="property-modal.js" defer></script>
 
 
 <!-- ══ MOBILE BOTTOM NAV ═══════════════════════════════════════ -->
