@@ -406,6 +406,8 @@
     .contact-info-item { padding: 28px 0; border-bottom: 1px solid rgba(201,169,110,0.1); }
     .contact-info-label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
     .contact-info-value { font-family: var(--serif); font-size: 18px; color: var(--off-white); }
+    .contact-info-value a { color: inherit; text-decoration: none; transition: color var(--t-fast); }
+    .contact-info-value a:hover { color: var(--gold); }
     .awards-strip { padding: 60px var(--gutter); background: var(--charcoal-2); border-top: 1px solid rgba(201,169,110,0.1); border-bottom: 1px solid rgba(201,169,110,0.1); }
     .awards-inner { max-width: var(--max-w); margin: 0 auto; display: flex; gap: 60px; align-items: center; justify-content: center; flex-wrap: wrap; }
     .award-item { text-align: center; opacity: 0.5; transition: opacity var(--t-mid); }
@@ -751,15 +753,15 @@
         </p>
         <div class="contact-info-item">
           <div class="contact-info-label">Dubai Office<br>Dubai</div>
-          <div class="contact-info-value">+971 52 226 6329</div>
+          <div class="contact-info-value"><a href="tel:+971522266329">+971 52 226 6329</a></div>
         </div>
         <div class="contact-info-item">
           <div class="contact-info-label">Email</div>
-          <div class="contact-info-value">enquiries@beyondbloom.com</div>
+          <div class="contact-info-value"><a href="mailto:info@beyondbloomre.com">info@beyondbloomre.com</a></div>
         </div>
         <div class="contact-info-item" style="border-bottom: none;">
           <div class="contact-info-label">WhatsApp (Priority)</div>
-          <div class="contact-info-value">+44 7700 123 456</div>
+          <div class="contact-info-value"><a href="https://wa.me/971522266329" target="_blank" rel="noopener">+971 52 226 6329</a></div>
         </div>
       </div>
       <div class="reveal reveal-delay-1">
@@ -781,7 +783,7 @@
           </div>
           <div class="form-group">
             <label class="form-label" for="phone">Phone / WhatsApp</label>
-            <input type="tel" id="phone" class="form-input" placeholder="+44 7700 000 000" />
+            <input type="tel" id="phone" class="form-input" placeholder="+971 52 000 0000" />
           </div>
           <div class="form-group">
             <label class="form-label" for="enquiryType">Enquiry Type</label>
