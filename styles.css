@@ -1349,9 +1349,8 @@ select.form-input option {
   background: var(--charcoal-2);
   border-bottom: 1px solid rgba(201, 169, 110, 0.12);
   padding: 24px var(--gutter);
-  position: sticky;
-  top: var(--nav-h);
-  z-index: 100;
+  position: relative;
+  z-index: 10;
 }
 
 .filter-inner {
