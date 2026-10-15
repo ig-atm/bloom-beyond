@@ -1,10 +1,10 @@
 // ================================================================
 //  BEYOND BLOOM — App Router
-//  Uses React.lazy() to code-split /admin and /admin/login
-//  so public bundle size stays fast and lightweight.
+//  Uses HashRouter so /admin CRM sub-routes deploy cleanly on
+//  Vercel and static hosting without server rewrite dependencies.
 // ================================================================
 import { lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Loader } from 'lucide-react';
 import ProtectedRoute from './components/admin/ProtectedRoute';
 
@@ -38,14 +38,12 @@ function LoadingFallback() {
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Suspense fallback={<LoadingFallback />}>
         <Routes>
-          {/* Public Live Showcase */}
-          <Route path="/" element={<PublicListings />} />
-
           {/* Admin Login */}
           <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/login" element={<AdminLogin />} />
 
           {/* Protected Admin CRM Portal */}
           <Route path="/admin" element={
@@ -58,7 +56,17 @@ export default function App() {
               <AdminListings />
             </ProtectedRoute>
           } />
+          <Route path="/listings" element={
+            <ProtectedRoute>
+              <AdminListings />
+            </ProtectedRoute>
+          } />
           <Route path="/admin/leads" element={
+            <ProtectedRoute>
+              <AdminLeads />
+            </ProtectedRoute>
+          } />
+          <Route path="/leads" element={
             <ProtectedRoute>
               <AdminLeads />
             </ProtectedRoute>
@@ -68,11 +76,22 @@ export default function App() {
               <AdminAgents />
             </ProtectedRoute>
           } />
+          <Route path="/agents" element={
+            <ProtectedRoute>
+              <AdminAgents />
+            </ProtectedRoute>
+          } />
+
+          {/* Public Live Showcase */}
+          <Route path="/public" element={<PublicListings />} />
+
+          {/* Root hash redirects to /admin */}
+          <Route path="/" element={<Navigate to="/admin" replace />} />
 
           {/* Fallback */}
           <Route path="*" element={<Navigate to="/admin" replace />} />
         </Routes>
       </Suspense>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
