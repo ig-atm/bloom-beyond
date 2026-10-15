@@ -1,5 +1,6 @@
 {
   "name": "beyond-bloom",
+  "outputDirectory": ".",
   "headers": [
     {
       "source": "/images/(.*)",
