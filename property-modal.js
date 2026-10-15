@@ -432,6 +432,7 @@
           images:   (stored.images  && stored.images.length) ? stored.images : cardData.images,
         };
 
+        window.currentViewingPropertyId = card.dataset.propertyId || null;
         openModal(finalData, cardData.images);
       });
     });

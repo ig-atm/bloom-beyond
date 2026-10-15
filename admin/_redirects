@@ -1,0 +1,3 @@
+# Redirects for Netlify & static hosts
+/api/*      /.netlify/functions/:splat  200
+/admin/*    /admin/index.html           200

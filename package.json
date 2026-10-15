@@ -1,0 +1,12 @@
+{
+  "name": "beyond-bloom",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "npm --prefix admin-app run build",
+    "dev": "npm --prefix admin-app run dev",
+    "website": "npx -y serve -l 3000 --cors",
+    "lint": "npm --prefix admin-app run lint"
+  }
+}

@@ -1,2 +1,6 @@
 .vercel
 .env*
+node_modules
+admin-app/node_modules
+dist
+.DS_Store
