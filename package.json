@@ -4,7 +4,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "build": "npm --prefix admin-app run build",
+    "build": "npm --prefix admin-app run build && mkdir -p admin && cp -r dist/* admin/ && cp -r images agency.html commercial.html listings.html off-plan.html privacy-policy.html property.html sellers.html terms.html script.js property-modal.js supabase-live.js styles.css hero-webgl.js scroll-animations.js dist/ 2>/dev/null || true",
     "dev": "npm --prefix admin-app run dev",
     "website": "npx -y serve -l 3000 --cors",
     "lint": "npm --prefix admin-app run lint"
