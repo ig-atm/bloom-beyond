@@ -42,18 +42,13 @@ export default function App() {
       <Suspense fallback={<LoadingFallback />}>
         <Routes>
           {/* Admin Login */}
-          <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/login" element={<AdminLogin />} />
+          <Route path="/admin/login" element={<Navigate to="/login" replace />} />
 
           {/* Protected Admin CRM Portal */}
-          <Route path="/admin" element={
+          <Route path="/" element={
             <ProtectedRoute>
               <AdminDashboard />
-            </ProtectedRoute>
-          } />
-          <Route path="/admin/listings" element={
-            <ProtectedRoute>
-              <AdminListings />
             </ProtectedRoute>
           } />
           <Route path="/listings" element={
@@ -61,19 +56,9 @@ export default function App() {
               <AdminListings />
             </ProtectedRoute>
           } />
-          <Route path="/admin/leads" element={
-            <ProtectedRoute>
-              <AdminLeads />
-            </ProtectedRoute>
-          } />
           <Route path="/leads" element={
             <ProtectedRoute>
               <AdminLeads />
-            </ProtectedRoute>
-          } />
-          <Route path="/admin/agents" element={
-            <ProtectedRoute>
-              <AdminAgents />
             </ProtectedRoute>
           } />
           <Route path="/agents" element={
@@ -82,14 +67,17 @@ export default function App() {
             </ProtectedRoute>
           } />
 
+          {/* Legacy /admin aliases — cleanly redirect to base paths without duplicate /admin */}
+          <Route path="/admin" element={<Navigate to="/" replace />} />
+          <Route path="/admin/listings" element={<Navigate to="/listings" replace />} />
+          <Route path="/admin/leads" element={<Navigate to="/leads" replace />} />
+          <Route path="/admin/agents" element={<Navigate to="/agents" replace />} />
+
           {/* Public Live Showcase */}
           <Route path="/public" element={<PublicListings />} />
 
-          {/* Root hash redirects to /admin */}
-          <Route path="/" element={<Navigate to="/admin" replace />} />
-
           {/* Fallback */}
-          <Route path="*" element={<Navigate to="/admin" replace />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Suspense>
     </HashRouter>

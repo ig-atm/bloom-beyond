@@ -12,7 +12,7 @@
       var p = window.location.pathname;
       if (p && p.startsWith('/admin') && !window.location.hash) {
         var sub = p.replace(/^\/admin\/?/, '');
-        window.location.replace('/admin/' + (sub ? '#/admin/' + sub : ''));
+        window.location.replace('/admin/' + (sub ? '#/' + sub : ''));
       }
     })();
   </script>

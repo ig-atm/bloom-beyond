@@ -10,10 +10,10 @@ import {
 } from 'lucide-react';
 
 const NAV = [
-  { to: '/admin',          label: 'Dashboard',  icon: LayoutDashboard, exact: true },
-  { to: '/admin/listings', label: 'Listings',   icon: Building2 },
-  { to: '/admin/leads',    label: 'Lead CRM',   icon: KanbanSquare },
-  { to: '/admin/agents',   label: 'Agents',     icon: Users2 },
+  { to: '/',         label: 'Dashboard',  icon: LayoutDashboard, exact: true },
+  { to: '/listings', label: 'Listings',   icon: Building2 },
+  { to: '/leads',    label: 'Lead CRM',   icon: KanbanSquare },
+  { to: '/agents',   label: 'Agents',     icon: Users2 },
 ];
 
 export default function AdminLayout({ children, user }) {
@@ -22,7 +22,7 @@ export default function AdminLayout({ children, user }) {
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
-    navigate('/admin/login');
+    navigate('/login');
   };
 
   return (
@@ -82,9 +82,37 @@ export default function AdminLayout({ children, user }) {
             </div>
           )}
 
-          <button className="nav-item" style={{ width: '100%', border: 'none' }} onClick={handleSignOut}>
+          <button
+            type="button"
+            className="btn-signout bg-white/5 hover:bg-white/10 text-white border border-white/15"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 12,
+              width: '100%',
+              padding: '10px 14px',
+              borderRadius: 'var(--radius-sm, 4px)',
+              background: 'rgba(255, 255, 255, 0.05)',
+              border: '1px solid rgba(255, 255, 255, 0.15)',
+              color: '#ffffff',
+              fontSize: 13,
+              fontWeight: 500,
+              cursor: 'pointer',
+              transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+              outline: 'none',
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.10)';
+              e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.25)';
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+              e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.15)';
+            }}
+            onClick={handleSignOut}
+          >
             <LogOut size={16} />
-            Sign Out
+            <span>Sign Out</span>
           </button>
         </div>
       </aside>

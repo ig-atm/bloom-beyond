@@ -2,12 +2,13 @@
 //  BEYOND BLOOM — Admin Login Page
 // ================================================================
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
 import { Lock, Eye, EyeOff, Loader } from 'lucide-react';
 
 export default function AdminLogin() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [email, setEmail]       = useState('');
   const [password, setPassword] = useState('');
   const [showPw, setShowPw]     = useState(false);
@@ -25,7 +26,9 @@ export default function AdminLogin() {
       setError(authError.message);
       setLoading(false);
     } else {
-      navigate('/admin');
+      const from = location.state?.from?.pathname || '/';
+      const target = (from === '/admin' || from === '/login' || from === '/admin/login') ? '/' : from;
+      navigate(target, { replace: true });
     }
   };
 

@@ -6,13 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Beyond Bloom — Luxury CRM &amp; Admin Portal</title>
     <script>
-      // Gracefully handle direct non-hash visits (e.g. /admin/listings -> /admin/#/admin/listings)
+      // Gracefully handle direct non-hash visits (e.g. /admin/listings -> /admin/#/listings)
       (function() {
         var p = window.location.pathname;
         if (p && p.startsWith('/admin/') && !window.location.hash) {
           var sub = p.replace(/^\/admin\/?/, '');
           if (sub) {
-            window.location.replace('/admin/#/admin/' + sub);
+            window.location.replace('/admin/#/' + sub);
           }
         }
       })();

@@ -295,6 +295,49 @@ textarea.form-control { resize: vertical; min-height: 80px; }
   border-top: 1px solid var(--glass-border);
 }
 
+/* ── Admin Sign Out Button (Dark Glassmorphic) ── */
+.btn-signout {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm, 4px);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  text-align: left;
+  outline: none;
+}
+.btn-signout:hover {
+  background: rgba(255, 255, 255, 0.10);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+.btn-signout:active {
+  background: rgba(255, 255, 255, 0.14);
+}
+.btn-signout svg {
+  flex-shrink: 0;
+  color: rgba(255, 255, 255, 0.85);
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+.btn-signout:hover svg {
+  color: #ffffff;
+  transform: translateX(-2px);
+}
+
+/* Glassmorphic utilities */
+.bg-white\/5 { background-color: rgba(255, 255, 255, 0.05); }
+.hover\:bg-white\/10:hover { background-color: rgba(255, 255, 255, 0.10); }
+.text-white { color: #ffffff; }
+.border-white\/15 { border-color: rgba(255, 255, 255, 0.15); }
+
 /* ── Data table ────────────────────────────────────────────────── */
 .data-table-wrap { overflow-x: auto; border-radius: var(--radius-md); border: 1px solid var(--glass-border); }
 .data-table {
