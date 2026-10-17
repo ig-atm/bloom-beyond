@@ -60,163 +60,14 @@
   }
   </script>
 
-  <link rel="stylesheet" href="styles.css" />
-  <style>
-    .sellers-hero-content { max-width: 680px; }
-    .process-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2px;
-      margin-top: 60px;
-    }
-    .process-step {
-      background: var(--charcoal-2);
-      border: 1px solid rgba(201,169,110,0.1);
-      padding: 48px 36px;
-      position: relative;
-      transition: border-color 0.3s, background 0.3s;
-    }
-    .process-step:hover {
-      border-color: rgba(201,169,110,0.35);
-      background: var(--charcoal-3);
-    }
-    .process-num {
-      font-family: var(--serif);
-      font-size: 72px;
-      font-weight: 400;
-      color: rgba(201,169,110,0.12);
-      line-height: 1;
-      margin-bottom: 24px;
-      letter-spacing: -0.04em;
-    }
-    .stats-band {
-      background: var(--charcoal-2);
-      border-top: 1px solid rgba(201,169,110,0.12);
-      border-bottom: 1px solid rgba(201,169,110,0.12);
-      padding: 64px var(--gutter);
-    }
-    .stats-row {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 2px;
-      max-width: var(--max-w);
-      margin: 0 auto;
-    }
-    .stat-item {
-      text-align: center;
-      padding: 40px 24px;
-      border-right: 1px solid rgba(201,169,110,0.1);
-    }
-    .stat-item:last-child { border-right: none; }
-    .stat-num {
-      font-family: var(--serif);
-      font-size: clamp(36px, 4vw, 60px);
-      font-weight: 400;
-      color: var(--champagne);
-      letter-spacing: -0.03em;
-      line-height: 1;
-      margin-bottom: 12px;
-    }
-    .stat-label {
-      font-family: var(--sans);
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.35);
-    }
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 2px;
-      margin-top: 48px;
-    }
-    .service-card {
-      background: var(--charcoal-2);
-      border: 1px solid rgba(201,169,110,0.08);
-      padding: 44px 40px;
-      transition: border-color 0.3s, transform 0.3s;
-    }
-    .service-card:hover {
-      border-color: rgba(201,169,110,0.3);
-      transform: translateY(-4px);
-    }
-    .service-icon {
-      width: 48px;
-      height: 48px;
-      border: 1px solid rgba(201,169,110,0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 24px;
-    }
-    .testimonial-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-      margin-top: 60px;
-    }
-    .testimonial-card {
-      background: var(--charcoal-2);
-      border: 1px solid rgba(201,169,110,0.1);
-      padding: 36px;
-      position: relative;
-    }
-    .testimonial-card::before {
-      content: '"';
-      font-family: var(--serif);
-      font-size: 80px;
-      color: rgba(201,169,110,0.15);
-      position: absolute;
-      top: 16px;
-      left: 28px;
-      line-height: 1;
-    }
-    .testimonial-text {
-      font-family: var(--sans);
-      font-size: 14px;
-      font-weight: 300;
-      line-height: 1.8;
-      color: rgba(255,255,255,0.65);
-      margin-bottom: 24px;
-      margin-top: 40px;
-    }
-    .testimonial-author {
-      font-family: var(--sans);
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--gold);
-    }
-    .valuation-form {
-      background: var(--charcoal-2);
-      border: 1px solid rgba(201,169,110,0.15);
-      padding: 60px;
-      max-width: 780px;
-      margin: 60px auto 0;
-    }
-    .form-two-col {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-    }
-    @media (max-width: 900px) {
-      .process-grid { grid-template-columns: 1fr; }
-      .stats-row { grid-template-columns: repeat(2, 1fr); }
-      .stat-item { border-right: none; border-bottom: 1px solid rgba(201,169,110,0.1); }
-      .services-grid { grid-template-columns: 1fr; }
-      .testimonial-grid { grid-template-columns: 1fr; }
-      .form-two-col { grid-template-columns: 1fr; }
-      .valuation-form { padding: 36px 24px; }
-    }
-  </style>
+  <style>.sellers-hero-content{max-width:680px}.process-grid{grid-template-columns:repeat(3,1fr);gap:2px;margin-top:60px;display:grid}.process-step{background:var(--charcoal-2);border:1px solid #c9a96e1a;padding:48px 36px;transition:border-color .3s,background .3s;position:relative}.process-step:hover{background:var(--charcoal-3);border-color:#c9a96e59}.process-num{font-family:var(--serif);color:#c9a96e1f;letter-spacing:-.04em;margin-bottom:24px;font-size:72px;font-weight:400;line-height:1}.stats-band{background:var(--charcoal-2);padding:64px var(--gutter);border-top:1px solid #c9a96e1f;border-bottom:1px solid #c9a96e1f}.stats-row{max-width:var(--max-w);grid-template-columns:repeat(4,1fr);gap:2px;margin:0 auto;display:grid}.stat-item{text-align:center;border-right:1px solid #c9a96e1a;padding:40px 24px}.stat-item:last-child{border-right:none}.stat-num{font-family:var(--serif);color:var(--champagne);letter-spacing:-.03em;margin-bottom:12px;font-size:clamp(36px,4vw,60px);font-weight:400;line-height:1}.stat-label{font-family:var(--sans);letter-spacing:.2em;text-transform:uppercase;color:#ffffff59;font-size:10px;font-weight:600}.services-grid{grid-template-columns:repeat(2,1fr);gap:2px;margin-top:48px;display:grid}.service-card{background:var(--charcoal-2);border:1px solid #c9a96e14;padding:44px 40px;transition:border-color .3s,transform .3s}.service-card:hover{border-color:#c9a96e4d;transform:translateY(-4px)}.service-icon{border:1px solid #c9a96e4d;justify-content:center;align-items:center;width:48px;height:48px;margin-bottom:24px;display:flex}.testimonial-grid{grid-template-columns:repeat(3,1fr);gap:24px;margin-top:60px;display:grid}.testimonial-card{background:var(--charcoal-2);border:1px solid #c9a96e1a;padding:36px;position:relative}.testimonial-card:before{content:"\"";font-family:var(--serif);color:#c9a96e26;font-size:80px;line-height:1;position:absolute;top:16px;left:28px}.testimonial-text{font-family:var(--sans);color:#ffffffa6;margin-top:40px;margin-bottom:24px;font-size:14px;font-weight:300;line-height:1.8}.testimonial-author{font-family:var(--sans);letter-spacing:.15em;text-transform:uppercase;color:var(--gold);font-size:11px;font-weight:600}.valuation-form{background:var(--charcoal-2);border:1px solid #c9a96e26;max-width:780px;margin:60px auto 0;padding:60px}.form-two-col{grid-template-columns:1fr 1fr;gap:24px;display:grid}@media (width<=900px){.process-grid{grid-template-columns:1fr}.stats-row{grid-template-columns:repeat(2,1fr)}.stat-item{border-bottom:1px solid #c9a96e1a;border-right:none}.services-grid,.testimonial-grid,.form-two-col{grid-template-columns:1fr}.valuation-form{padding:36px 24px}}</style>
+  <link rel="stylesheet" crossorigin href="/assets/styles-C2EoYWV7.css">
 </head>
 <body>
 
 <nav id="navbar" class="scrolled">
   <div class="nav-inner">
-    <a href="index.html" class="nav-logo"><img src="images/logo_crest.png?v=2" alt="Beyond Bloom Real Estate" class="nav-logo-img" style="height:34px;width:auto;display:block;" /></a>
+    <a href="index.html" class="nav-logo"><img src="/assets/logo_crest-BSWFcVMP.png?v=2" alt="Beyond Bloom Real Estate" class="nav-logo-img" style="height:34px;width:auto;display:block;" /></a>
     <ul class="nav-links">
       <li><a href="listings.html" class="nav-link">Residential</a></li>
       <li><a href="commercial.html" class="nav-link">Commercial</a></li>
@@ -240,7 +91,7 @@
 
 <section class="page-hero">
   <div class="page-hero-bg">
-    <img src="images/listing_villa.jpg" alt="Sell Your Property" />
+    <img src="/assets/listing_villa-BgiBrkq9.jpg" alt="Sell Your Property" />
   </div>
   <div class="page-hero-gradient"></div>
   <div class="page-hero-content sellers-hero-content">

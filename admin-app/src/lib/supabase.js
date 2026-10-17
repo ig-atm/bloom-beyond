@@ -1,47 +1,32 @@
 // ================================================================
-//  BEYOND BLOOM — Supabase Client
-//  Safe fallback so `vite build` never crashes when env vars are
-//  missing (e.g. in CI lint steps or preview deployments).
+//  BEYOND BLOOM — Supabase Client Setup
+//  Uses import.meta.env with safe fallback strings so production
+//  builds and deployments on Vercel never fail even if env vars are delayed.
 // ================================================================
 import { createClient } from '@supabase/supabase-js';
 
-const SUPABASE_URL = (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUPABASE_URL) || (typeof process !== 'undefined' && process.env?.VITE_SUPABASE_URL) || '';
-const SUPABASE_ANON_KEY = (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUPABASE_ANON_KEY) || (typeof process !== 'undefined' && process.env?.VITE_SUPABASE_ANON_KEY) || '';
+const FALLBACK_URL = 'https://ljdplvhmfgrcgkxrslxn.supabase.co';
+const FALLBACK_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqZHBsdmhtZmdyY2dreHJzbHhuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIwMDM1MjEsImV4cCI6MjEwNzU3OTUyMX0.4KF2RwtnSo4gK3BV3sc78drE72FtkEAzs6YH7oCm158';
 
-// Guard: in CI / linting environments where env vars may not be present,
-// we create a dummy stub so imports don't blow up at module evaluation time.
-export const supabase = SUPABASE_URL && SUPABASE_ANON_KEY
-  ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-      auth: {
-        autoRefreshToken: true,
-        persistSession: true,
-        detectSessionInUrl: true,
-      },
-      realtime: {
-        params: {
-          eventsPerSecond: 10,
-        },
-      },
-    })
-  : {
-      // Minimal stub so the app renders without crashing in CI
-      from: () => ({ select: () => ({ data: null, error: new Error('Supabase not configured') }) }),
-      auth: {
-        signInWithPassword: async () => ({ error: new Error('Supabase not configured') }),
-        signOut: async () => {},
-        getSession: async () => ({ data: { session: null } }),
-        onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => {} } } }),
-      },
-      channel: () => ({
-        on: () => ({ subscribe: () => ({ unsubscribe: () => {} }) }),
-      }),
-      storage: {
-        from: () => ({
-          upload: async () => ({ error: new Error('Supabase not configured') }),
-          getPublicUrl: () => ({ data: { publicUrl: '' } }),
-        }),
-      },
-      removeChannel: () => {},
-    };
+const SUPABASE_URL =
+  (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUPABASE_URL) ||
+  FALLBACK_URL;
 
-export const isSupabaseConfigured = !!(SUPABASE_URL && SUPABASE_ANON_KEY);
+const SUPABASE_ANON_KEY =
+  (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUPABASE_ANON_KEY) ||
+  FALLBACK_KEY;
+
+export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  auth: {
+    autoRefreshToken: true,
+    persistSession: true,
+    detectSessionInUrl: true,
+  },
+  realtime: {
+    params: {
+      eventsPerSecond: 10,
+    },
+  },
+});
+
+export const isSupabaseConfigured = true;

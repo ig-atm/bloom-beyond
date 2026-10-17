@@ -37,72 +37,14 @@
   }
   </script>
 
-  <link rel="stylesheet" href="styles.css" />
-  <style>
-    .listings-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 28px;
-    }
-    .listing-card-large { grid-column: span 2; }
-    .listing-card-large .card-image { aspect-ratio: 16/9; }
-    .search-bar-wrap {
-      background: var(--charcoal-2);
-      border: 1px solid rgba(201,169,110,0.15);
-      padding: 32px 40px;
-      margin-bottom: 48px;
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr auto;
-      gap: 28px;
-      align-items: end;
-    }
-    .map-cta {
-      background: var(--charcoal-3);
-      border: 1px solid rgba(201,169,110,0.12);
-      padding: 48px;
-      text-align: center;
-      margin-top: 60px;
-      position: relative;
-      overflow: hidden;
-    }
-    .map-cta::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: url('images/listing_penthouse.jpg') center/cover;
-      opacity: 0.08;
-    }
-    .map-cta > * { position: relative; z-index: 1; }
-    .commercial-badge {
-      display: inline-block;
-      background: rgba(201,169,110,0.12);
-      border: 1px solid rgba(201,169,110,0.3);
-      color: var(--gold);
-      font-family: var(--sans);
-      font-size: 9px;
-      font-weight: 600;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      padding: 5px 14px;
-      margin-bottom: 12px;
-    }
-    @media (max-width: 1000px) {
-      .listings-grid { grid-template-columns: 1fr 1fr; }
-      .listing-card-large { grid-column: span 2; }
-      .search-bar-wrap { grid-template-columns: 1fr 1fr; }
-    }
-    @media (max-width: 640px) {
-      .listings-grid { grid-template-columns: 1fr; }
-      .listing-card-large { grid-column: span 1; }
-      .search-bar-wrap { grid-template-columns: 1fr; padding: 24px; }
-    }
-  </style>
+  <style>.listings-grid{grid-template-columns:repeat(3,1fr);gap:28px;display:grid}.listing-card-large{grid-column:span 2}.listing-card-large .card-image{aspect-ratio:16/9}.search-bar-wrap{background:var(--charcoal-2);border:1px solid #c9a96e26;grid-template-columns:1fr 1fr 1fr auto;align-items:end;gap:28px;margin-bottom:48px;padding:32px 40px;display:grid}.map-cta{background:var(--charcoal-3);text-align:center;border:1px solid #c9a96e1f;margin-top:60px;padding:48px;position:relative;overflow:hidden}.map-cta:before{content:"";opacity:.08;background:url(/assets/listing_penthouse-BxZeDH99.jpg) 50%/cover;position:absolute;inset:0}.map-cta>*{z-index:1;position:relative}.commercial-badge{color:var(--gold);font-family:var(--sans);letter-spacing:.2em;text-transform:uppercase;background:#c9a96e1f;border:1px solid #c9a96e4d;margin-bottom:12px;padding:5px 14px;font-size:9px;font-weight:600;display:inline-block}@media (width<=1000px){.listings-grid{grid-template-columns:1fr 1fr}.listing-card-large{grid-column:span 2}.search-bar-wrap{grid-template-columns:1fr 1fr}}@media (width<=640px){.listings-grid{grid-template-columns:1fr}.listing-card-large{grid-column:span 1}.search-bar-wrap{grid-template-columns:1fr;padding:24px}}</style>
+  <link rel="stylesheet" crossorigin href="/assets/styles-C2EoYWV7.css">
 </head>
 <body>
 
 <nav id="navbar" class="scrolled">
   <div class="nav-inner">
-    <a href="index.html" class="nav-logo"><img src="images/logo_crest.png?v=2" alt="Beyond Bloom Real Estate" class="nav-logo-img" style="height:34px;width:auto;display:block;" /></a>
+    <a href="index.html" class="nav-logo"><img src="/assets/logo_crest-BSWFcVMP.png?v=2" alt="Beyond Bloom Real Estate" class="nav-logo-img" style="height:34px;width:auto;display:block;" /></a>
     <ul class="nav-links">
       <li><a href="listings.html" class="nav-link">Residential</a></li>
       <li><a href="commercial.html" class="nav-link active">Commercial</a></li>
@@ -126,7 +68,7 @@
 
 <section class="page-hero">
   <div class="page-hero-bg">
-    <img src="images/listing_skyhouse.jpg" alt="Commercial Properties" />
+    <img src="/assets/listing_skyhouse-CX45gUx2.jpg" alt="Commercial Properties" />
   </div>
   <div class="page-hero-gradient"></div>
   <div class="page-hero-content">
@@ -210,9 +152,9 @@
         <div class="card-image">
           <div class="card-badge">Trophy Asset</div>
           <div class="card-carousel">
-            <img src="images/listing_skyhouse.jpg" alt="One Meridian Tower" />
-            <img src="images/listing_penthouse.jpg" alt="Interior View" />
-            <img src="images/listing_villa.jpg" alt="Exterior View" />
+            <img src="/assets/listing_skyhouse-CX45gUx2.jpg" alt="One Meridian Tower" />
+            <img src="/assets/listing_penthouse-BxZeDH99.jpg" alt="Interior View" />
+            <img src="/assets/listing_villa-BgiBrkq9.jpg" alt="Exterior View" />
           </div>
           <button class="carousel-btn prev" aria-label="Previous image"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
           <button class="carousel-btn next" aria-label="Next image"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
@@ -244,8 +186,8 @@
         <div class="card-image">
           <div class="card-badge">Flagship Retail</div>
           <div class="card-carousel">
-            <img src="images/listing_penthouse.jpg" alt="Bond Street Flagship" />
-            <img src="images/listing_skyhouse.jpg" alt="Interior View" />
+            <img src="/assets/listing_penthouse-BxZeDH99.jpg" alt="Bond Street Flagship" />
+            <img src="/assets/listing_skyhouse-CX45gUx2.jpg" alt="Interior View" />
           </div>
           <button class="carousel-btn prev" aria-label="Previous image"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
           <button class="carousel-btn next" aria-label="Next image"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
@@ -267,8 +209,8 @@
       <div class="card reveal" data-category="hotel">
         <div class="card-image">
           <div class="card-carousel">
-            <img src="images/listing_villa.jpg" alt="Dubai Hotel" />
-            <img src="images/listing_skyhouse.jpg" alt="Interior View" />
+            <img src="/assets/listing_villa-BgiBrkq9.jpg" alt="Dubai Hotel" />
+            <img src="/assets/listing_skyhouse-CX45gUx2.jpg" alt="Interior View" />
           </div>
           <button class="carousel-btn prev" aria-label="Previous image"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
           <button class="carousel-btn next" aria-label="Next image"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
@@ -291,8 +233,8 @@
         <div class="card-image">
           <div class="card-badge">Mixed-Use</div>
           <div class="card-carousel">
-            <img src="images/listing_skyhouse.jpg" alt="NYC Mixed Use" />
-            <img src="images/listing_penthouse.jpg" alt="Interior View" />
+            <img src="/assets/listing_skyhouse-CX45gUx2.jpg" alt="NYC Mixed Use" />
+            <img src="/assets/listing_penthouse-BxZeDH99.jpg" alt="Interior View" />
           </div>
           <button class="carousel-btn prev" aria-label="Previous image"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
           <button class="carousel-btn next" aria-label="Next image"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
@@ -315,9 +257,9 @@
         <div class="card-image">
           <div class="card-badge">Exclusive</div>
           <div class="card-carousel">
-            <img src="images/listing_villa.jpg" alt="Paris Retail Portfolio" />
-            <img src="images/listing_penthouse.jpg" alt="Interior View" />
-            <img src="images/listing_skyhouse.jpg" alt="Exterior View" />
+            <img src="/assets/listing_villa-BgiBrkq9.jpg" alt="Paris Retail Portfolio" />
+            <img src="/assets/listing_penthouse-BxZeDH99.jpg" alt="Interior View" />
+            <img src="/assets/listing_skyhouse-CX45gUx2.jpg" alt="Exterior View" />
           </div>
           <button class="carousel-btn prev" aria-label="Previous image"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
           <button class="carousel-btn next" aria-label="Next image"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none"><polyline points="9 18 15 12 9 6"></polyline></svg></button>

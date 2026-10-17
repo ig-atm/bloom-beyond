@@ -6,6 +6,16 @@
   <title>Luxury Real Estate Dubai | Beyond Bloom</title>
   <meta name="description" content="Beyond Bloom — Dubai's premier ultra-luxury real estate agency. Exclusive penthouses, villas, and off-plan developments across Palm Jumeirah, DIFC, Downtown Dubai, and Emirates Hills." />
   <link rel="canonical" href="https://www.beyondbloomdubai.com/" />
+  <script>
+    // Gracefully route any rewritten /admin deep links to the admin portal
+    (function() {
+      var p = window.location.pathname;
+      if (p && p.startsWith('/admin') && !window.location.hash) {
+        var sub = p.replace(/^\/admin\/?/, '');
+        window.location.replace('/admin/' + (sub ? '#/admin/' + sub : ''));
+      }
+    })();
+  </script>
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />

@@ -24,6 +24,37 @@ const COLUMNS = [
   { id: 'lost',           label: 'Lost / Inactive',  color: '#94a3b8' },
 ];
 
+export function parseLeadNotes(notes) {
+  if (!notes) return { enquiryType: null, budgetRange: null, message: null, other: null };
+
+  let enquiryType = null;
+  let budgetRange = null;
+  let message = null;
+
+  // Match pattern: "Enquiry Type: ... | Budget Range: ... | Message: ..."
+  const typeMatch = notes.match(/Enquiry Type:\s*([^|\n]+)/i);
+  if (typeMatch && typeMatch[1].trim()) {
+    enquiryType = typeMatch[1].trim();
+  }
+
+  const budgetMatch = notes.match(/Budget Range:\s*([^|\n]+)/i);
+  if (budgetMatch && budgetMatch[1].trim()) {
+    budgetRange = budgetMatch[1].trim();
+  }
+
+  const msgMatch = notes.match(/Message:\s*([\s\S]+)$/i);
+  if (msgMatch && msgMatch[1].trim() && msgMatch[1].trim() !== 'None') {
+    message = msgMatch[1].trim();
+  }
+
+  let other = null;
+  if (!enquiryType && !budgetRange && !message) {
+    other = notes;
+  }
+
+  return { enquiryType, budgetRange, message, other };
+}
+
 function Toast({ msg, type, onClose }) {
   if (!msg) return null;
   return (
@@ -40,10 +71,10 @@ function LeadModal({ lead, properties, agents, onClose, onSaved }) {
     client_name: lead?.client_name || '',
     client_email: lead?.client_email || '',
     client_phone: lead?.client_phone || '',
-    stage: lead?.stage || 'new',
+    stage: lead?.pipeline_stage || lead?.stage || 'new',
     property_id: lead?.property_id || '',
     assigned_agent_id: lead?.assigned_agent_id || '',
-    source: lead?.source || 'website',
+    source: lead?.source || 'website_inquiry',
     notes: lead?.notes || '',
   });
   const [saving, setSaving] = useState(false);
@@ -57,11 +88,11 @@ function LeadModal({ lead, properties, agents, onClose, onSaved }) {
     const payload = {
       client_name: form.client_name.trim(),
       client_email: form.client_email.trim(),
-      client_phone: form.client_phone.trim(),
-      stage: form.stage,
+      client_phone: form.client_phone.trim() || null,
+      pipeline_stage: form.stage || 'new',
       property_id: form.property_id || null,
       assigned_agent_id: form.assigned_agent_id || null,
-      source: form.source || 'crm_manual',
+      source: form.source === 'private_viewing' ? 'private_viewing' : 'website_inquiry',
       notes: form.notes || null,
     };
 
@@ -267,7 +298,7 @@ export default function AdminLeads() {
     try {
       const { error } = await supabase
         .from('leads')
-        .update({ stage: newStage, updated_at: new Date().toISOString() })
+        .update({ pipeline_stage: newStage, updated_at: new Date().toISOString() })
         .eq('id', leadId);
 
       if (error) throw error;
@@ -410,7 +441,7 @@ export default function AdminLeads() {
         /* Kanban Columns */
         <div className="kanban-board">
           {COLUMNS.map((col, colIdx) => {
-            const columnLeads = filteredLeads.filter(l => (l.stage || 'new') === col.id);
+            const columnLeads = filteredLeads.filter(l => (l.pipeline_stage || l.stage || 'new') === col.id);
 
             return (
               <div key={col.id} className="kanban-column">
@@ -432,10 +463,12 @@ export default function AdminLeads() {
                     <div className="kanban-empty">No leads in this stage</div>
                   ) : (
                     columnLeads.map(lead => {
-                      const waLink = getWhatsAppLink(lead.client_phone);
+                      const cleanPhone = (lead.client_phone || '').replace(/[^0-9]/g, '');
+                      const waLink = cleanPhone ? `https://wa.me/${cleanPhone}` : null;
                       const propInfo = lead.properties || properties.find(p => p.id === lead.property_id);
                       const agentInfo = agents.find(a => a.id === lead.assigned_agent_id);
                       const isMoving = movingLeadId === lead.id;
+                      const parsedNotes = parseLeadNotes(lead.notes);
 
                       return (
                         <div key={lead.id} className="lead-card">
@@ -443,7 +476,7 @@ export default function AdminLeads() {
                           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
                             <div>
                               <div className="lead-name">{lead.client_name}</div>
-                              <span className="lead-source-tag">{lead.source || 'website'}</span>
+                              <span className="lead-source-tag">{lead.source === 'private_viewing' ? 'Private Viewing' : 'Website Enquiry'}</span>
                             </div>
 
                             <div style={{ display: 'flex', gap: 4 }}>
@@ -464,7 +497,7 @@ export default function AdminLeads() {
                             </div>
                           </div>
 
-                          {/* Contact Channels */}
+                          {/* Contact Channels with 1-Click WhatsApp */}
                           <div className="lead-contact-actions" style={{ display: 'flex', gap: 6, marginBottom: 10, flexWrap: 'wrap' }}>
                             {lead.client_phone && (
                               <>
@@ -474,7 +507,7 @@ export default function AdminLeads() {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="lead-btn-wa"
-                                    title="Chat on WhatsApp"
+                                    title="One-click Chat on WhatsApp"
                                   >
                                     <MessageCircle size={13} />
                                     WhatsApp
@@ -520,8 +553,44 @@ export default function AdminLeads() {
                             </div>
                           )}
 
-                          {/* Editable Notes Section */}
+                          {/* Parsed Enquiry Details (Enquiry Type, Budget Range, Message) */}
                           <div className="lead-notes-box" style={{ marginBottom: 12 }}>
+                            {(parsedNotes.enquiryType || parsedNotes.budgetRange || lead.budget || parsedNotes.message) && (
+                              <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 8, paddingBottom: 8, borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                                {parsedNotes.enquiryType && (
+                                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11 }}>
+                                    <span style={{ color: 'var(--gold)', fontWeight: 600, textTransform: 'uppercase', fontSize: 10, letterSpacing: '0.04em' }}>Type:</span>
+                                    <span style={{ color: '#fff', background: 'rgba(201,169,110,0.12)', padding: '1px 6px', borderRadius: 3, border: '1px solid rgba(201,169,110,0.2)' }}>
+                                      {parsedNotes.enquiryType}
+                                    </span>
+                                  </div>
+                                )}
+                                {(parsedNotes.budgetRange || lead.budget) && (
+                                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11 }}>
+                                    <span style={{ color: 'var(--gold)', fontWeight: 600, textTransform: 'uppercase', fontSize: 10, letterSpacing: '0.04em' }}>Budget:</span>
+                                    <span style={{ color: 'var(--champagne)', fontWeight: 500 }}>
+                                      {parsedNotes.budgetRange || `AED ${Number(lead.budget).toLocaleString()}`}
+                                    </span>
+                                  </div>
+                                )}
+                                {parsedNotes.message && (
+                                  <div style={{
+                                    fontSize: 11,
+                                    color: 'rgba(255,255,255,0.75)',
+                                    background: 'rgba(255,255,255,0.03)',
+                                    padding: '6px 8px',
+                                    borderRadius: 4,
+                                    borderLeft: '2px solid var(--gold)',
+                                    lineHeight: 1.4,
+                                    fontStyle: 'italic'
+                                  }}>
+                                    "{parsedNotes.message}"
+                                  </div>
+                                )}
+                              </div>
+                            )}
+
+                            {/* Internal Agent Notes Editor */}
                             {editingNoteId === lead.id ? (
                               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                                 <textarea
@@ -552,9 +621,8 @@ export default function AdminLeads() {
                               <div
                                 onClick={() => { setEditingNoteId(lead.id); setNoteText(lead.notes || ''); }}
                                 style={{
-                                  fontSize: 12,
-                                  color: lead.notes ? 'var(--text)' : 'var(--muted)',
-                                  fontStyle: lead.notes ? 'normal' : 'italic',
+                                  fontSize: 11,
+                                  color: 'var(--muted)',
                                   cursor: 'pointer',
                                   padding: '4px 6px',
                                   borderRadius: 4,
@@ -563,7 +631,7 @@ export default function AdminLeads() {
                                 }}
                                 title="Click to edit notes"
                               >
-                                {lead.notes ? lead.notes : '+ Click to add notes…'}
+                                {parsedNotes.other ? parsedNotes.other : '+ Click to add notes…'}
                               </div>
                             )}
                           </div>

@@ -814,12 +814,12 @@
           <p class="body-sm" style="margin-bottom: 24px; font-size: 11px;">
             All enquiries are treated with absolute discretion. Your information will never be shared with third parties.
           </p>
-          <button type="submit" class="btn btn-solid" style="width: 100%; justify-content: center;">
+          <button type="submit" id="submitBtn" class="btn btn-solid" style="width: 100%; justify-content: center;">
             <span id="submitText">Submit Private Enquiry</span>
           </button>
-          <div id="formSuccess" style="display: none; margin-top: 20px; padding: 16px; border: 1px solid var(--gold); text-align: center;">
-            <p class="label" style="color: var(--gold);">Enquiry Received</p>
-            <p class="body-sm" style="margin-top: 8px; font-size: 12px;">A senior advisor will contact you within 4 business hours.</p>
+          <div id="formSuccess" style="display: none; margin-top: 24px; padding: 20px 24px; border: 1px solid var(--gold); background: rgba(201,169,110,0.06); text-align: center; border-radius: var(--radius-sm);">
+            <p class="label" style="color: var(--gold); font-size: 13px; letter-spacing: 0.1em; margin-bottom: 8px;">ENQUIRY RECEIVED</p>
+            <p class="body-sm" style="font-size: 14px; color: var(--gold-light); line-height: 1.6; margin: 0;">Thank you. Your private enquiry has been received with complete discretion.</p>
           </div>
         </form>
       </div>
@@ -873,20 +873,106 @@
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="script.js" defer></script>
 <script src="supabase-live.js" defer></script>
 <script>
-  function handleSubmit(e) {
+  const BB_SUPABASE_URL = "https://ljdplvhmfgrcgkxrslxn.supabase.co";
+  const BB_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqZHBsdmhtZmdyY2dreHJzbHhuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIwMDM1MjEsImV4cCI6MjEwNzU3OTUyMX0.4KF2RwtnSo4gK3BV3sc78drE72FtkEAzs6YH7oCm158";
+
+  let _bbSupabase = null;
+  function getSupabaseClient() {
+    if (_bbSupabase) return _bbSupabase;
+    if (window.supabase && typeof window.supabase.createClient === 'function') {
+      _bbSupabase = window.supabase.createClient(BB_SUPABASE_URL, BB_SUPABASE_ANON_KEY);
+    }
+    return _bbSupabase;
+  }
+
+  async function handleSubmit(e) {
     e.preventDefault();
     const btn = document.getElementById('submitText');
+    const submitBtn = document.getElementById('submitBtn') || (btn ? btn.closest('button') : null);
+    const form = document.getElementById('contactForm');
     const success = document.getElementById('formSuccess');
-    btn.textContent = 'Sending...';
-    setTimeout(() => {
-      document.getElementById('contactForm').querySelectorAll('input, select, textarea').forEach(f => f.value = '');
-      btn.textContent = 'Submit Private Enquiry';
-      success.style.display = 'block';
-      success.style.animation = 'fadeUp 0.5s var(--ease-out) forwards';
-    }, 1400);
+
+    const firstName = (document.getElementById('firstName')?.value || '').trim();
+    const lastName = (document.getElementById('lastName')?.value || '').trim();
+    const client_name = `${firstName} ${lastName}`.trim() || 'Private Client';
+    const client_email = (document.getElementById('email')?.value || '').trim();
+    const client_phone = (document.getElementById('phone')?.value || '').trim() || null;
+    const enquiryType = (document.getElementById('enquiryType')?.value || '').trim();
+    const budgetRange = (document.getElementById('budget')?.value || '').trim();
+    const message = (document.getElementById('message')?.value || '').trim();
+
+    // Parse numeric budget if applicable (e.g., "$5M – $15M" -> 5000000)
+    let budget = null;
+    if (budgetRange) {
+      const match = budgetRange.match(/(\d+)/);
+      if (match) {
+        budget = parseInt(match[1], 10) * 1000000;
+      }
+    }
+
+    const notes = `Enquiry Type: ${enquiryType || 'General'} | Budget Range: ${budgetRange || 'Not Specified'} | Message: ${message || 'None'}`;
+
+    // Payload strictly matching public.leads columns
+    const payload = {
+      client_name,
+      client_email,
+      client_phone,
+      source: 'website_inquiry',
+      pipeline_stage: 'new',
+      budget,
+      notes,
+    };
+
+    if (btn) btn.textContent = 'SENDING ENQUIRY...';
+    if (submitBtn) submitBtn.disabled = true;
+
+    try {
+      let inserted = false;
+      const client = getSupabaseClient();
+      if (client) {
+        const { error } = await client.from('leads').insert([payload]);
+        if (error) throw error;
+        inserted = true;
+      }
+
+      // Fallback direct REST API call if JS SDK not ready
+      if (!inserted) {
+        const res = await fetch(`${BB_SUPABASE_URL}/rest/v1/leads`, {
+          method: 'POST',
+          headers: {
+            'apikey': BB_SUPABASE_ANON_KEY,
+            'Authorization': `Bearer ${BB_SUPABASE_ANON_KEY}`,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=representation'
+          },
+          body: JSON.stringify([payload])
+        });
+        if (!res.ok) {
+          const errData = await res.json().catch(() => ({}));
+          throw new Error(errData.message || res.statusText);
+        }
+      }
+
+      if (form) form.reset();
+      if (btn) btn.textContent = 'Submit Private Enquiry';
+      if (submitBtn) submitBtn.disabled = false;
+      if (success) {
+        success.style.display = 'block';
+        success.style.animation = 'fadeUp 0.5s var(--ease-out) forwards';
+        success.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    } catch (err) {
+      console.error('Lead submission error:', err);
+      if (btn) btn.textContent = 'Submit Private Enquiry';
+      if (submitBtn) submitBtn.disabled = false;
+      if (success) {
+        success.style.display = 'block';
+      }
+    }
   }
 </script>
 

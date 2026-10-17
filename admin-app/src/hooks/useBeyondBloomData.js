@@ -28,99 +28,124 @@ export function generateSlug(title) {
   return `${base || 'prop'}-${suffix}`;
 }
 
-// Convert any property object to strictly conform to public.properties schema:
-// id (uuid), title, slug, listing_type, status, is_featured, price, currency,
-// bedrooms, bathrooms, area_sqft, community, sub_community, permit_number,
-// description, hero_image_url, gallery_urls, three_d_tour_url
-export function toSupabaseProperty(data, { isEdit = false } = {}) {
-  if (!data) return {};
+// Strict mapper function ensuring payloads ONLY send valid public.properties columns:
+// title, slug, listing_type, status, is_featured, price, currency, bedrooms,
+// bathrooms, area_sqft, community, sub_community, permit_number, description,
+// hero_image_url, gallery_urls (NEVER sends 'location' as a column)
+export function toSupabaseProperty(item, { isEdit = false } = {}) {
+  if (!item) return {};
 
-  const title = (data.title || 'Untitled Property').trim();
+  const title = (item.title || 'Untitled Property').trim();
 
-  // Location -> community (required, never null/empty)
-  const community = (data.community || data.location || 'Dubai, UAE').trim();
+  // Auto-generate URL-safe slug from title + '-' + Math.random().toString(36).substring(2, 6)
+  const baseSlug = title
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '') || 'property';
+  const slug = (isEdit && item.slug)
+    ? item.slug
+    : `${baseSlug}-${Math.random().toString(36).substring(2, 6)}`;
 
-  // Type -> sub_community (store property type like 'Penthouse', 'Apartment', 'Villa')
-  const subCommunity = (data.sub_community || data.property_type || data.type || 'Apartment').trim();
-
-  // Listing type: strictly 'sale', 'rent', or 'off_plan'
-  let listingType = (data.listing_type || 'sale').toLowerCase().trim();
-  if (!['sale', 'rent', 'off_plan'].includes(listingType)) {
-    listingType = 'sale';
+  // listing_type: strictly 'sale', 'rent', or 'off_plan' (default 'sale')
+  let listing_type = (item.listing_type || 'sale').toLowerCase().trim();
+  if (!['sale', 'rent', 'off_plan'].includes(listing_type)) {
+    listing_type = 'sale';
   }
 
-  // Status: strictly 'draft', 'available', 'under_offer', 'sold'
-  let status = (data.status || 'draft').toLowerCase().trim();
+  // status: strictly lowercase 'draft', 'available', 'under_offer', or 'sold' (default 'available')
+  let status = (item.status || 'available').toLowerCase().trim();
   if (!['draft', 'available', 'under_offer', 'sold'].includes(status)) {
-    status = 'draft';
+    status = 'available';
   }
 
-  // Numeric parsers
-  const price = parseCleanNumber(data.price, 0);
-  const bedrooms = Math.round(parseCleanNumber(data.bedrooms, 0));
-  const bathrooms = Math.round(parseCleanNumber(data.bathrooms, 0));
-  const areaSqft = parseCleanNumber(data.area_sqft || data.area, 0);
+  // is_featured: boolean
+  const is_featured = Boolean(item.is_featured ?? item.featured ?? true);
 
-  // Images: image / local image URLs -> hero_image_url
-  const heroImageUrl = data.hero_image_url || data.image || data.imageUrl || null;
-  const galleryUrls = Array.isArray(data.gallery_urls)
-    ? data.gallery_urls.filter(Boolean)
+  // price: clean numeric value (strip 'AED', commas, and spaces)
+  let price = 0;
+  if (item.price != null) {
+    const cleanStr = String(item.price).replace(/AED|,|\s/gi, '').trim();
+    price = parseFloat(cleanStr) || 0;
+  }
+
+  const currency = 'AED';
+  const bedrooms = parseInt(item.bedrooms ?? item.beds, 10) || 0;
+  const bathrooms = parseInt(item.bathrooms ?? item.baths, 10) || 0;
+  const area_sqft = Number(String(item.area_sqft ?? item.sqft ?? item.area ?? 0).replace(/[^0-9.]/g, '')) || 0;
+
+  // community: map from item.location || item.community || 'Dubai' (NEVER send 'location' as column)
+  const community = (item.location || item.community || 'Dubai').trim();
+
+  // sub_community: map from item.type || item.property_type || item.sub_community || 'Penthouse'
+  const sub_community = (item.type || item.property_type || item.sub_community || 'Penthouse').trim();
+
+  const permit_number = item.permit_number || item.trakheesi_permit || null;
+  const description = item.description || '';
+
+  // hero_image_url: map from item.hero_image_url || item.image || item.imageUrl
+  let hero_image_url = item.hero_image_url || item.image || item.imageUrl || '';
+  if (hero_image_url && !hero_image_url.startsWith('http') && !hero_image_url.startsWith('/')) {
+    hero_image_url = `/${hero_image_url}`;
+  }
+  if (!hero_image_url) {
+    hero_image_url = '/images/prop_dubai_penthouse.jpg';
+  }
+
+  // gallery_urls: array of image URLs
+  const gallery_urls = Array.isArray(item.gallery_urls)
+    ? item.gallery_urls.filter(Boolean).map(u => (u && !u.startsWith('http') && !u.startsWith('/') ? `/${u}` : u))
     : [];
 
-  // Permit & 3D Tour
-  const permitNumber = data.permit_number || data.trakheesi_permit || null;
-  const threeDTourUrl = data.three_d_tour_url || data.tour_3d_url || null;
-
-  // Slug: preserve on edit if already present, otherwise generate unique
-  const slug = (isEdit && data.slug) ? data.slug : generateSlug(title);
-
-  // Return strictly only the columns present in public.properties schema
-  const payload = {
+  return {
     title,
     slug,
-    listing_type: listingType,
+    listing_type,
     status,
-    is_featured: Boolean(data.is_featured),
+    is_featured,
     price,
-    currency: data.currency || 'AED',
+    currency,
     bedrooms,
     bathrooms,
-    area_sqft: areaSqft,
+    area_sqft,
     community,
-    sub_community: subCommunity,
-    permit_number: permitNumber,
-    description: data.description || '',
-    hero_image_url: heroImageUrl,
-    gallery_urls: galleryUrls,
-    three_d_tour_url: threeDTourUrl,
+    sub_community,
+    permit_number,
+    description,
+    hero_image_url,
+    gallery_urls,
   };
-
-  return payload;
 }
 
-// Convert Supabase row to UI-friendly property with backwards-compatible keys
+// When fetching from public.properties, map community -> location, sub_community -> type, hero_image_url -> image
 export function fromSupabaseProperty(row) {
   if (!row) return row;
+  let hero = row.hero_image_url || row.image || '';
+  if (hero && !hero.startsWith('http') && !hero.startsWith('/')) {
+    hero = `/${hero}`;
+  }
+  if (!hero) hero = '/images/prop_dubai_penthouse.jpg';
+
+  const gallery = Array.isArray(row.gallery_urls)
+    ? row.gallery_urls.map(u => (u && !u.startsWith('http') && !u.startsWith('/') ? `/${u}` : u))
+    : [];
+
   return {
     ...row,
-    // Community mapped to location for UI components
-    location: row.community || row.location || '',
-    community: row.community || '',
-
-    // Sub-community mapped to type & property_type
-    type: row.sub_community || row.property_type || '',
-    property_type: (row.sub_community || row.property_type || 'apartment').toLowerCase(),
-    sub_community: row.sub_community || '',
-
-    // Image mapped to hero_image_url & image
-    image: row.hero_image_url || '',
-    hero_image_url: row.hero_image_url || '',
-
-    // Permit & Tour URL mapped
-    trakheesi_permit: row.permit_number || row.trakheesi_permit || '',
+    // community -> location
+    location: row.community || 'Dubai',
+    community: row.community || 'Dubai',
+    // sub_community -> type & property_type
+    type: row.sub_community || 'Penthouse',
+    property_type: (row.sub_community || 'Penthouse').toLowerCase(),
+    sub_community: row.sub_community || 'Penthouse',
+    // hero_image_url -> image
+    image: hero,
+    hero_image_url: hero,
+    gallery_urls: gallery,
     permit_number: row.permit_number || '',
-    tour_3d_url: row.three_d_tour_url || row.tour_3d_url || null,
-    three_d_tour_url: row.three_d_tour_url || null,
+    trakheesi_permit: row.permit_number || '',
+    tour_3d_url: row.three_d_tour_url || null,
   };
 }
 
@@ -315,6 +340,8 @@ export function useLeads() {
 
       const formatted = (data || []).map(lead => ({
         ...lead,
+        stage: lead.pipeline_stage || lead.stage || 'new',
+        pipeline_stage: lead.pipeline_stage || lead.stage || 'new',
         properties: lead.properties ? {
           ...lead.properties,
           location: lead.properties.community || ''
@@ -343,10 +370,22 @@ export function useLeads() {
         (payload) => {
           setLeads((prev) => {
             switch (payload.eventType) {
-              case 'INSERT':
-                return [payload.new, ...prev];
-              case 'UPDATE':
-                return prev.map((l) => (l.id === payload.new.id ? { ...l, ...payload.new } : l));
+              case 'INSERT': {
+                const newLead = {
+                  ...payload.new,
+                  stage: payload.new.pipeline_stage || payload.new.stage || 'new',
+                  pipeline_stage: payload.new.pipeline_stage || payload.new.stage || 'new',
+                };
+                return [newLead, ...prev];
+              }
+              case 'UPDATE': {
+                const updated = {
+                  ...payload.new,
+                  stage: payload.new.pipeline_stage || payload.new.stage || 'new',
+                  pipeline_stage: payload.new.pipeline_stage || payload.new.stage || 'new',
+                };
+                return prev.map((l) => (l.id === payload.new.id ? { ...l, ...updated } : l));
+              }
               case 'DELETE':
                 return prev.filter((l) => l.id !== payload.old.id);
               default:
@@ -386,21 +425,23 @@ export function useAgents() {
 }
 
 // ── submitLead — public inquiry form helper ───────────────────────
-export async function submitLead({ client_name, client_email, client_phone, property_id, source, notes }) {
+export async function submitLead({ client_name, client_email, client_phone, property_id, source, notes, budget }) {
   if (!isSupabaseConfigured) {
     return { error: new Error('Backend not configured') };
   }
 
+  const validSource = source === 'private_viewing' ? 'private_viewing' : 'website_inquiry';
   const { data, error } = await supabase
     .from('leads')
     .insert([{
-      client_name,
-      client_email,
-      client_phone,
+      client_name: (client_name || '').trim(),
+      client_email: (client_email || '').trim(),
+      client_phone: (client_phone || '').trim() || null,
       property_id: property_id || null,
-      source: source || 'website',
+      source: validSource,
       notes: notes || null,
-      stage: 'new',
+      pipeline_stage: 'new',
+      budget: typeof budget === 'number' ? budget : null,
     }])
     .select()
     .single();

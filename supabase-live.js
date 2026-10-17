@@ -38,15 +38,17 @@
   }
 
   // ── Lead Submission Helper ──────────────────────────────────
-  async function submitLead({ client_name, client_email, client_phone, property_id, source, notes }) {
+  async function submitLead({ client_name, client_email, client_phone, property_id, source, notes, budget }) {
+    const validSource = source === 'private_viewing' ? 'private_viewing' : 'website_inquiry';
     const payload = {
       client_name: (client_name || '').trim(),
       client_email: (client_email || '').trim(),
       client_phone: (client_phone || '').trim() || null,
       property_id: property_id || null,
-      source: source || 'website_inquiry',
+      source: validSource,
       notes: notes || null,
-      stage: 'new',
+      pipeline_stage: 'new',
+      budget: typeof budget === 'number' ? budget : null,
     };
 
     return api('leads', {
@@ -279,7 +281,7 @@
           client_email: emailInput?.value || '',
           client_phone: phoneInput?.value || '',
           property_id: window.currentViewingPropertyId || null,
-          source: 'property_detail_modal',
+          source: 'private_viewing',
           notes: modalTitle ? `[${modalTitle}] ${notes}` : notes,
         });
 
@@ -314,7 +316,7 @@
 
     // 2. Agency Contact Form (#contactForm)
     const contactForm = document.getElementById('contactForm');
-    if (contactForm) {
+    if (contactForm && !window.handleSubmit) {
       window.handleSubmit = async function (e) {
         e.preventDefault();
         const btn = document.getElementById('submitText');
@@ -325,24 +327,27 @@
         const email = document.getElementById('email')?.value || '';
         const phone = document.getElementById('phone')?.value || '';
         const enquiryType = document.getElementById('enquiryType')?.value || '';
-        const budget = document.getElementById('budget')?.value || '';
+        const budgetRange = document.getElementById('budget')?.value || '';
         const message = document.getElementById('message')?.value || '';
 
         const clientName = `${firstName} ${lastName}`.trim() || 'Private Client';
-        const notes = [
-          enquiryType ? `Type: ${enquiryType}` : null,
-          budget ? `Budget: ${budget}` : null,
-          message ? `Message: ${message}` : null,
-        ].filter(Boolean).join('\n');
+        let budget = null;
+        if (budgetRange) {
+          const match = budgetRange.match(/(\d+)/);
+          if (match) budget = parseInt(match[1], 10) * 1000000;
+        }
 
-        if (btn) btn.textContent = 'Submitting Enquiry…';
+        const notes = `Enquiry Type: ${enquiryType || 'General'} | Budget Range: ${budgetRange || 'Not Specified'} | Message: ${message || 'None'}`;
+
+        if (btn) btn.textContent = 'SENDING ENQUIRY...';
 
         try {
           await submitLead({
             client_name: clientName,
             client_email: email,
             client_phone: phone,
-            source: 'agency_contact_form',
+            source: 'website_inquiry',
+            budget: budget,
             notes: notes,
           });
 
@@ -379,7 +384,7 @@
             await submitLead({
               client_name: nameInput?.value || 'Private Client',
               client_email: emailInput?.value || '',
-              source: 'property_page_viewing_form',
+              source: 'private_viewing',
               notes: `Preferred Date: ${dateInput.value}`,
             });
 

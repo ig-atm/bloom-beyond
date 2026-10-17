@@ -358,10 +358,15 @@ export default function AdminListings() {
             {properties.map(prop => (
               <tr key={prop.id}>
                 <td style={{ width: 56 }}>
-                  {prop.hero_image_url
-                    ? <img src={prop.hero_image_url} alt="" style={{ width: 48, height: 36, objectFit: 'cover', borderRadius: 4, border: '1px solid var(--glass-border)' }} />
-                    : <div style={{ width: 48, height: 36, background: 'var(--charcoal-3)', borderRadius: 4 }} />
-                  }
+                  <img
+                    src={prop.hero_image_url || '/images/prop_dubai_penthouse.jpg'}
+                    alt={prop.title || 'Listing'}
+                    onError={(e) => {
+                      e.currentTarget.onerror = null;
+                      e.currentTarget.src = '/images/prop_dubai_penthouse.jpg';
+                    }}
+                    style={{ width: 48, height: 36, objectFit: 'cover', borderRadius: 4, border: '1px solid var(--glass-border)' }}
+                  />
                 </td>
                 <td style={{ fontWeight: 600 }}>{prop.title}</td>
                 <td style={{ color: 'var(--muted)', fontSize: 12 }}>{prop.location}</td>

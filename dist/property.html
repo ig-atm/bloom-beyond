@@ -64,112 +64,15 @@
   }
   </script>
 
-  <link rel="stylesheet" href="styles.css" />
-  <style>
-    /* ── Property Detail Specific Styles ─────────────────────── */
-    .prop-hero {
-      width: 100%;
-      height: 80vh;
-      position: relative;
-      overflow: hidden;
-    }
-    .prop-hero img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transform: scale(1.05); /* Will be parallaxed by script.js */
-      will-change: transform;
-    }
-    .prop-hero::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to bottom, rgba(4,4,4,0.4) 0%, transparent 30%, transparent 80%, var(--charcoal-1) 100%);
-      pointer-events: none;
-    }
-    .prop-content {
-      padding: 80px var(--gutter) 160px;
-      max-width: var(--max-w);
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 440px;
-      gap: 80px;
-      align-items: start;
-    }
-    @media (max-width: 1100px) {
-      .prop-content { grid-template-columns: 1fr 380px; gap: 40px; }
-    }
-    @media (max-width: 900px) {
-      .prop-content { grid-template-columns: 1fr; }
-    }
-    
-    .prop-narrative h1 {
-      margin-bottom: 16px;
-      font-size: clamp(40px, 6vw, 72px);
-      line-height: 1;
-    }
-    .prop-location {
-      color: var(--gold);
-      margin-bottom: 40px;
-      font-family: var(--sans);
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      font-size: 12px;
-      font-weight: 500;
-    }
-    .prop-specs-list {
-      display: flex;
-      gap: 48px;
-      margin: 48px 0;
-      padding: 32px 0;
-      border-top: 1px solid rgba(255,255,255,0.1);
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-    }
-    .prop-spec-item {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .prop-spec-val {
-      font-family: var(--serif);
-      font-size: 32px;
-      color: var(--white);
-    }
-    .prop-spec-label {
-      font-family: var(--sans);
-      font-size: 11px;
-      color: var(--muted);
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-    }
-    
-    .prop-sidebar {
-      position: sticky;
-      top: 120px; /* Accounts for floating nav */
-      background: rgba(12, 12, 12, 0.6);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border: 1px solid rgba(201, 169, 110, 0.3);
-      border-radius: 16px;
-      padding: 40px;
-      display: flex;
-      flex-direction: column;
-      gap: 32px;
-    }
-    .prop-price {
-      font-family: var(--serif);
-      font-size: 40px;
-      color: var(--gold);
-      margin-bottom: 8px;
-    }
-  </style>
+  <style>.prop-hero{width:100%;height:80vh;position:relative;overflow:hidden}.prop-hero img{object-fit:cover;will-change:transform;width:100%;height:100%;transform:scale(1.05)}.prop-hero:after{content:"";background:linear-gradient(to bottom, #04040466 0%, transparent 30%, transparent 80%, var(--charcoal-1) 100%);pointer-events:none;position:absolute;inset:0}.prop-content{padding:80px var(--gutter) 160px;max-width:var(--max-w);grid-template-columns:1fr 440px;align-items:start;gap:80px;margin:0 auto;display:grid}@media (width<=1100px){.prop-content{grid-template-columns:1fr 380px;gap:40px}}@media (width<=900px){.prop-content{grid-template-columns:1fr}}.prop-narrative h1{margin-bottom:16px;font-size:clamp(40px,6vw,72px);line-height:1}.prop-location{color:var(--gold);font-family:var(--sans);letter-spacing:.15em;text-transform:uppercase;margin-bottom:40px;font-size:12px;font-weight:500}.prop-specs-list{border-top:1px solid #ffffff1a;border-bottom:1px solid #ffffff1a;gap:48px;margin:48px 0;padding:32px 0;display:flex}.prop-spec-item{flex-direction:column;gap:8px;display:flex}.prop-spec-val{font-family:var(--serif);color:var(--white);font-size:32px}.prop-spec-label{font-family:var(--sans);color:var(--muted);letter-spacing:.15em;text-transform:uppercase;font-size:11px}.prop-sidebar{-webkit-backdrop-filter:blur(24px);background:#0c0c0c99;border:1px solid #c9a96e4d;border-radius:16px;flex-direction:column;gap:32px;padding:40px;display:flex;position:sticky;top:120px}.prop-price{font-family:var(--serif);color:var(--gold);margin-bottom:8px;font-size:40px}</style>
+  <link rel="stylesheet" crossorigin href="/assets/styles-C2EoYWV7.css">
 </head>
 <body>
 
 <!-- ══ NAVIGATION ══════════════════════════════════════════════ -->
 <nav id="navbar">
   <div class="nav-inner">
-    <a href="index.html" class="nav-logo"><img src="images/logo_crest.png?v=2" alt="Beyond Bloom Real Estate" class="nav-logo-img" style="height:34px;width:auto;display:block;" /></a>
+    <a href="index.html" class="nav-logo"><img src="/assets/logo_crest-BSWFcVMP.png?v=2" alt="Beyond Bloom Real Estate" class="nav-logo-img" style="height:34px;width:auto;display:block;" /></a>
     <ul class="nav-links">
       <li><a href="listings.html" class="nav-link active">Residential</a></li>
       <li><a href="commercial.html" class="nav-link">Commercial</a></li>
@@ -194,7 +97,7 @@
 
 <!-- ══ HERO ════════════════════════════════════════════════════ -->
 <section class="prop-hero">
-  <img src="images/listing_penthouse.jpg" alt="Mayfair Penthouse" />
+  <img src="/assets/listing_penthouse-BxZeDH99.jpg" alt="Mayfair Penthouse" />
 </section>
 
 <!-- ══ CONTENT ═════════════════════════════════════════════════ -->
