@@ -28,7 +28,19 @@ function LoadingFallback() {
       color: 'var(--gold)',
       background: 'var(--charcoal)'
     }}>
-      <Loader size={32} style={{ animation: 'spin 0.7s linear infinite' }} />
+      <img
+        src="/images/logo_crest.png?v=3"
+        alt="Beyond Bloom"
+        style={{
+          height: 60,
+          width: 'auto',
+          display: 'block',
+          marginBottom: 8,
+          objectFit: 'contain',
+          filter: 'drop-shadow(0 0 12px rgba(201,169,110,0.4))'
+        }}
+      />
+      <Loader size={28} style={{ animation: 'spin 0.7s linear infinite' }} />
       <span style={{ fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--muted)' }}>
         Loading Beyond Bloom…
       </span>

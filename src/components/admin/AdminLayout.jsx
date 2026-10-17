@@ -39,6 +39,20 @@ export default function AdminLayout({ children, user }) {
       {/* ── Sidebar ── */}
       <aside className={`admin-sidebar ${sidebarOpen ? 'open' : ''}`}>
         <div className="sidebar-logo">
+          <a href="/" title="Beyond Bloom Homepage" style={{ display: 'inline-block', textDecoration: 'none' }}>
+            <img
+              src="/images/logo_crest.png?v=3"
+              alt="Beyond Bloom Crest"
+              style={{
+                height: 44,
+                width: 'auto',
+                display: 'block',
+                marginBottom: 12,
+                objectFit: 'contain',
+                filter: 'drop-shadow(0 0 6px rgba(201,169,110,0.3))'
+              }}
+            />
+          </a>
           <div className="sidebar-logo-text">Beyond <span>Bloom</span></div>
           <div className="sidebar-tagline">CRM Admin Portal</div>
         </div>

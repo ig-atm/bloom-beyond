@@ -455,10 +455,11 @@ h5 {
 }
 
 .nav-logo-img {
-  height: 36px;           /* stays well inside 80px navbar */
+  height: 38px;           /* stays well inside 80px navbar */
   width: auto;
   display: block;
   object-fit: contain;
+  overflow: visible;
   filter: drop-shadow(0 0 5px rgba(201,169,110,0.2));
   transition: filter 0.3s ease, transform 0.3s ease;
 }
@@ -469,7 +470,23 @@ h5 {
 }
 
 #navbar.scrolled .nav-logo-img {
-  height: 30px;
+  height: 32px;
+}
+
+.footer-crest-img {
+  height: 44px;
+  width: auto;
+  display: block;
+  margin-bottom: 14px;
+  object-fit: contain;
+  overflow: visible;
+  filter: drop-shadow(0 0 8px rgba(201, 169, 110, 0.25));
+  transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+.footer-crest-img:hover {
+  filter: drop-shadow(0 0 12px rgba(201, 169, 110, 0.5));
+  transform: scale(1.04);
 }
 
 .nav-logo span {

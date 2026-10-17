@@ -49,7 +49,21 @@ export default function AdminLogin() {
       }} />
 
       <div className="login-card">
-        {/* Logo */}
+        {/* Crest Logo */}
+        <a href="/" title="Beyond Bloom Homepage" style={{ display: 'block', textAlign: 'center', textDecoration: 'none' }}>
+          <img
+            src="/images/logo_crest.png?v=3"
+            alt="Beyond Bloom Crest"
+            style={{
+              height: 64,
+              width: 'auto',
+              display: 'block',
+              margin: '0 auto 16px',
+              objectFit: 'contain',
+              filter: 'drop-shadow(0 0 10px rgba(201,169,110,0.35))'
+            }}
+          />
+        </a>
         <div className="login-logo">Beyond <span>Bloom</span></div>
         <div className="login-sub">CRM Admin Portal · Private Access</div>
 
