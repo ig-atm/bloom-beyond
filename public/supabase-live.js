@@ -179,14 +179,17 @@
         const statusLabel = prop.status ? prop.status.replace('_', ' ') : 'Available';
 
         const images = [];
-        if (prop.hero_image_url) images.push(prop.hero_image_url);
-        if (Array.isArray(prop.gallery_urls)) {
-          prop.gallery_urls.forEach(u => { if (u && !images.includes(u)) images.push(u); });
-        }
+        const addImg = (u) => {
+          if (u && typeof u === 'string' && !images.includes(u.trim())) images.push(u.trim());
+        };
+        addImg(prop.hero_image_url);
+        addImg(prop.image);
+        if (Array.isArray(prop.gallery_urls)) prop.gallery_urls.forEach(addImg);
+        if (Array.isArray(prop.images)) prop.images.forEach(addImg);
         if (images.length === 0) images.push('images/listing_villa.jpg');
 
         return `
-          <div class="card ${isLarge ? 'listing-card-large' : ''} reveal visible" data-category="${prop.property_type || 'apartment'}" data-property-id="${prop.id}">
+          <div class="card ${isLarge ? 'listing-card-large' : ''} reveal visible" data-category="${prop.property_type || 'apartment'}" data-property-id="${prop.id}" data-images="${encodeURIComponent(JSON.stringify(images))}">
             <div class="card-image">
               <div class="card-badge" style="text-transform: capitalize;">${statusLabel}</div>
               ${prop.is_featured ? `<div style="position: absolute; top: 16px; right: 16px; background: rgba(201,169,110,0.9); color: #000; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; padding: 4px 8px; border-radius: 2px; z-index: 5;">Featured</div>` : ''}
@@ -204,6 +207,10 @@
                 </button>
                 <div class="carousel-dots">
                   ${images.map((_, i) => `<div class="carousel-dot ${i === 0 ? 'active' : ''}"></div>`).join('')}
+                </div>
+                <div style="position: absolute; bottom: 12px; right: 12px; background: rgba(10,10,12,0.8); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); color: #fff; font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 12px; z-index: 5; border: 1px solid rgba(255,255,255,0.15); display: flex; align-items: center; gap: 4px;">
+                  <svg viewBox="0 0 24 24" width="11" height="11" stroke="var(--gold)" stroke-width="2" fill="none"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+                  ${images.length} Photos
                 </div>
               ` : ''}
             </div>
@@ -242,12 +249,51 @@
         `;
       }).join('');
 
+      wireCardCarousels();
+
       // Update count label
       const countLabel = document.querySelector('.listings-grid').previousElementSibling?.querySelector('.text-gold');
       if (countLabel) countLabel.textContent = properties.length;
     } catch (err) {
       console.warn('[BeyondBloomSupabase] Listings grid sync note:', err.message);
     }
+  }
+
+  // ── Wire Card Carousels ──────────────────────────────────────
+  function wireCardCarousels() {
+    document.querySelectorAll('.card').forEach(card => {
+      if (card.dataset.carouselWired) return;
+      card.dataset.carouselWired = 'true';
+      const carousel = card.querySelector('.card-carousel');
+      const prevBtn = card.querySelector('.carousel-btn.prev');
+      const nextBtn = card.querySelector('.carousel-btn.next');
+      const dots = card.querySelectorAll('.carousel-dot');
+      if (!carousel) return;
+      const imgs = carousel.querySelectorAll('img');
+      if (imgs.length <= 1) return;
+
+      let activeIdx = 0;
+      const update = (idx) => {
+        activeIdx = (idx + imgs.length) % imgs.length;
+        carousel.scrollTo({ left: carousel.clientWidth * activeIdx, behavior: 'smooth' });
+        dots.forEach((dot, dIdx) => dot.classList.toggle('active', dIdx === activeIdx));
+      };
+
+      if (prevBtn) {
+        prevBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          update(activeIdx - 1);
+        });
+      }
+      if (nextBtn) {
+        nextBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          update(activeIdx + 1);
+        });
+      }
+    });
   }
 
   // ── Wire Inquiry Forms to Supabase Leads ─────────────────────

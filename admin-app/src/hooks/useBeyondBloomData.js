@@ -83,19 +83,36 @@ export function toSupabaseProperty(item, { isEdit = false } = {}) {
   const permit_number = item.permit_number || item.trakheesi_permit || null;
   const description = item.description || '';
 
-  // hero_image_url: map from item.hero_image_url || item.image || item.imageUrl
-  let hero_image_url = item.hero_image_url || item.image || item.imageUrl || '';
+  // Collect all images in order, with cover photo at index 0
+  const allImages = [];
+  const addImg = (u) => {
+    if (!u || typeof u !== 'string') return;
+    let clean = u.trim();
+    if (clean && !clean.startsWith('http') && !clean.startsWith('/')) {
+      clean = `/${clean}`;
+    }
+    if (clean && !allImages.includes(clean)) {
+      allImages.push(clean);
+    }
+  };
+
+  if (Array.isArray(item.allImages) && item.allImages.length) {
+    item.allImages.forEach(addImg);
+  } else {
+    addImg(item.hero_image_url || item.image || item.imageUrl);
+    if (Array.isArray(item.gallery_urls)) item.gallery_urls.forEach(addImg);
+    if (Array.isArray(item.images)) item.images.forEach(addImg);
+  }
+
+  let hero_image_url = allImages[0] || item.hero_image_url || item.image || '/images/prop_dubai_penthouse.jpg';
   if (hero_image_url && !hero_image_url.startsWith('http') && !hero_image_url.startsWith('/')) {
     hero_image_url = `/${hero_image_url}`;
   }
-  if (!hero_image_url) {
-    hero_image_url = '/images/prop_dubai_penthouse.jpg';
+  if (!allImages.length) {
+    allImages.push(hero_image_url);
   }
 
-  // gallery_urls: array of image URLs
-  const gallery_urls = Array.isArray(item.gallery_urls)
-    ? item.gallery_urls.filter(Boolean).map(u => (u && !u.startsWith('http') && !u.startsWith('/') ? `/${u}` : u))
-    : [];
+  const completeGallery = allImages;
 
   return {
     title,
@@ -113,7 +130,9 @@ export function toSupabaseProperty(item, { isEdit = false } = {}) {
     permit_number,
     description,
     hero_image_url,
-    gallery_urls,
+    image: hero_image_url,
+    gallery_urls: completeGallery,
+    images: completeGallery,
   };
 }
 
@@ -126,9 +145,22 @@ export function fromSupabaseProperty(row) {
   }
   if (!hero) hero = '/images/prop_dubai_penthouse.jpg';
 
-  const gallery = Array.isArray(row.gallery_urls)
-    ? row.gallery_urls.map(u => (u && !u.startsWith('http') && !u.startsWith('/') ? `/${u}` : u))
-    : [];
+  const allUrls = [];
+  const addUrl = (u) => {
+    if (!u || typeof u !== 'string') return;
+    let clean = u.trim();
+    if (clean && !clean.startsWith('http') && !clean.startsWith('/')) {
+      clean = `/${clean}`;
+    }
+    if (clean && !allUrls.includes(clean)) {
+      allUrls.push(clean);
+    }
+  };
+
+  addUrl(hero);
+  if (Array.isArray(row.gallery_urls)) row.gallery_urls.forEach(addUrl);
+  if (Array.isArray(row.images)) row.images.forEach(addUrl);
+  if (!allUrls.length) allUrls.push(hero);
 
   return {
     ...row,
@@ -140,9 +172,11 @@ export function fromSupabaseProperty(row) {
     property_type: (row.sub_community || 'Penthouse').toLowerCase(),
     sub_community: row.sub_community || 'Penthouse',
     // hero_image_url -> image
-    image: hero,
-    hero_image_url: hero,
-    gallery_urls: gallery,
+    image: allUrls[0] || hero,
+    hero_image_url: allUrls[0] || hero,
+    gallery_urls: allUrls,
+    images: allUrls,
+    allImages: allUrls,
     permit_number: row.permit_number || '',
     trakheesi_permit: row.permit_number || '',
     tour_3d_url: row.three_d_tour_url || null,

@@ -215,6 +215,52 @@
   };
 
   // ── Build modal HTML ─────────────────────────────────────────
+  // Active modal image index and photo list
+  let modalActiveIndex = 0;
+  let modalImagesList = [];
+
+  function setModalImage(idx) {
+    if (!modalImagesList.length) return;
+    modalActiveIndex = (idx + modalImagesList.length) % modalImagesList.length;
+    const src = modalImagesList[modalActiveIndex];
+    const heroImg = document.getElementById('propModalHeroImg');
+    const counterEl = document.getElementById('propModalCounter');
+    const thumbsEl = document.getElementById('propModalThumbs');
+    const prevBtn = document.getElementById('propModalPrev');
+    const nextBtn = document.getElementById('propModalNext');
+
+    if (heroImg) {
+      heroImg.style.opacity = '0';
+      setTimeout(() => {
+        heroImg.src = src;
+        heroImg.style.opacity = '1';
+      }, 150);
+    }
+
+    if (counterEl) {
+      counterEl.textContent = `Photo ${modalActiveIndex + 1} of ${modalImagesList.length}`;
+      counterEl.style.display = modalImagesList.length > 1 ? 'block' : 'none';
+    }
+
+    if (prevBtn && nextBtn) {
+      const showNav = modalImagesList.length > 1;
+      prevBtn.style.display = showNav ? 'flex' : 'none';
+      nextBtn.style.display = showNav ? 'flex' : 'none';
+    }
+
+    if (thumbsEl) {
+      const allThumbs = thumbsEl.querySelectorAll('.prop-modal-thumb');
+      allThumbs.forEach((t, i) => {
+        const isActive = i === modalActiveIndex;
+        t.classList.toggle('active', isActive);
+        if (isActive) {
+          t.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        }
+      });
+    }
+  }
+
+  // ── Build modal HTML ─────────────────────────────────────────
   function buildModal() {
     const overlay = document.createElement('div');
     overlay.className = 'prop-modal-overlay';
@@ -224,6 +270,13 @@
       <div class="prop-modal-hero" id="propModalHero">
         <img id="propModalHeroImg" src="" alt="" />
         <div class="prop-modal-hero-badge" id="propModalBadge"></div>
+        <button class="prop-modal-nav prev" id="propModalPrev" aria-label="Previous photo">
+          <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <button class="prop-modal-nav next" id="propModalNext" aria-label="Next photo">
+          <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+        <div class="prop-modal-counter" id="propModalCounter"></div>
         <div class="prop-modal-thumbs" id="propModalThumbs"></div>
       </div>
       <div class="prop-modal-body">
@@ -277,7 +330,39 @@
     // Close handlers
     document.getElementById('propModalClose').addEventListener('click', closeModal);
     overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+    // Prev / Next Lightbox Controls
+    document.getElementById('propModalPrev').addEventListener('click', (e) => {
+      e.stopPropagation();
+      setModalImage(modalActiveIndex - 1);
+    });
+    document.getElementById('propModalNext').addEventListener('click', (e) => {
+      e.stopPropagation();
+      setModalImage(modalActiveIndex + 1);
+    });
+
+    // Keyboard navigation (Esc to close, Left/Right arrows to cycle)
+    document.addEventListener('keydown', (e) => {
+      if (!overlay.classList.contains('active')) return;
+      if (e.key === 'Escape') closeModal();
+      if (e.key === 'ArrowLeft') setModalImage(modalActiveIndex - 1);
+      if (e.key === 'ArrowRight') setModalImage(modalActiveIndex + 1);
+    });
+
+    // Touch Swipe on mobile hero
+    let touchStartX = 0;
+    const heroEl = document.getElementById('propModalHero');
+    heroEl.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    heroEl.addEventListener('touchend', (e) => {
+      const touchEndX = e.changedTouches[0].screenX;
+      if (touchStartX - touchEndX > 45) {
+        setModalImage(modalActiveIndex + 1);
+      } else if (touchEndX - touchStartX > 45) {
+        setModalImage(modalActiveIndex - 1);
+      }
+    }, { passive: true });
   }
 
   function closeModal() {
@@ -312,12 +397,10 @@
     if (!overlay) return;
 
     // Images: use data.images, falling back to images grabbed from the card
-    const images = (data.images && data.images.length) ? data.images : cardImages;
-
-    // Hero image
-    const heroImg = document.getElementById('propModalHeroImg');
-    heroImg.src = images[0] || '';
-    heroImg.alt = data.title || '';
+    const rawImages = (data.images && data.images.length) ? data.images : cardImages;
+    const images = (Array.isArray(rawImages) ? rawImages : [rawImages]).filter(Boolean);
+    modalImagesList = images.length ? images : ['images/listing_villa.jpg'];
+    modalActiveIndex = 0;
 
     // Badge
     const badge = document.getElementById('propModalBadge');
@@ -331,19 +414,25 @@
     // Thumbnails
     const thumbsEl = document.getElementById('propModalThumbs');
     thumbsEl.innerHTML = '';
-    images.forEach((src, i) => {
-      const img = document.createElement('img');
-      img.src = src;
-      img.className = 'prop-modal-thumb' + (i === 0 ? ' active' : '');
-      img.alt = `View ${i + 1}`;
-      img.addEventListener('click', () => {
-        heroImg.style.opacity = '0';
-        setTimeout(() => { heroImg.src = src; heroImg.style.opacity = '1'; }, 200);
-        thumbsEl.querySelectorAll('.prop-modal-thumb').forEach(t => t.classList.remove('active'));
-        img.classList.add('active');
+    if (modalImagesList.length > 1) {
+      thumbsEl.style.display = 'flex';
+      modalImagesList.forEach((src, i) => {
+        const img = document.createElement('img');
+        img.src = src;
+        img.className = 'prop-modal-thumb' + (i === 0 ? ' active' : '');
+        img.alt = `View photo ${i + 1}`;
+        img.addEventListener('click', (e) => {
+          e.stopPropagation();
+          setModalImage(i);
+        });
+        thumbsEl.appendChild(img);
       });
-      thumbsEl.appendChild(img);
-    });
+    } else {
+      thumbsEl.style.display = 'none';
+    }
+
+    // Set initial photo (index 0)
+    setModalImage(0);
 
     // Text content
     document.getElementById('propModalPrice').textContent = data.price || '';
@@ -402,6 +491,18 @@
     });
 
     const images = [];
+    if (card.dataset.images) {
+      try {
+        const parsed = JSON.parse(decodeURIComponent(card.dataset.images));
+        if (Array.isArray(parsed)) parsed.forEach(u => { if (u && !images.includes(u)) images.push(u); });
+      } catch (e) {
+        try {
+          const parsed = JSON.parse(card.dataset.images);
+          if (Array.isArray(parsed)) parsed.forEach(u => { if (u && !images.includes(u)) images.push(u); });
+        } catch (_) {}
+      }
+    }
+    const imgEls = card.querySelectorAll('.card-carousel img, .card-image img');
     imgEls.forEach(img => { if (img.src && !images.includes(img.src)) images.push(img.src); });
 
     return { title, price, location, badge, specs, images };
@@ -420,7 +521,11 @@
         const cardData = extractFromCard(card);
         const stored = PROPERTY_DATA[cardData.title] || {};
 
-        // Merge: stored data takes priority, card data fills missing fields
+        // Merge: If card has custom images from Supabase or data-property-id, prioritize cardData.images
+        const finalImages = (cardData.images && cardData.images.length && (card.dataset.propertyId || !stored.images))
+          ? cardData.images
+          : ((stored.images && stored.images.length) ? stored.images : cardData.images);
+
         const finalData = {
           badge:    stored.badge    !== undefined ? stored.badge    : cardData.badge,
           price:    stored.price    || cardData.price,
@@ -429,11 +534,11 @@
           specs:    (stored.specs && stored.specs.length) ? stored.specs : cardData.specs,
           desc:     stored.desc     || null,
           features: stored.features || [],
-          images:   (stored.images  && stored.images.length) ? stored.images : cardData.images,
+          images:   finalImages,
         };
 
         window.currentViewingPropertyId = card.dataset.propertyId || null;
-        openModal(finalData, cardData.images);
+        openModal(finalData, finalImages);
       });
     });
   }

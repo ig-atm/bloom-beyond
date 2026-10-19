@@ -11,7 +11,7 @@ import { useProperties, submitLead } from '../hooks/useBeyondBloomData';
 import {
   Compass, CheckCircle, AlertCircle, Loader,
   Sparkles, Shield, MapPin, Bed, Bath,
-  Maximize2, Send, X
+  Maximize2, Send, X, Camera
 } from 'lucide-react';
 
 function fmtAED(n) {
@@ -250,6 +250,27 @@ export default function PublicListings() {
                       <MapPin size={13} color="var(--gold)" />
                       {prop.location}
                     </div>
+
+                    {/* Photos Count Badge */}
+                    {(() => {
+                      const count = Array.isArray(prop.gallery_urls) && prop.gallery_urls.length
+                        ? prop.gallery_urls.length
+                        : (Array.isArray(prop.images) && prop.images.length
+                          ? prop.images.length
+                          : (prop.hero_image_url ? 1 : 0));
+                      if (count <= 1) return null;
+                      return (
+                        <div style={{
+                          position: 'absolute', bottom: 12, right: 14,
+                          background: 'rgba(10,10,12,0.8)', backdropFilter: 'blur(8px)',
+                          color: '#fff', fontSize: 11, fontWeight: 500, padding: '3px 8px',
+                          borderRadius: 12, display: 'flex', alignItems: 'center', gap: 4,
+                          border: '1px solid rgba(255,255,255,0.15)'
+                        }}>
+                          <Camera size={11} color="var(--gold)" /> {count} Photos
+                        </div>
+                      );
+                    })()}
                   </div>
 
                   {/* Body Content */}
