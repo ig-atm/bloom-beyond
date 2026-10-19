@@ -387,7 +387,7 @@ function BulkGalleryUploader({ urls, onAddPhotos, onSetCover, onRemove, onReorde
 
 function PropertyDrawer({ prop, onClose, onSaved }) {
   const isEdit = !!prop?.id && !String(prop.id).startsWith('static-');
-  const [form, setForm] = useState(isEdit ? { ...prop } : EMPTY_FORM);
+  const [form, setForm] = useState(prop ? { ...EMPTY_FORM, ...prop } : EMPTY_FORM);
 
   // Initialize images list in order
   const initialImages = (() => {
@@ -677,7 +677,15 @@ export default function AdminListings() {
                   : (prop.hero_image_url ? 1 : 0));
 
               return (
-                <tr key={prop.id}>
+                <tr
+                  key={prop.id}
+                  onClick={(e) => {
+                    if (e.target.closest('button') || e.target.closest('input') || e.target.closest('.toggle') || e.target.closest('a')) return;
+                    openEdit(prop);
+                  }}
+                  style={{ cursor: 'pointer' }}
+                  title="Click row to edit listing & photos"
+                >
                   <td style={{ width: 80, verticalAlign: 'middle' }}>
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 4 }}>
                       <img
@@ -748,6 +756,7 @@ export default function AdminListings() {
 
       {drawerOpen && (
         <PropertyDrawer
+          key={drawerProp?.id || 'new'}
           prop={drawerProp}
           onClose={closeDrawer}
           onSaved={refetch}

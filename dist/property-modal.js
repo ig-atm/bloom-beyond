@@ -1,11 +1,11 @@
 // ================================================================
-//  BEYOND BLOOM — Property Detail Modal
-//  Reads data from .card elements and renders a full-screen modal
+//  BEYOND BLOOM — Property Detail Modal & Lightbox Gallery
+//  Document-level event delegation, Supabase property normalization,
+//  bulk gallery photo slider, and direct lead integration.
 // ================================================================
 
 (function () {
-  // ── Property data store (extend as needed) ───────────────────
-  // Keyed by card title text. Falls back to generic copy if not found.
+  // ── Property data catalogue (fallback copy for static showcases) ──
   const PROPERTY_DATA = {
     'Noir Estate': {
       badge: 'Featured',
@@ -82,7 +82,7 @@
       images: ['images/listing_villa.jpg', 'images/listing_penthouse.jpg', 'images/listing_skyhouse.jpg'],
     },
     'Palm Crown Residences': {
-      badge: null,
+      badge: 'Featured',
       price: 'AED 85,000,000',
       title: 'Palm Crown Residences',
       location: 'Palm Jumeirah, Dubai',
@@ -99,62 +99,74 @@
       ],
       images: ['images/listing_skyhouse.jpg', 'images/listing_villa.jpg', 'images/listing_penthouse.jpg'],
     },
-    'Monaco Sky Penthouse': {
-      badge: 'New',
-      price: '€ 22,500,000',
-      title: 'Monaco Sky Penthouse',
-      location: 'Monte Carlo, Monaco',
-      specs: [
-        { val: '4',     label: 'Bedrooms' },
-        { val: '5',     label: 'Bathrooms' },
-        { val: '6,400', label: 'Sq Ft' },
-      ],
-      desc: `A rare opportunity to acquire a sky-level residence in the Principality of Monaco, the world's second-smallest sovereign state and its most densely packed concentration of ultra-high-net-worth individuals.\n\nThis full-floor penthouse commands views across the harbour of Monte Carlo, the Grimaldi Palace, and the turquoise Mediterranean beyond. A private rooftop terrace of 1,800 sq ft provides a spectacular setting for entertaining against the backdrop of the Grand Prix circuit.\n\nMonaco's favourable tax environment, combined with the exceptional quality of this residence, makes this one of the most compelling investment propositions in European luxury real estate.`,
-      features: [
-        'Harbour & Palace Views', '1,800 Sq Ft Roof Terrace', 'Zero Income Tax', 'F1 Circuit Views',
-        'Private Elevator', '24-Hour Security', 'Concierge Service', 'Cellar & Storage',
-        'Parking for 2 Cars', 'Smart Home System', 'Sea-View Master Suite', 'Guest Suite',
-      ],
-      images: ['images/listing_penthouse.jpg', 'images/listing_villa.jpg', 'images/listing_skyhouse.jpg'],
-    },
-    'Ocean Manor': {
-      badge: 'Rare',
-      price: '$67,000,000',
-      title: 'Ocean Manor',
-      location: 'Southampton, The Hamptons',
-      specs: [
-        { val: '12',     label: 'Bedrooms' },
-        { val: '14',     label: 'Bathrooms' },
-        { val: '28,000', label: 'Sq Ft' },
-        { val: '4.2 acres', label: 'Ocean Front' },
-      ],
-      desc: `Positioned on 4.2 acres of oceanfront in Southampton, Ocean Manor represents the pinnacle of East Coast luxury. Designed by a celebrated architect as a singular private commission, every element of this estate reflects the very highest standards of craftsmanship and design.\n\nThe main residence spans 28,000 square feet across three floors, with a sweeping ocean terrace, two heated pools, a regulation-size tennis court, and a private beach path. The lower level is dedicated entirely to entertainment — featuring a cinema, bowling alley, professional-grade bar, and a 3,000-bottle wine vault.\n\nA separate guest house, staff cottage, and eight-car garage complete the estate. This is amongst the finest oceanfront estates ever to come to market in The Hamptons.`,
-      features: [
-        '4.2 Acres Oceanfront', 'Private Beach Access', 'Two Heated Pools', 'Tennis Court',
-        'Home Cinema', 'Bowling Alley', '3,000-Bottle Wine Vault', 'Professional Bar',
-        'Guest House', 'Staff Cottage', '8-Car Garage', 'Ocean-View Terraces',
-      ],
-      images: ['images/listing_villa.jpg', 'images/listing_skyhouse.jpg', 'images/listing_penthouse.jpg'],
-    },
-    'Aegean Crown Villa': {
-      badge: null,
-      price: '€ 15,800,000',
-      title: 'Aegean Crown Villa',
-      location: 'Oia, Santorini',
+    'Burj View Penthouse': {
+      badge: 'Featured',
+      price: 'AED 32,000,000',
+      title: 'Burj View Penthouse',
+      location: 'DIFC · Dubai',
       specs: [
         { val: '5',     label: 'Bedrooms' },
-        { val: '6',     label: 'Bathrooms' },
-        { val: '5,600', label: 'Sq Ft' },
+        { val: '7',     label: 'Bathrooms' },
+        { val: '8,400', label: 'Sq Ft' },
       ],
-      desc: `Perched on the volcanic caldera cliffs of Oia, the most photographed village on earth, Aegean Crown Villa is a celebration of Cycladic architecture at the very highest level. Carved directly into the clifftop, the villa cascades down the caldera wall through a series of terraces, each offering unobstructed views of the famous Santorini sunset and the caldera below.\n\nThe property features an infinity pool that appears to merge with the Aegean Sea, a traditional cave cellar, and bespoke interiors that weave local stone, hand-crafted ceramics, and contemporary furnishings into a seamless whole.\n\nThis is one of only a handful of private villas in Oia of this scale and calibre, representing an exceptionally rare acquisition opportunity.`,
+      desc: `An extraordinary sky sanctuary situated in the heart of Dubai International Financial Centre. Featuring double-height ceilings, floor-to-ceiling soundproof acoustic glass, and full-aspect unobstructed views of Burj Khalifa and the city skyline.\n\nCrafted with hand-honed Statuario marble, bespoke Poliform kitchen systems, and a private wraparound sunset entertainment terrace.`,
       features: [
-        'Caldera Cliff Position', 'Sunset & Caldera Views', 'Infinity Pool', 'Cave Wine Cellar',
-        'Hand-Crafted Ceramics', 'Local Stone Interiors', 'Multiple Terrace Levels', 'Private Entrance',
-        'Outdoor Dining Terrace', 'Master Caldera Suite', 'Guest Suites', 'Concierge Service',
+        'Burj Khalifa Panoramic Views', 'Private Elevator & Foyer', 'Poliform Master Kitchen', 'Wraparound Sunset Terrace',
+        '24/7 Valet & White-Glove Security', 'Infinity Lap Pool Access', 'Wine Cellar Room', 'Private 4-Car Parking',
       ],
-      images: ['images/listing_villa.jpg', 'images/listing_penthouse.jpg', 'images/listing_skyhouse.jpg'],
+      images: ['images/prop_dubai_penthouse.jpg', 'images/listing_skyhouse.jpg', 'images/listing_villa.jpg'],
     },
-    // Off-plan defaults
+    'Palm Shoreline Villa': {
+      badge: 'New',
+      price: 'AED 55,000,000',
+      title: 'Palm Shoreline Villa',
+      location: 'Palm Jumeirah · Dubai',
+      specs: [
+        { val: '7',      label: 'Bedrooms' },
+        { val: '9',      label: 'Bathrooms' },
+        { val: '14,200', label: 'Sq Ft' },
+      ],
+      desc: `Direct beachfront living on the prestigious Palm Jumeirah fronds. Enjoy private sea frontage, pristine white sands, temperature-regulated infinity pool, and custom interior architecture designed for grand entertaining and effortless Mediterranean-inspired indoor-outdoor flow.`,
+      features: [
+        'Private Beach Access', 'Infinity Pool Cascading to Sea', 'Private Boat Moorings', 'Sub-Zero & Miele Kitchens',
+        'Smart Home Savant System', 'Separate Maid & Driver Quarters', 'Gated Security Enclave', 'Private Rooftop Solarium',
+      ],
+      images: ['images/prop_palm_villa.jpg', 'images/listing_villa.jpg', 'images/prop_dubai_penthouse.jpg'],
+    },
+    'The Obsidian Residence': {
+      badge: 'Exclusive',
+      price: 'AED 18,500,000',
+      title: 'The Obsidian Residence',
+      location: 'Downtown · Dubai',
+      specs: [
+        { val: '3',     label: 'Bedrooms' },
+        { val: '4',     label: 'Bathrooms' },
+        { val: '4,800', label: 'Sq Ft' },
+      ],
+      desc: `Architecturally striking corner residence in Downtown Dubai. Featuring blackened titanium accents, fluted Italian marble walls, integrated Bang & Olufsen soundscapes, and dramatic views across the Opera District fountains.`,
+      features: [
+        'Opera District Views', 'Black Titanium Architecture', 'Private Elevator Foyer', 'Integrated Home Automation',
+        'Concierge & In-Residence Dining', 'State-of-the-art Wellness Gym', 'Reserved Covered Parking',
+      ],
+      images: ['images/prop_downtown_apt.jpg', 'images/listing_penthouse.jpg', 'images/listing_skyhouse.jpg'],
+    },
+    'Grand Estate, Emirates Hills': {
+      badge: 'Off-Market',
+      price: 'AED 120,000,000',
+      title: 'Grand Estate, Emirates Hills',
+      location: 'Emirates Hills · Dubai',
+      specs: [
+        { val: '9',      label: 'Bedrooms' },
+        { val: '14',     label: 'Bathrooms' },
+        { val: '28,000', label: 'Sq Ft' },
+      ],
+      desc: `Dubbed the Beverly Hills of Dubai, this palatial estate overlooks the Montgomerie Championship Golf Course. Set over manicured resort grounds with 2 private pools, underground car gallery, private cinema, and separate guest and staff villas.`,
+      features: [
+        'Championship Golf Course Views', '10-Car Underground Gallery', 'Private Cinema & Bowling Suite', 'Two Infinity Pools & Spa',
+        'Full Security Pavilion', 'Formal & Family Dining Wings', 'Grand Reception Hall', 'Helipad Access Nearby',
+      ],
+      images: ['images/prop_emirates_mansion.jpg', 'images/listing_villa.jpg', 'images/prop_dubai_penthouse.jpg'],
+    },
     'The Elysian Tower': {
       badge: 'Off-Plan',
       price: 'AED 12,500,000',
@@ -166,56 +178,137 @@
         { val: '4,200', label: 'Sq Ft' },
         { val: '2027',  label: 'Completion' },
       ],
-      desc: `Rising 92 floors above Downtown Dubai, The Elysian Tower is a masterwork of contemporary architecture that will redefine the city's skyline upon completion in 2027. Each residence occupies a full floor or half-floor, ensuring unrivalled privacy and views that span the Burj Khalifa, the Desert, and the Arabian Gulf.\n\nResidents will benefit from an unprecedented amenity collection — including sky gardens at three levels, a cantilevered infinity pool at level 72, a ESPA spa, a members' club, and a Michelin-starred restaurant operated by a globally renowned chef.\n\nWith construction now 40% complete and a developer track record of 14 delivered projects across the Gulf, The Elysian Tower represents the most compelling off-plan investment opportunity in Dubai today.`,
+      desc: `Rising 92 floors above Downtown Dubai, The Elysian Tower is a masterwork of contemporary architecture that will redefine the city's skyline upon completion in 2027. Each residence occupies a full floor or half-floor, ensuring unrivalled privacy and views that span the Burj Khalifa, the Desert, and the Arabian Gulf.`,
       features: [
         'Full & Half-Floor Residences', 'Burj Khalifa Views', 'Sky Gardens (3 Levels)', 'Level-72 Infinity Pool',
-        'ESPA Spa', 'Members\' Club', 'Michelin-Star Restaurant', 'Private Cinema',
-        '2027 Completion', 'Payment Plan Available', 'Capital Growth Projection', 'Golden Visa Eligible',
+        'ESPA Spa', 'Members\' Club', 'Michelin-Star Restaurant', 'Golden Visa Eligible',
       ],
       images: ['images/listing_skyhouse.jpg', 'images/listing_penthouse.jpg', 'images/listing_villa.jpg'],
-    },
-    // Commercial properties
-    'One Meridian Tower': {
-      badge: 'Trophy Asset',
-      price: '£ 420,000,000',
-      title: 'One Meridian Tower',
-      location: 'Canary Wharf, London',
-      specs: [
-        { val: '42',      label: 'Floors' },
-        { val: '980,000', label: 'Sq Ft GIA' },
-        { val: '4.8%',    label: 'Net Yield' },
-        { val: '2019',    label: 'Built' },
-      ],
-      desc: `A landmark 42-storey Grade A office tower commanding the Canary Wharf skyline. Fully leased to blue-chip financial institutions including two global investment banks and a sovereign wealth fund, with a weighted average lease expiry (WALE) of 11.2 years.\n\nThe building has achieved BREEAM Outstanding certification and EPC A rating, positioning it at the forefront of the ESG investment agenda. Floor plates of up to 32,000 sq ft NIA are among the largest and most efficient in London, offering occupiers genuine flexibility.\n\nThe investment is offered at a net initial yield of 4.8% — representing a compelling entry point into prime London office investment at current market pricing.`,
-      features: [
-        'Grade A Tower', 'BREEAM Outstanding', 'EPC A Rating', '11.2 Years WALE',
-        '32,000 Sq Ft Floor Plates', 'Blue-Chip Tenants', 'Trophy Location', 'Concierge Lobby',
-        '£38M Net Income', 'Structured Finance Available', 'ESG Compliant', 'Business Rates Allowances',
-      ],
-      images: ['images/listing_skyhouse.jpg', 'images/listing_penthouse.jpg', 'images/listing_villa.jpg'],
-    },
-    'New Bond Street Flagship': {
-      badge: 'Flagship Retail',
-      price: '£ 95,000,000',
-      title: 'New Bond Street Flagship',
-      location: 'Mayfair, London',
-      specs: [
-        { val: '6',      label: 'Floors' },
-        { val: '18,400', label: 'Sq Ft' },
-        { val: '5.1%',   label: 'Yield' },
-      ],
-      desc: `A rare freehold retail investment on New Bond Street — consistently ranked among the world's most expensive and prestigious retail addresses. The building, tenanted by a global luxury maison on a 15-year lease, offers investors long-term, inflation-linked income from one of the world's most irreplaceable retail pitches.\n\nThe property spans six floors including basement storage and upper-floor offices, with a distinctive double-height ground floor frontage directly opposite one of London's most iconic intersections.\n\nNew Bond Street has demonstrated exceptional rental resilience through multiple economic cycles, underpinned by structurally limited supply and relentlessly strong demand from the world's leading luxury brands.`,
-      features: [
-        'New Bond Street Freehold', 'Luxury Brand Tenant', '15-Year Lease', 'Inflation-Linked Rent Reviews',
-        'Double-Height Frontage', 'Basement Storage', 'Upper Floor Offices', 'Trophy Retail Pitch',
-        'Planning Permissions Available', 'Rare Freehold Availability', 'Long WALE', 'Institutional Grade',
-      ],
-      images: ['images/listing_penthouse.jpg', 'images/listing_skyhouse.jpg', 'images/listing_villa.jpg'],
     },
   };
 
-  // ── Build modal HTML ─────────────────────────────────────────
-  // Active modal image index and photo list
+  // ── Normalize Supabase / DOM Property Object ─────────────────
+  function normalizeProperty(p) {
+    if (!p) p = {};
+
+    // 1. Title fallback
+    const title = p.title || 'Luxury Residence';
+
+    // 2. Location fallback
+    const location = p.location || p.community || 'Dubai';
+
+    // 3. Type fallback
+    const type = p.type || p.sub_community || p.property_type || 'Residence';
+
+    // 4. Price formatting: Clean numeric value formatted as 'AED ' + Number.toLocaleString()
+    let formattedPrice = 'Price on Application';
+    if (p.price != null && p.price !== '') {
+      if (typeof p.price === 'number') {
+        formattedPrice = 'AED ' + Number(p.price).toLocaleString();
+      } else {
+        const cleanStr = String(p.price).trim();
+        const numericVal = parseFloat(cleanStr.replace(/[^0-9.]/g, ''));
+        if (cleanStr.toUpperCase().includes('AED') || cleanStr.startsWith('$') || cleanStr.startsWith('£') || cleanStr.startsWith('€')) {
+          formattedPrice = cleanStr;
+        } else if (!isNaN(numericVal) && numericVal > 0) {
+          formattedPrice = 'AED ' + Number(numericVal).toLocaleString();
+        } else {
+          formattedPrice = cleanStr;
+        }
+      }
+    }
+
+    // 5. Specs fallbacks
+    const bedrooms = p.bedrooms ?? p.beds ?? 0;
+    const bathrooms = p.bathrooms ?? p.baths ?? 0;
+    const area_sqft = p.area_sqft ?? p.sqft ?? p.area ?? 0;
+
+    // 6. Description fallback
+    const description = p.description || p.desc || 'Contact Beyond Bloom for the private dossier and floorplans.';
+
+    // 7. Hero Image fallback
+    const hero_image_url = p.hero_image_url || p.image || p.image_url ||
+      (Array.isArray(p.gallery_urls) && p.gallery_urls[0]) ||
+      (Array.isArray(p.images) && p.images[0]) ||
+      '/images/prop_dubai_penthouse.jpg';
+
+    // 8. Gallery array: Combine [hero, ...gallery_urls, ...images].filter(Boolean) (deduplicated)
+    const gallery = [];
+    const addImg = (u) => {
+      if (!u || typeof u !== 'string') return;
+      const clean = u.trim();
+      if (clean && !gallery.includes(clean)) {
+        gallery.push(clean);
+      }
+    };
+
+    addImg(hero_image_url);
+    if (Array.isArray(p.gallery_urls)) p.gallery_urls.forEach(addImg);
+    if (Array.isArray(p.images)) p.images.forEach(addImg);
+    if (Array.isArray(p.gallery)) p.gallery.forEach(addImg);
+    if (gallery.length === 0) {
+      gallery.push('/images/prop_dubai_penthouse.jpg');
+    }
+
+    // Specs array for modal display
+    let specs = [];
+    if (Array.isArray(p.specs) && p.specs.length) {
+      specs = p.specs;
+    } else {
+      if (Number(bedrooms) > 0) specs.push({ val: String(bedrooms), label: 'Bedrooms' });
+      if (Number(bathrooms) > 0) specs.push({ val: String(bathrooms), label: 'Bathrooms' });
+      if (Number(area_sqft) > 0) specs.push({ val: Number(area_sqft).toLocaleString(), label: 'Sq Ft' });
+      if (type) specs.push({ val: type, label: 'Property Type' });
+    }
+
+    // Features array
+    const features = (Array.isArray(p.features) && p.features.length)
+      ? p.features
+      : [
+          'Panoramic Skyline & Water Views',
+          'Bespoke Italian Craftsmanship & Finishes',
+          'Private Concierge & Valet Service',
+          'Floor-to-Ceiling Thermal Glazing',
+          'Smart Home Automation System',
+          'Exclusive Private Access',
+        ];
+
+    const badge = p.badge || (p.is_featured ? 'Featured' : (p.status === 'available' ? null : p.status?.replace('_', ' ')));
+
+    return {
+      ...p,
+      id: p.id != null ? String(p.id) : undefined,
+      title,
+      location,
+      community: location,
+      type,
+      property_type: type.toLowerCase(),
+      sub_community: type,
+      price: formattedPrice,
+      numeric_price: typeof p.price === 'number' ? p.price : parseFloat(String(p.price).replace(/[^0-9.]/g, '')) || 0,
+      bedrooms: Number(bedrooms) || 0,
+      bathrooms: Number(bathrooms) || 0,
+      area_sqft: Number(area_sqft) || 0,
+      description,
+      desc: description,
+      hero_image_url: gallery[0] || hero_image_url,
+      image: gallery[0] || hero_image_url,
+      gallery,
+      gallery_urls: gallery,
+      images: gallery,
+      specs,
+      features,
+      badge,
+      trakheesi_permit: p.trakheesi_permit || p.permit_number || '',
+      permit_number: p.trakheesi_permit || p.permit_number || '',
+      tour_3d_url: p.tour_3d_url || p.three_d_tour_url || null,
+    };
+  }
+
+  // Expose globally
+  window.BeyondBloomNormalizeProperty = normalizeProperty;
+
+  // ── Lightbox State ───────────────────────────────────────────
   let modalActiveIndex = 0;
   let modalImagesList = [];
 
@@ -234,7 +327,7 @@
       setTimeout(() => {
         heroImg.src = src;
         heroImg.style.opacity = '1';
-      }, 150);
+      }, 140);
     }
 
     if (counterEl) {
@@ -260,15 +353,17 @@
     }
   }
 
-  // ── Build modal HTML ─────────────────────────────────────────
+  // ── Build Modal DOM Element ──────────────────────────────────
   function buildModal() {
+    if (document.getElementById('propModal')) return;
+
     const overlay = document.createElement('div');
     overlay.className = 'prop-modal-overlay';
     overlay.id = 'propModal';
     overlay.innerHTML = `
-      <button class="prop-modal-close" id="propModalClose" aria-label="Close property details">✕</button>
+      <button class="prop-modal-close" id="propModalClose" aria-label="Close property details" title="Close (Esc)">✕</button>
       <div class="prop-modal-hero" id="propModalHero">
-        <img id="propModalHeroImg" src="" alt="" />
+        <img id="propModalHeroImg" src="" alt="Property Photo" />
         <div class="prop-modal-hero-badge" id="propModalBadge"></div>
         <button class="prop-modal-nav prev" id="propModalPrev" aria-label="Previous photo">
           <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none"><polyline points="15 18 9 12 15 6"></polyline></svg>
@@ -285,7 +380,21 @@
           <div class="prop-modal-title" id="propModalTitle"></div>
           <div class="prop-modal-location" id="propModalLocation"></div>
           <div class="prop-modal-specs" id="propModalSpecs"></div>
+
+          <div id="propModalTourWrap" style="margin-bottom: 24px; display: none;"></div>
+
           <div class="prop-modal-desc" id="propModalDesc"></div>
+
+          <!-- CTAs inside narrative -->
+          <div style="display:flex; gap:12px; flex-wrap:wrap; margin:28px 0 36px;">
+            <button type="button" class="btn btn-solid" id="propModalScrollViewingBtn" style="padding:14px 28px;">
+              <span>Schedule Private Viewing</span>
+            </button>
+            <button type="button" class="btn" id="propModalRequestFloorplanBtn" style="padding:14px 28px;">
+              <span>Request Floorplans & Dossier</span>
+            </button>
+          </div>
+
           <div class="gold-rule" style="margin-bottom: 28px;"></div>
           <p class="label" style="margin-bottom: 16px;">Property Highlights</p>
           <div class="prop-modal-features" id="propModalFeatures"></div>
@@ -293,18 +402,18 @@
         <div class="prop-modal-sidebar">
           <h3>Request a Private Viewing</h3>
           <p>Strictly by appointment for pre-qualified individuals. Our advisors will contact you within 4 hours.</p>
-          <form id="propModalForm" onsubmit="return propModalSubmit(event)">
+          <form id="propModalForm" onsubmit="return window.propModalSubmit(event)">
             <div class="prop-modal-form-group">
-              <label>Full Name</label>
+              <label>Full Name *</label>
               <input type="text" placeholder="Your name" required />
             </div>
             <div class="prop-modal-form-group">
-              <label>Email Address</label>
+              <label>Email Address *</label>
               <input type="email" placeholder="you@example.com" required />
             </div>
             <div class="prop-modal-form-group">
-              <label>Phone Number</label>
-              <input type="tel" placeholder="+1 000 000 0000" />
+              <label>Phone Number *</label>
+              <input type="tel" placeholder="+971 50 123 4567" required />
             </div>
             <div class="prop-modal-form-group">
               <label>Preferred Date</label>
@@ -312,14 +421,14 @@
             </div>
             <div class="prop-modal-form-group">
               <label>Message (Optional)</label>
-              <textarea placeholder="Any specific requirements or questions..."></textarea>
+              <textarea placeholder="Any specific requirements, questions, or floorplan requests..."></textarea>
             </div>
             <button type="submit" class="btn btn-solid" style="width:100%;justify-content:center;margin-top:8px;">
               <span>Request Viewing</span>
             </button>
           </form>
           <div class="prop-modal-divider"></div>
-          <button class="btn" style="width:100%;justify-content:center;" onclick="window.print()">
+          <button type="button" class="btn" style="width:100%;justify-content:center;" onclick="window.print()">
             <span>Download Brochure</span>
           </button>
         </div>
@@ -339,6 +448,31 @@
     document.getElementById('propModalNext').addEventListener('click', (e) => {
       e.stopPropagation();
       setModalImage(modalActiveIndex + 1);
+    });
+
+    // Action button scrolls to sidebar form
+    document.getElementById('propModalScrollViewingBtn')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      const sidebar = document.querySelector('.prop-modal-sidebar');
+      if (sidebar) {
+        sidebar.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        sidebar.querySelector('input[type="text"]')?.focus();
+      }
+    });
+
+    // Request floorplan button pre-fills form message
+    document.getElementById('propModalRequestFloorplanBtn')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      const textarea = document.querySelector('#propModalForm textarea');
+      const curTitle = window.currentViewingProperty?.title || 'this property';
+      if (textarea) {
+        textarea.value = `Requesting architectural floorplans, private investment dossier, and pricing breakdown for ${curTitle}.`;
+      }
+      const sidebar = document.querySelector('.prop-modal-sidebar');
+      if (sidebar) {
+        sidebar.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        sidebar.querySelector('input[type="text"]')?.focus();
+      }
     });
 
     // Keyboard navigation (Esc to close, Left/Right arrows to cycle)
@@ -370,42 +504,102 @@
     if (!overlay) return;
     overlay.classList.remove('active');
     document.body.style.overflow = '';
-    setTimeout(() => { overlay.scrollTop = 0; }, 400);
+    setTimeout(() => { overlay.scrollTop = 0; }, 350);
   }
+  window.closePropertyModal = closeModal;
 
-  window.propModalSubmit = function(e) {
+  // ── Lead Form Handler ────────────────────────────────────────
+  window.propModalSubmit = async function(e) {
     e.preventDefault();
-    const btn = e.target.querySelector('button[type=submit]');
-    const orig = btn.innerHTML;
-    btn.innerHTML = '<span>Request Sent ✓</span>';
-    btn.style.background = 'rgba(201,169,110,0.2)';
-    btn.style.borderColor = 'var(--gold)';
-    btn.disabled = true;
-    setTimeout(() => {
-      btn.innerHTML = orig;
-      btn.style.background = '';
-      btn.style.borderColor = '';
-      btn.disabled = false;
-      closeModal();
-    }, 3000);
+    const form = e.target;
+    const btn = form.querySelector('button[type="submit"]');
+    const orig = btn ? btn.innerHTML : '';
+    if (btn) {
+      btn.innerHTML = '<span>Requesting Viewing…</span>';
+      btn.disabled = true;
+    }
+
+    const name = form.querySelector('input[type="text"]')?.value || 'Private Client';
+    const email = form.querySelector('input[type="email"]')?.value || '';
+    const phone = form.querySelector('input[type="tel"]')?.value || '';
+    const date = form.querySelector('input[type="date"]')?.value || '';
+    const msg = form.querySelector('textarea')?.value || '';
+
+    const curProp = window.currentViewingProperty;
+    const propTitle = curProp?.title || document.getElementById('propModalTitle')?.textContent || 'Exclusive Listing';
+    const propId = curProp?.id || window.currentViewingPropertyId || null;
+
+    const notes = [
+      `[Property: ${propTitle}${propId ? ` (ID: ${propId})` : ''}]`,
+      date ? `Preferred Viewing Date: ${date}` : null,
+      msg ? `Client Message: ${msg}` : null,
+    ].filter(Boolean).join(' | ');
+
+    try {
+      if (window.BeyondBloomSupabase && typeof window.BeyondBloomSupabase.submitLead === 'function') {
+        await window.BeyondBloomSupabase.submitLead({
+          client_name: name,
+          client_email: email,
+          client_phone: phone,
+          property_id: propId,
+          source: 'private_viewing',
+          notes: notes,
+        });
+      }
+
+      if (btn) {
+        btn.innerHTML = '<span>Viewing Requested ✓</span>';
+        btn.style.background = 'rgba(82,192,122,0.2)';
+        btn.style.borderColor = '#52c07a';
+        btn.style.color = '#52c07a';
+      }
+
+      setTimeout(() => {
+        if (btn) {
+          btn.innerHTML = orig;
+          btn.style.background = '';
+          btn.style.borderColor = '';
+          btn.style.color = '';
+          btn.disabled = false;
+        }
+        form.reset();
+        closeModal();
+      }, 2200);
+    } catch (err) {
+      console.warn('Modal lead submission notice:', err);
+      if (btn) {
+        btn.innerHTML = '<span>Viewing Requested ✓</span>';
+      }
+      setTimeout(() => {
+        if (btn) {
+          btn.innerHTML = orig;
+          btn.disabled = false;
+        }
+        form.reset();
+        closeModal();
+      }, 2000);
+    }
     return false;
   };
 
   // ── Populate and open modal ──────────────────────────────────
-  function openModal(data, cardImages) {
+  function openModal(data) {
+    buildModal();
     const overlay = document.getElementById('propModal');
     if (!overlay) return;
 
-    // Images: use data.images, falling back to images grabbed from the card
-    const rawImages = (data.images && data.images.length) ? data.images : cardImages;
-    const images = (Array.isArray(rawImages) ? rawImages : [rawImages]).filter(Boolean);
-    modalImagesList = images.length ? images : ['images/listing_villa.jpg'];
+    const norm = normalizeProperty(data);
+    window.currentViewingProperty = norm;
+    window.currentViewingPropertyId = norm.id || null;
+
+    // Photos list
+    modalImagesList = norm.gallery && norm.gallery.length ? norm.gallery : ['images/prop_dubai_penthouse.jpg'];
     modalActiveIndex = 0;
 
     // Badge
     const badge = document.getElementById('propModalBadge');
-    if (data.badge) {
-      badge.textContent = data.badge;
+    if (norm.badge) {
+      badge.textContent = norm.badge;
       badge.style.display = '';
     } else {
       badge.style.display = 'none';
@@ -431,31 +625,51 @@
       thumbsEl.style.display = 'none';
     }
 
-    // Set initial photo (index 0)
+    // Set initial hero photo
     setModalImage(0);
 
     // Text content
-    document.getElementById('propModalPrice').textContent = data.price || '';
-    document.getElementById('propModalTitle').textContent = data.title || '';
-    document.getElementById('propModalLocation').textContent = data.location || '';
+    document.getElementById('propModalPrice').textContent = norm.price || 'Price on Application';
+    document.getElementById('propModalTitle').textContent = norm.title || 'Luxury Residence';
+    document.getElementById('propModalLocation').textContent = norm.location || 'Dubai, UAE';
 
     // Specs
     const specsEl = document.getElementById('propModalSpecs');
-    specsEl.innerHTML = (data.specs || []).map(s => `
+    specsEl.innerHTML = (norm.specs || []).map(s => `
       <div class="prop-modal-spec">
         <strong>${s.val}</strong>
         <span>${s.label}</span>
       </div>
     `).join('');
 
-    // Description (support \n)
-    document.getElementById('propModalDesc').innerHTML =
-      (data.desc || 'A rare and extraordinary property. Contact us for full details.')
-        .split('\n\n').map(p => `<p style="margin-bottom:18px;">${p}</p>`).join('');
+    // 3D Tour Link if available
+    const tourWrap = document.getElementById('propModalTourWrap');
+    if (tourWrap) {
+      if (norm.tour_3d_url) {
+        tourWrap.style.display = 'block';
+        tourWrap.innerHTML = `
+          <a href="${norm.tour_3d_url}" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm tour-3d-btn" style="display:inline-flex;align-items:center;gap:8px;font-size:11px;">
+            <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><circle cx="12" cy="12" r="10"/><path d="m10 15 5-3-5-3v6z"/></svg>
+            <span>Experience 3D Virtual Tour ↗</span>
+          </a>
+        `;
+      } else {
+        tourWrap.style.display = 'none';
+        tourWrap.innerHTML = '';
+      }
+    }
+
+    // Description (support \n\n)
+    const descText = norm.description || norm.desc || 'Contact Beyond Bloom for the private dossier and floorplans.';
+    document.getElementById('propModalDesc').innerHTML = descText
+      .split('\n\n')
+      .filter(Boolean)
+      .map(p => `<p style="margin-bottom:18px;">${p}</p>`)
+      .join('');
 
     // Features
     const featEl = document.getElementById('propModalFeatures');
-    featEl.innerHTML = (data.features || []).map(f =>
+    featEl.innerHTML = (norm.features || []).map(f =>
       `<div class="prop-modal-feature">${f}</div>`
     ).join('');
 
@@ -467,26 +681,29 @@
     document.body.style.overflow = 'hidden';
     overlay.scrollTop = 0;
   }
+  window.openPropertyModal = openModal;
 
   // ── Extract data from a card DOM element ─────────────────────
   function extractFromCard(card) {
-    const titleEl = card.querySelector('.card-title');
-    const priceEl = card.querySelector('.card-price');
-    const locationEl = card.querySelector('.card-location');
-    const badgeEl = card.querySelector('.card-badge');
-    const specEls = card.querySelectorAll('.card-spec');
-    const imgEls = card.querySelectorAll('.card-carousel img, .card-image img');
+    const titleEl = card.querySelector('.card-title, .gc__title, .dev-card-title, h2, h3');
+    const priceEl = card.querySelector('.card-price, .gc__price, .dev-card-price');
+    const locationEl = card.querySelector('.card-location, .gc__location, .dev-card-loc');
+    const badgeEl = card.querySelector('.card-badge, .gc__badge, .dev-card-status');
+    const specEls = card.querySelectorAll('.card-spec, .gc__spec, .dev-card-meta span');
 
     const title = titleEl ? titleEl.textContent.trim() : '';
     const price = priceEl ? priceEl.textContent.trim() : '';
-    const location = locationEl ? locationEl.textContent.trim() : '';
+    const location = locationEl ? locationEl.textContent.trim().replace(/·/g, '·') : '';
     const badge = badgeEl ? badgeEl.textContent.trim() : null;
 
     const specs = [];
     specEls.forEach(el => {
       const strong = el.querySelector('strong');
       if (strong) {
-        specs.push({ val: strong.textContent.trim(), label: el.textContent.replace(strong.textContent, '').trim() });
+        specs.push({
+          val: strong.textContent.trim(),
+          label: el.textContent.replace(strong.textContent, '').trim()
+        });
       }
     });
 
@@ -502,54 +719,92 @@
         } catch (_) {}
       }
     }
-    const imgEls = card.querySelectorAll('.card-carousel img, .card-image img');
-    imgEls.forEach(img => { if (img.src && !images.includes(img.src)) images.push(img.src); });
+    const imgEls = card.querySelectorAll('.card-carousel img, .card-image img, .gc__img, .dev-card-img, img');
+    imgEls.forEach(img => {
+      const src = img.getAttribute('src');
+      if (src && !images.includes(src)) images.push(src);
+    });
 
     return { title, price, location, badge, specs, images };
   }
 
-  // ── Wire up all cards ────────────────────────────────────────
-  function attachCardListeners() {
-    document.querySelectorAll('.card').forEach(card => {
-      if (card.dataset.modalWired) return;
-      card.dataset.modalWired = 'true';
+  // ── Document-Level Event Delegation ──────────────────────────
+  function setupEventDelegation() {
+    if (window._bbPropertyDelegationInitialized) return;
+    window._bbPropertyDelegationInitialized = true;
 
-      card.addEventListener('click', (e) => {
-        // Don't open modal if clicking carousel buttons or btn-arrow
-        if (e.target.closest('.carousel-btn') || e.target.closest('.btn-arrow') || e.target.closest('button')) return;
+    document.addEventListener('click', (e) => {
+      // 1. Skip if clicking mini-carousel navigation inside card
+      if (e.target.closest('.carousel-btn') || e.target.closest('.carousel-dots')) return;
 
-        const cardData = extractFromCard(card);
-        const stored = PROPERTY_DATA[cardData.title] || {};
+      // 2. Skip if clicking external links
+      if (e.target.closest('a[target="_blank"]') || e.target.closest('.tour-3d-btn')) return;
 
-        // Merge: If card has custom images from Supabase or data-property-id, prioritize cardData.images
-        const finalImages = (cardData.images && cardData.images.length && (card.dataset.propertyId || !stored.images))
-          ? cardData.images
-          : ((stored.images && stored.images.length) ? stored.images : cardData.images);
+      // 3. Find if click happened inside a property card
+      const card = e.target.closest('.card, .gc, .dev-full-card, .dev-card, [data-property-id]');
+      if (!card) return;
 
-        const finalData = {
-          badge:    stored.badge    !== undefined ? stored.badge    : cardData.badge,
-          price:    stored.price    || cardData.price,
-          title:    stored.title    || cardData.title,
-          location: stored.location || cardData.location,
-          specs:    (stored.specs && stored.specs.length) ? stored.specs : cardData.specs,
-          desc:     stored.desc     || null,
-          features: stored.features || [],
-          images:   finalImages,
-        };
+      // 4. Ignore clicks inside modal itself or admin dashboard table
+      if (card.closest('#propModal') || card.closest('.admin-layout') || card.closest('table')) return;
 
-        window.currentViewingPropertyId = card.dataset.propertyId || null;
-        openModal(finalData, finalImages);
-      });
-    });
+      // 5. If card is or contains an <a> tag (like .gc with href="listings.html"), prevent page reload!
+      e.preventDefault();
+      e.stopPropagation();
+
+      const clickedId = card.dataset.propertyId;
+      const clickedSlug = card.dataset.propertySlug;
+      const extracted = extractFromCard(card);
+
+      // Search cached Supabase properties first
+      let supabaseMatch = null;
+      const pMap = window.BeyondBloomSupabase?.propertiesMap;
+      if (pMap) {
+        if (clickedId && pMap.has(String(clickedId))) {
+          supabaseMatch = pMap.get(String(clickedId));
+        } else if (clickedSlug && pMap.has(String(clickedSlug).toLowerCase())) {
+          supabaseMatch = pMap.get(String(clickedSlug).toLowerCase());
+        } else if (extracted.title && pMap.has(extracted.title.toLowerCase().trim())) {
+          supabaseMatch = pMap.get(extracted.title.toLowerCase().trim());
+        }
+      }
+
+      if (!supabaseMatch && Array.isArray(window.BeyondBloomSupabase?.properties)) {
+        supabaseMatch = window.BeyondBloomSupabase.properties.find(p => {
+          if (clickedId && String(p.id) === String(clickedId)) return true;
+          if (clickedSlug && p.slug && String(p.slug).toLowerCase() === String(clickedSlug).toLowerCase()) return true;
+          if (extracted.title && p.title && p.title.toLowerCase().trim() === extracted.title.toLowerCase().trim()) return true;
+          return false;
+        });
+      }
+
+      // Check static catalogue
+      const staticDef = PROPERTY_DATA[extracted.title] || PROPERTY_DATA[supabaseMatch?.title] || {};
+
+      // Merge data with safe fallbacks
+      const merged = {
+        ...staticDef,
+        ...extracted,
+        ...(supabaseMatch || {}),
+        id: supabaseMatch?.id || clickedId || card.dataset.propertyId || null,
+      };
+
+      if (extracted.images && extracted.images.length && (!supabaseMatch?.gallery_urls || !supabaseMatch.gallery_urls.length)) {
+        merged.gallery_urls = extracted.images;
+      }
+
+      const normalized = normalizeProperty(merged);
+      openModal(normalized);
+    }, false);
   }
 
   // ── Init ─────────────────────────────────────────────────────
-  document.addEventListener('DOMContentLoaded', () => {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      buildModal();
+      setupEventDelegation();
+    });
+  } else {
     buildModal();
-    attachCardListeners();
-
-    // Re-wire if new cards are added dynamically
-    const observer = new MutationObserver(() => attachCardListeners());
-    observer.observe(document.body, { childList: true, subtree: true });
-  });
+    setupEventDelegation();
+  }
 })();

@@ -1,6 +1,6 @@
 // ================================================================
 //  BEYOND BLOOM — Live Supabase Client & Real-Time Sync (Vanilla JS)
-//  Connects static pages (index.html, listings.html, agency.html)
+//  Connects static pages (index.html, listings.html, property.html, agency.html)
 //  to Supabase PostgreSQL and Realtime channel 'beyond-bloom-live'.
 // ================================================================
 
@@ -11,7 +11,9 @@
   // Format AED Currency
   function formatAED(n) {
     if (!n) return 'Price on Application';
-    return `AED ${Number(n).toLocaleString()}`;
+    const num = typeof n === 'number' ? n : parseFloat(String(n).replace(/[^0-9.]/g, ''));
+    if (isNaN(num) || num <= 0) return String(n);
+    return `AED ${Number(num).toLocaleString()}`;
   }
 
   // Raw PostgREST API Helper
@@ -37,14 +39,14 @@
     return res.json().catch(() => null);
   }
 
-  // ── Lead Submission Helper ──────────────────────────────────
+  // Lead Submission Helper
   async function submitLead({ client_name, client_email, client_phone, property_id, source, notes, budget }) {
     const validSource = source === 'private_viewing' ? 'private_viewing' : 'website_inquiry';
     const payload = {
-      client_name: (client_name || '').trim(),
+      client_name: (client_name || 'Private Client').trim(),
       client_email: (client_email || '').trim(),
       client_phone: (client_phone || '').trim() || null,
-      property_id: property_id || null,
+      property_id: property_id ? String(property_id) : null,
       source: validSource,
       notes: notes || null,
       pipeline_stage: 'new',
@@ -57,21 +59,74 @@
     });
   }
 
+  // Safe Property Mapper / Normalizer
   function mapProperty(prop) {
     if (!prop) return prop;
+    if (window.BeyondBloomNormalizeProperty) {
+      return window.BeyondBloomNormalizeProperty(prop);
+    }
+
+    const loc = prop.location || prop.community || 'Dubai, UAE';
+    const pType = prop.type || prop.sub_community || prop.property_type || 'Apartment';
+    const hero = prop.hero_image_url || prop.image || '/images/prop_dubai_penthouse.jpg';
+
+    const gallery = [];
+    const addImg = (u) => {
+      if (!u || typeof u !== 'string') return;
+      const clean = u.trim();
+      if (clean && !gallery.includes(clean)) gallery.push(clean);
+    };
+    addImg(hero);
+    if (Array.isArray(prop.gallery_urls)) prop.gallery_urls.forEach(addImg);
+    if (Array.isArray(prop.images)) prop.images.forEach(addImg);
+    if (gallery.length === 0) gallery.push(hero);
+
     return {
       ...prop,
-      location: prop.community || prop.location || 'Dubai, UAE',
-      community: prop.community || prop.location || 'Dubai, UAE',
-      property_type: (prop.sub_community || prop.property_type || 'apartment').toLowerCase(),
-      sub_community: prop.sub_community || prop.property_type || 'Apartment',
-      hero_image_url: prop.hero_image_url || prop.image || '',
-      image: prop.hero_image_url || prop.image || '',
+      id: prop.id != null ? String(prop.id) : undefined,
+      title: prop.title || 'Luxury Residence',
+      location: loc,
+      community: loc,
+      property_type: pType.toLowerCase(),
+      sub_community: pType,
+      type: pType,
+      price: formatAED(prop.price),
+      hero_image_url: gallery[0] || hero,
+      image: gallery[0] || hero,
+      gallery,
+      gallery_urls: gallery,
+      images: gallery,
+      bedrooms: prop.bedrooms ?? prop.beds ?? 0,
+      bathrooms: prop.bathrooms ?? prop.baths ?? 0,
+      area_sqft: prop.area_sqft ?? prop.sqft ?? prop.area ?? 0,
+      description: prop.description || prop.desc || 'Contact Beyond Bloom for the private dossier and floorplans.',
       trakheesi_permit: prop.permit_number || prop.trakheesi_permit || '',
       permit_number: prop.permit_number || prop.trakheesi_permit || '',
       tour_3d_url: prop.three_d_tour_url || prop.tour_3d_url || null,
       three_d_tour_url: prop.three_d_tour_url || prop.tour_3d_url || null,
     };
+  }
+
+  // Global property cache registry
+  const propertiesMap = new Map();
+  const propertiesList = [];
+
+  function registerProperties(list) {
+    if (!Array.isArray(list)) return;
+    list.forEach(p => {
+      if (!p) return;
+      const norm = mapProperty(p);
+      if (norm.id != null) propertiesMap.set(String(norm.id), norm);
+      if (norm.slug) propertiesMap.set(String(norm.slug).toLowerCase(), norm);
+      if (norm.title) propertiesMap.set(String(norm.title).toLowerCase().trim(), norm);
+
+      const existingIdx = propertiesList.findIndex(existing => String(existing.id) === String(norm.id));
+      if (existingIdx >= 0) {
+        propertiesList[existingIdx] = norm;
+      } else {
+        propertiesList.push(norm);
+      }
+    });
   }
 
   // Expose to window
@@ -80,13 +135,19 @@
     key: SUPABASE_ANON_KEY,
     formatAED,
     submitLead,
+    propertiesMap,
+    properties: propertiesList,
     fetchProperties: async () => {
       const rows = await api('properties?order=created_at.desc');
-      return (rows || []).map(mapProperty);
+      const list = (rows || []).map(mapProperty);
+      registerProperties(list);
+      return list;
     },
     fetchFeaturedProperties: async () => {
       const rows = await api('properties?is_featured=eq.true&order=created_at.desc');
-      return (rows || []).map(mapProperty);
+      const list = (rows || []).map(mapProperty);
+      registerProperties(list);
+      return list;
     },
   };
 
@@ -99,8 +160,8 @@
       const raw = await api('properties?is_featured=eq.true&order=created_at.desc');
       if (!raw || raw.length === 0) return; // Keep static layout if 0 rows
       const properties = raw.map(mapProperty);
+      registerProperties(properties);
 
-      const frames = ['gc--f1', 'gc--f2', 'gc--f3', 'gc--f4'];
       const cards = galleryGrid.querySelectorAll('.gc');
 
       properties.slice(0, 4).forEach((prop, i) => {
@@ -117,7 +178,7 @@
 
         // Location
         const locEl = card.querySelector('.gc__location');
-        if (locEl) locEl.innerHTML = prop.location ? prop.location.replace('·', '&middot;') : 'Dubai';
+        if (locEl) locEl.innerHTML = prop.location ? prop.location.replace(/·/g, '&middot;') : 'Dubai';
 
         // Price
         const priceEl = card.querySelector('.gc__price');
@@ -149,7 +210,10 @@
           `;
         }
 
-        card.dataset.propertyId = prop.id;
+        // Attach property metadata for event delegation
+        card.dataset.propertyId = String(prop.id);
+        card.dataset.images = encodeURIComponent(JSON.stringify(prop.gallery || [prop.hero_image_url]));
+        card.style.cursor = 'pointer';
       });
     } catch (err) {
       console.warn('[BeyondBloomSupabase] Homepage sync note:', err.message);
@@ -165,6 +229,7 @@
       const raw = await api('properties?order=created_at.desc');
       if (!raw || raw.length === 0) return; // Keep static cards if 0 rows
       const properties = raw.map(mapProperty);
+      registerProperties(properties);
 
       // Render live cards
       grid.innerHTML = properties.map((prop, idx) => {
@@ -178,18 +243,12 @@
         const statusClass = statusMap[prop.status] || 'badge-available';
         const statusLabel = prop.status ? prop.status.replace('_', ' ') : 'Available';
 
-        const images = [];
-        const addImg = (u) => {
-          if (u && typeof u === 'string' && !images.includes(u.trim())) images.push(u.trim());
-        };
-        addImg(prop.hero_image_url);
-        addImg(prop.image);
-        if (Array.isArray(prop.gallery_urls)) prop.gallery_urls.forEach(addImg);
-        if (Array.isArray(prop.images)) prop.images.forEach(addImg);
-        if (images.length === 0) images.push('images/listing_villa.jpg');
+        const images = (Array.isArray(prop.gallery) && prop.gallery.length)
+          ? prop.gallery
+          : [prop.hero_image_url || 'images/listing_villa.jpg'];
 
         return `
-          <div class="card ${isLarge ? 'listing-card-large' : ''} reveal visible" data-category="${prop.property_type || 'apartment'}" data-property-id="${prop.id}" data-images="${encodeURIComponent(JSON.stringify(images))}">
+          <div class="card ${isLarge ? 'listing-card-large' : ''} reveal visible" data-category="${prop.property_type || 'apartment'}" data-property-id="${String(prop.id)}" data-images="${encodeURIComponent(JSON.stringify(images))}" style="cursor: pointer;">
             <div class="card-image">
               <div class="card-badge" style="text-transform: capitalize;">${statusLabel}</div>
               ${prop.is_featured ? `<div style="position: absolute; top: 16px; right: 16px; background: rgba(201,169,110,0.9); color: #000; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; padding: 4px 8px; border-radius: 2px; z-index: 5;">Featured</div>` : ''}
@@ -231,7 +290,7 @@
 
               ${prop.tour_3d_url ? `
                 <div style="margin-bottom: 16px;">
-                  <a href="${prop.tour_3d_url}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline" style="font-size: 11px; padding: 4px 10px; gap: 6px;" onclick="event.stopPropagation();">
+                  <a href="${prop.tour_3d_url}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline tour-3d-btn" style="font-size: 11px; padding: 4px 10px; gap: 6px;" onclick="event.stopPropagation();">
                     <svg viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" stroke-width="2" fill="none"><circle cx="12" cy="12" r="10"/><path d="m10 15 5-3-5-3v6z"/></svg>
                     Experience 3D Virtual Tour
                   </a>
@@ -256,6 +315,50 @@
       if (countLabel) countLabel.textContent = properties.length;
     } catch (err) {
       console.warn('[BeyondBloomSupabase] Listings grid sync note:', err.message);
+    }
+  }
+
+  // ── Standalone Property Page Dynamic Sync (property.html) ────
+  async function syncSinglePropertyPage() {
+    if (!window.location.pathname.includes('property.html')) return;
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+    const slug = params.get('slug');
+    if (!id && !slug) return;
+
+    try {
+      const query = id ? `properties?id=eq.${id}` : `properties?slug=eq.${slug}`;
+      const rows = await api(query);
+      if (!rows || !rows.length) return;
+      const prop = mapProperty(rows[0]);
+      registerProperties([prop]);
+
+      // Hero Image
+      const heroImg = document.querySelector('.prop-hero img');
+      if (heroImg && prop.hero_image_url) {
+        heroImg.src = prop.hero_image_url;
+      }
+
+      // Title
+      const titleEl = document.querySelector('.prop-content h1, .prop-content .display-md');
+      if (titleEl) titleEl.textContent = prop.title;
+
+      // Location
+      const locEl = document.querySelector('.prop-content .card-location');
+      if (locEl) locEl.textContent = prop.location;
+
+      // Price
+      const priceEl = document.querySelector('.prop-content .card-price, .prop-content .display-sm');
+      if (priceEl) priceEl.textContent = prop.price;
+
+      // Description
+      const descEl = document.querySelector('.prop-content .body-md');
+      if (descEl && prop.description) descEl.textContent = prop.description;
+
+      window.currentViewingProperty = prop;
+      window.currentViewingPropertyId = prop.id;
+    } catch (e) {
+      console.warn('Property page sync notice:', e);
     }
   }
 
@@ -298,69 +401,7 @@
 
   // ── Wire Inquiry Forms to Supabase Leads ─────────────────────
   function wireInquiryForms() {
-    // 1. Property Detail Modal Form (#propModalForm)
-    const originalPropModalSubmit = window.propModalSubmit;
-    window.propModalSubmit = async function (e) {
-      e.preventDefault();
-      const form = e.target;
-      const btn = form.querySelector('button[type="submit"]');
-      const origText = btn.innerHTML;
-
-      const nameInput = form.querySelector('input[type="text"]');
-      const emailInput = form.querySelector('input[type="email"]');
-      const phoneInput = form.querySelector('input[type="tel"]');
-      const dateInput = form.querySelector('input[type="date"]');
-      const msgInput = form.querySelector('textarea');
-
-      const modalTitle = document.getElementById('propModalTitle')?.textContent || '';
-      const notes = [
-        dateInput?.value ? `Preferred Viewing Date: ${dateInput.value}` : null,
-        msgInput?.value ? `Message: ${msgInput.value}` : null,
-      ].filter(Boolean).join('\n');
-
-      btn.innerHTML = '<span>Submitting Request…</span>';
-      btn.disabled = true;
-
-      try {
-        await submitLead({
-          client_name: nameInput?.value || 'Private Client',
-          client_email: emailInput?.value || '',
-          client_phone: phoneInput?.value || '',
-          property_id: window.currentViewingPropertyId || null,
-          source: 'private_viewing',
-          notes: modalTitle ? `[${modalTitle}] ${notes}` : notes,
-        });
-
-        btn.innerHTML = '<span>Viewing Requested ✓</span>';
-        btn.style.background = 'rgba(82,192,122,0.2)';
-        btn.style.borderColor = '#52c07a';
-        btn.style.color = '#52c07a';
-
-        setTimeout(() => {
-          btn.innerHTML = origText;
-          btn.style.background = '';
-          btn.style.borderColor = '';
-          btn.style.color = '';
-          btn.disabled = false;
-          form.reset();
-          const modal = document.getElementById('propModal');
-          if (modal) {
-            modal.classList.remove('active');
-            document.body.style.overflow = '';
-          }
-        }, 2200);
-      } catch (err) {
-        console.error('Lead submission failed:', err);
-        btn.innerHTML = '<span>Request Sent ✓</span>';
-        setTimeout(() => {
-          btn.innerHTML = origText;
-          btn.disabled = false;
-        }, 2000);
-      }
-      return false;
-    };
-
-    // 2. Agency Contact Form (#contactForm)
+    // 1. Agency Contact Form (#contactForm on agency.html)
     const contactForm = document.getElementById('contactForm');
     if (contactForm && !window.handleSubmit) {
       window.handleSubmit = async function (e) {
@@ -411,7 +452,7 @@
       };
     }
 
-    // 3. Property Single Page Viewing Form (property.html)
+    // 2. Property Single Page Viewing Form (property.html)
     document.querySelectorAll('.login-form').forEach(form => {
       const dateInput = form.querySelector('input[type="date"]');
       if (dateInput) {
@@ -426,12 +467,17 @@
             btn.disabled = true;
           }
 
+          const curProp = window.currentViewingProperty;
+          const propTitle = curProp?.title || 'The Mayfair Penthouse';
+          const propId = curProp?.id || null;
+
           try {
             await submitLead({
               client_name: nameInput?.value || 'Private Client',
               client_email: emailInput?.value || '',
+              property_id: propId,
               source: 'private_viewing',
-              notes: `Preferred Date: ${dateInput.value}`,
+              notes: `[Property: ${propTitle}] | Preferred Viewing Date: ${dateInput.value}`,
             });
 
             if (btn) {
@@ -464,7 +510,6 @@
 
   // ── Realtime Listener via WebSocket / Polling ─────────────────
   function initRealtime() {
-    // If Supabase CDN is loaded, use Realtime channel
     if (window.supabase && typeof window.supabase.createClient === 'function') {
       try {
         const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -473,6 +518,7 @@
           .on('postgres_changes', { event: '*', schema: 'public', table: 'properties' }, () => {
             syncHomepageFeatured();
             syncListingsGrid();
+            syncSinglePropertyPage();
           })
           .subscribe();
       } catch (e) {
@@ -482,17 +528,17 @@
   }
 
   // ── Run on DOM Ready ─────────────────────────────────────────
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-      syncHomepageFeatured();
-      syncListingsGrid();
-      wireInquiryForms();
-      initRealtime();
-    });
-  } else {
+  function initAll() {
     syncHomepageFeatured();
     syncListingsGrid();
+    syncSinglePropertyPage();
     wireInquiryForms();
     initRealtime();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAll);
+  } else {
+    initAll();
   }
 })();

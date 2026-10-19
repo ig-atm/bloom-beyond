@@ -192,6 +192,7 @@ export default function PublicListings() {
                 <div
                   key={prop.id}
                   className="card"
+                  onClick={() => handleBookViewing(prop)}
                   style={{
                     background: 'var(--charcoal-2)',
                     border: '1px solid rgba(201,169,110,0.15)',
@@ -199,7 +200,8 @@ export default function PublicListings() {
                     overflow: 'hidden',
                     display: 'flex',
                     flexDirection: 'column',
-                    transition: 'transform 0.3s ease, border-color 0.3s ease'
+                    transition: 'transform 0.3s ease, border-color 0.3s ease',
+                    cursor: 'pointer'
                   }}
                 >
                   {/* Image container */}
@@ -373,6 +375,29 @@ export default function PublicListings() {
             </div>
 
             <div className="drawer-body">
+              {/* Photo Gallery Thumbnails */}
+              {(() => {
+                const gallery = selectedProperty?.allImages || selectedProperty?.gallery_urls || selectedProperty?.images || [];
+                if (!Array.isArray(gallery) || gallery.length <= 1) return null;
+                return (
+                  <div style={{ marginBottom: 20 }}>
+                    <div style={{ fontSize: 11, color: 'var(--muted)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                      Property Gallery ({gallery.length} Photos)
+                    </div>
+                    <div style={{ display: 'flex', gap: 8, overflowX: 'auto', paddingBottom: 6 }}>
+                      {gallery.map((img, i) => (
+                        <img
+                          key={i}
+                          src={img}
+                          alt={`${selectedProperty?.title || 'Photo'} ${i + 1}`}
+                          style={{ width: 88, height: 62, objectFit: 'cover', borderRadius: 4, border: '1px solid var(--glass-border)', flexShrink: 0 }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                );
+              })()}
+
               {submitSuccess ? (
                 <div style={{ textAlign: 'center', padding: '40px 20px' }}>
                   <CheckCircle size={48} color="var(--gold)" style={{ margin: '0 auto 16px' }} />
