@@ -1625,29 +1625,29 @@ select,
 }
 
 #custom-cursor-dot {
-  position: fixed;
+  position: fixed !important;
   top: 0;
   left: 0;
   width: 6px;
   height: 6px;
   background-color: var(--gold);
   border-radius: 50%;
-  pointer-events: none;
-  z-index: 10000;
+  pointer-events: none !important;
+  z-index: 2147483647 !important;
   transform: translate(-50%, -50%);
   transition: opacity 0.2s, transform 0.05s linear;
 }
 
 #custom-cursor-ring {
-  position: fixed;
+  position: fixed !important;
   top: 0;
   left: 0;
   width: 36px;
   height: 36px;
   border: 1px solid rgba(201, 169, 110, 0.5);
   border-radius: 50%;
-  pointer-events: none;
-  z-index: 9999;
+  pointer-events: none !important;
+  z-index: 2147483647 !important;
   transform: translate(-50%, -50%);
   transition: width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
     height 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
@@ -1666,6 +1666,32 @@ select,
 
 #custom-cursor-dot.magnetic {
   opacity: 0;
+}
+
+/* On touch devices or admin dashboard, restore system cursor and hide custom cursor */
+@media (pointer: coarse) {
+  body, a, button, input, textarea, select, .card, .gc, .btn, .nav-link, .globe-marker, .globe-panel-close {
+    cursor: auto !important;
+  }
+  #custom-cursor-dot,
+  #custom-cursor-ring {
+    display: none !important;
+  }
+}
+
+body.admin-page,
+.admin-layout,
+.admin-layout *,
+#root:has(.admin-layout),
+#root:has(.admin-layout) * {
+  cursor: auto !important;
+}
+
+body.admin-page #custom-cursor-dot,
+body.admin-page #custom-cursor-ring,
+.admin-layout ~ #custom-cursor-dot,
+.admin-layout ~ #custom-cursor-ring {
+  display: none !important;
 }
 
 /* ── Client Login Modal ──────────────────────────────────────── */

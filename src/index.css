@@ -746,3 +746,21 @@ textarea.form-control { resize: vertical; min-height: 80px; }
   .drawer { width: 100%; }
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* ── Force Native System Cursor in Admin CRM ─────────────────────── */
+html, body, .admin-layout, .admin-layout * {
+  cursor: auto !important;
+}
+button, a, .btn, input[type="submit"], input[type="button"], .toggle-slider, .thumb-btn-del, .thumb-btn-cover, .thumb-btn-nav, .tab-btn, tr[style*="cursor: pointer"] {
+  cursor: pointer !important;
+}
+input, textarea, select {
+  cursor: text !important;
+}
+select {
+  cursor: pointer !important;
+}
+#custom-cursor-dot,
+#custom-cursor-ring {
+  display: none !important;
+}

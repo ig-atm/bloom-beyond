@@ -143,8 +143,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // ── Custom Magnetic Cursor (desktop only) ────────────────────
-  if (window.matchMedia("(pointer: fine)").matches) {
+  // ── Custom Magnetic Cursor (desktop only, disabled on /admin & touch) ─────
+  const isAdmin = window.location.pathname.startsWith('/admin') ||
+                  document.body.classList.contains('admin-page') ||
+                  !!document.querySelector('.admin-layout');
+  const isFinePointer = window.matchMedia("(pointer: fine)").matches;
+
+  if (isFinePointer && !isAdmin) {
     const cursorDot = document.createElement('div');
     cursorDot.id = 'custom-cursor-dot';
     const cursorRing = document.createElement('div');
@@ -156,13 +161,31 @@ document.addEventListener('DOMContentLoaded', () => {
     let mouseY = window.innerHeight / 2;
     let ringX = mouseX;
     let ringY = mouseY;
+    let isVisible = true;
 
+    // Viewport coordinates (clientX, clientY)
     document.addEventListener('mousemove', e => {
       mouseX = e.clientX;
       mouseY = e.clientY;
-      // Instantly move the dot
+      if (!isVisible) {
+        isVisible = true;
+        cursorDot.style.opacity = '1';
+        cursorRing.style.opacity = '1';
+      }
       cursorDot.style.left = mouseX + 'px';
       cursorDot.style.top = mouseY + 'px';
+    }, { passive: true });
+
+    document.addEventListener('mouseleave', () => {
+      isVisible = false;
+      cursorDot.style.opacity = '0';
+      cursorRing.style.opacity = '0';
+    });
+
+    document.addEventListener('mouseenter', () => {
+      isVisible = true;
+      cursorDot.style.opacity = '1';
+      cursorRing.style.opacity = '1';
     });
 
     // Smoothly animate the ring trailing behind the dot
@@ -175,29 +198,42 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     requestAnimationFrame(renderCursor);
 
-    // Add magnetic effect to interactive elements
-    const setupMagneticElements = () => {
-      const interactables = document.querySelectorAll('a, button, input, textarea, select, .card, .gc, .btn, .nav-link, .globe-marker, .globe-panel-close');
-      interactables.forEach(el => {
-        // Prevent adding multiple listeners
-        if (el.dataset.magneticInit) return;
-        el.dataset.magneticInit = 'true';
-        
-        el.addEventListener('mouseenter', () => {
-          cursorDot.classList.add('magnetic');
-          cursorRing.classList.add('magnetic');
-        });
-        el.addEventListener('mouseleave', () => {
-          cursorDot.classList.remove('magnetic');
-          cursorRing.classList.remove('magnetic');
-        });
-      });
+    // Global reset function
+    const resetCursorHover = () => {
+      cursorDot.classList.remove('magnetic');
+      cursorRing.classList.remove('magnetic');
     };
-    setupMagneticElements();
+    window.resetCustomCursor = resetCursorHover;
 
-    // Handle dynamically added elements (like globe markers)
-    const observer = new MutationObserver(() => setupMagneticElements());
-    observer.observe(document.body, { childList: true, subtree: true });
+    // Document-level event delegation for interactive elements
+    const isInteractive = (target) => {
+      if (!target || !(target instanceof Element)) return false;
+      return !!target.closest(
+        'a, button, [role="button"], input, select, textarea, .card, .gc, .dev-full-card, .dev-card, .btn, .nav-link, .globe-marker, .globe-panel-close, .prop-modal-close, .prop-modal-nav, .prop-modal-thumb, .carousel-btn, .property-card, .modal-close, [data-property-id]'
+      );
+    };
+
+    document.addEventListener('mouseover', (e) => {
+      if (isInteractive(e.target)) {
+        cursorDot.classList.add('magnetic');
+        cursorRing.classList.add('magnetic');
+      }
+    }, { passive: true });
+
+    document.addEventListener('mouseout', (e) => {
+      if (isInteractive(e.target)) {
+        if (!isInteractive(e.relatedTarget)) {
+          resetCursorHover();
+        }
+      }
+    }, { passive: true });
+
+    // Reset on any click or window blur
+    document.addEventListener('click', () => {
+      setTimeout(resetCursorHover, 40);
+    }, { passive: true });
+
+    window.addEventListener('blur', resetCursorHover);
   }
 
   // ── Smooth anchor links ──────────────────────────────────────

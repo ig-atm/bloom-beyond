@@ -500,11 +500,19 @@
   }
 
   function closeModal() {
+    if (typeof window.resetCustomCursor === 'function') {
+      window.resetCustomCursor();
+    }
     const overlay = document.getElementById('propModal');
     if (!overlay) return;
     overlay.classList.remove('active');
     document.body.style.overflow = '';
-    setTimeout(() => { overlay.scrollTop = 0; }, 350);
+    setTimeout(() => {
+      overlay.scrollTop = 0;
+      if (typeof window.resetCustomCursor === 'function') {
+        window.resetCustomCursor();
+      }
+    }, 350);
   }
   window.closePropertyModal = closeModal;
 
@@ -584,6 +592,9 @@
 
   // ── Populate and open modal ──────────────────────────────────
   function openModal(data) {
+    if (typeof window.resetCustomCursor === 'function') {
+      window.resetCustomCursor();
+    }
     buildModal();
     const overlay = document.getElementById('propModal');
     if (!overlay) return;
