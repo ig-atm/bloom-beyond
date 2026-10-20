@@ -156,7 +156,7 @@ export default async function handler(req, res) {
     xml += `      <id>beyond-bloom-agency</id>\n`;
     xml += `      <name>Beyond Bloom Real Estate</name>\n`;
     xml += `      <email>info@beyondbloomre.com</email>\n`;
-    xml += `      <phone>+971 52 226 6329</phone>\n`;
+    xml += `      <phone>+971 4 273 5663</phone>\n`;
     xml += `      <license_no>RERA ORN-31290</license_no>\n`;
     xml += `    </agent>\n`;
 
