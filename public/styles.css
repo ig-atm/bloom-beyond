@@ -663,6 +663,31 @@ h5 {
 .hero-title {
   opacity: 0;
   animation: fadeUp 1s var(--ease-out) 0.7s forwards;
+  line-height: 1.25;
+}
+
+.hero-title-line {
+  display: block;
+  position: relative;
+}
+
+.hero-title-script {
+  display: block;
+  position: relative;
+  margin: clamp(14px, 2vw, 24px) 0;
+  padding: 4px 0;
+}
+
+.hero-title em {
+  display: inline-block;
+  position: relative;
+  font-style: italic;
+  padding: 0 4px;
+}
+
+.hero-title .hero-title-solid {
+  display: block;
+  position: relative;
 }
 
 .hero-title .italic {
